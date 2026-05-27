@@ -5,6 +5,10 @@
   "bio": "Gui Rudolf a fait ses premiers pas dans le tatouage chez Nuit Noire, où il a appris le métier et affûté son style. D’abord client fidèle, il est devenu un membre incontournable de l’équipe. Spécialiste du Traditionnel Américain, il manie ce style avec rigueur et passion, tout en étant capable de répondre à toutes les demandes. Grand par la taille comme par la présence, on sait toujours quand Gui est là : son humour et son énergie transparaissent dans son travail. Il ne fait jamais les choses à moitié, offrant à ses clients des pièces solides, percutantes et durables.",
   "portrait": "/assets/uploads/portraitgui.webp",
   "instagram": "guirudolftattooer",
-  "portfolio": [],
+  "portfolio": [
+    {
+      "src": "/assets/uploads/capture-d-écran-2026-05-27-080130.png"
+    }
+  ],
   "order": 5
 }
