@@ -125,11 +125,15 @@ img, svg {
 /* DROPDOWN ARTISTS */
 .nav-item-dropdown {
   position: relative;
+  /* Padding bottom invisible qui étend la zone du :hover du <li>
+     jusqu'au dropdown — le user peut traverser sans perdre le hover */
+  padding-bottom: 20px;
+  margin-bottom: -20px;
 }
 
 .nav-dropdown {
   position: absolute;
-  top: calc(100% + 14px);
+  top: 100%;
   left: 50%;
   transform: translateX(-50%) translateY(8px);
   min-width: 220px;
@@ -143,17 +147,8 @@ img, svg {
   transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
 }
 
-/* Pont invisible entre le bouton et le menu pour rattraper la souris */
-.nav-dropdown::before {
-  content: '';
-  position: absolute;
-  top: -14px;
-  left: 0;
-  right: 0;
-  height: 14px;
-}
-
 .nav-item-dropdown:hover .nav-dropdown,
+.nav-dropdown:hover,
 .nav-item-dropdown.is-open .nav-dropdown {
   opacity: 1;
   visibility: visible;
