@@ -122,18 +122,14 @@ img, svg {
   transform: translateY(1px);
 }
 
-/* DROPDOWN ARTISTS */
+/* DROPDOWN ARTISTS — ouverture pilotée en JS (classe is-open) */
 .nav-item-dropdown {
   position: relative;
-  /* Padding bottom invisible qui étend la zone du :hover du <li>
-     jusqu'au dropdown — le user peut traverser sans perdre le hover */
-  padding-bottom: 20px;
-  margin-bottom: -20px;
 }
 
 .nav-dropdown {
   position: absolute;
-  top: 100%;
+  top: calc(100% + 14px);
   left: 50%;
   transform: translateX(-50%) translateY(8px);
   min-width: 220px;
@@ -147,8 +143,6 @@ img, svg {
   transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
 }
 
-.nav-item-dropdown:hover .nav-dropdown,
-.nav-dropdown:hover,
 .nav-item-dropdown.is-open .nav-dropdown {
   opacity: 1;
   visibility: visible;
@@ -156,7 +150,6 @@ img, svg {
   transform: translateX(-50%) translateY(0);
 }
 
-.nav-item-dropdown:hover .nav-chevron,
 .nav-item-dropdown.is-open .nav-chevron {
   transform: translateY(1px) rotate(180deg);
 }
