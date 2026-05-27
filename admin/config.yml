@@ -154,6 +154,8 @@ collections:
     label_singular: "Artiste"
     description: "Gère ici chaque artiste : bio, portrait, photos du portfolio, lien Instagram."
     folder: "data/artists"
+    extension: "json"
+    format: "json"
     create: true
     delete: true
     slug: "{{id}}"
@@ -258,6 +260,8 @@ collections:
     label_singular: "Produit"
     description: "Gère les flashs, tirages et merch du shop."
     folder: "data/products"
+    extension: "json"
+    format: "json"
     create: true
     delete: true
     slug: "{{slug}}"
