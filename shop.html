@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="La boutique de Nuit Noire Tattoo." />
+  <title>Shop — Nuit Noire Tattoo</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="icon" type="image/svg+xml" href="assets/logo-mini-cream.svg">
+</head>
+<body data-page="shop">
+
+  <div id="nav-mount"></div>
+
+  <header class="page-header">
+    <p class="page-eyebrow" id="page-eyebrow"></p>
+    <h1 class="page-title" id="page-title"></h1>
+    <p class="page-subtitle" id="page-subtitle"></p>
+  </header>
+
+  <nav class="shop-filters" id="shop-filters" aria-label="Filtrer les produits">
+    <button class="shop-filter is-active" data-filter="all">Tout</button>
+    <button class="shop-filter" data-filter="flash">Flashs</button>
+    <button class="shop-filter" data-filter="print">Tirages</button>
+    <button class="shop-filter" data-filter="merch">Merch</button>
+  </nav>
+
+  <main class="shop-grid-wrapper">
+    <div class="shop-grid" id="shop-grid">
+      <!-- Injecté par JS -->
+    </div>
+
+    <div class="shop-empty" id="shop-empty" hidden>
+      <p>Aucun produit dans cette catégorie pour le moment.</p>
+    </div>
+  </main>
+
+  <section class="shop-info">
+    <div class="shop-info-block">
+      <h3>Commander</h3>
+      <p id="order-info"></p>
+      <a href="contact.html" class="link-underline">Nous contacter →</a>
+    </div>
+    <div class="shop-info-block">
+      <h3>Flashs</h3>
+      <p id="flash-info"></p>
+    </div>
+  </section>
+
+  <div id="footer-mount"></div>
+
+  <script src="js/partials.js"></script>
+  <script src="js/shop.js"></script>
+</body>
+</html>

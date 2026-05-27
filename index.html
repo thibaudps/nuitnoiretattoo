@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Nuit Noire Tattoo — Salon de tatouage indépendant à Genève." />
+  <title>Nuit Noire Tattoo — Genève</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="icon" type="image/svg+xml" href="assets/logo-mini-cream.svg">
+</head>
+<body data-page="home">
+
+  <div id="nav-mount"></div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-carousel" id="hero-carousel">
+      <!-- Slides injectées par JS depuis data/home.json -->
+      <!-- La première slide est toujours le logo -->
+      <div class="hero-slide is-active" data-slide="0">
+        <div class="hero-logo">
+          <img src="assets/logo-cream.svg" alt="Nuit Noire Tattoo" />
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-dots" id="hero-dots">
+      <!-- Dots injectés par JS -->
+    </div>
+  </section>
+
+  <!-- INTRO -->
+  <section class="intro">
+    <p id="intro-text">
+      <!-- Texte injecté -->
+    </p>
+  </section>
+
+  <!-- LATEST WORK -->
+  <section class="latest-work">
+    <div class="latest-work-header">
+      <h2 id="latest-work-title">Latest work</h2>
+      <a href="" target="_blank" rel="noopener" class="latest-work-handle" id="latest-work-handle"></a>
+    </div>
+
+    <div class="latest-work-grid" id="latest-work-grid">
+      <!-- Injecté par JS -->
+    </div>
+
+    <div class="latest-work-footer">
+      <a href="artists.html" class="link-underline">Voir les artistes →</a>
+    </div>
+  </section>
+
+  <div id="footer-mount"></div>
+
+  <script src="js/partials.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

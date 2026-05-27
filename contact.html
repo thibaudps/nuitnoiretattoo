@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Contactez Nuit Noire Tattoo pour votre projet de tatouage." />
+  <title>Contact — Nuit Noire Tattoo</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="icon" type="image/svg+xml" href="assets/logo-mini-cream.svg">
+</head>
+<body data-page="contact">
+
+  <div id="nav-mount"></div>
+
+  <header class="page-header">
+    <p class="page-eyebrow" id="page-eyebrow"></p>
+    <h1 class="page-title" id="page-title"></h1>
+    <p class="page-subtitle" id="page-subtitle"></p>
+  </header>
+
+  <section class="contact-info">
+    <div class="contact-info-grid">
+
+      <div class="contact-block">
+        <p class="contact-label">Adresse</p>
+        <p class="contact-value" id="contact-address"></p>
+      </div>
+
+      <div class="contact-block">
+        <p class="contact-label">Horaires</p>
+        <p class="contact-value" id="contact-hours"></p>
+      </div>
+
+      <div class="contact-block">
+        <p class="contact-label">Direct</p>
+        <p class="contact-value" id="contact-direct"></p>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="contact-form-section">
+    <div class="contact-form-intro">
+      <h2 id="form-intro-title"></h2>
+      <p id="form-intro-text"></p>
+    </div>
+
+    <form class="contact-form" id="contact-form" onsubmit="return false;">
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="form-name">Nom complet</label>
+          <input type="text" id="form-name" name="name" required />
+        </div>
+        <div class="form-field">
+          <label for="form-email">Email</label>
+          <input type="email" id="form-email" name="email" required />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="form-artist">Artiste souhaité</label>
+          <select id="form-artist" name="artist">
+            <option value="">— Sans préférence —</option>
+            <!-- Options injectées dynamiquement -->
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="form-subject">Type de demande</label>
+          <select id="form-subject" name="subject">
+            <option value="Nouveau projet">Nouveau projet</option>
+            <option value="Retouche">Retouche</option>
+            <option value="Question">Question</option>
+            <option value="Autre">Autre</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="form-placement">Emplacement et taille approximative</label>
+        <input type="text" id="form-placement" name="placement" placeholder="ex. avant-bras, environ 15 cm" />
+      </div>
+
+      <div class="form-field">
+        <label for="form-message">Description du projet</label>
+        <textarea id="form-message" name="message" rows="6" required placeholder="Décrivez votre idée, ambiance, références, contraintes…"></textarea>
+      </div>
+
+      <div class="form-field">
+        <label for="form-availability">Disponibilités</label>
+        <input type="text" id="form-availability" name="availability" placeholder="ex. après-midi en semaine, week-ends…" />
+      </div>
+
+      <div class="form-submit-row">
+        <button type="button" id="form-submit" class="form-submit">
+          Envoyer le message
+          <span class="form-submit-arrow">→</span>
+        </button>
+        <p class="form-disclaimer">
+          Le bouton ouvre votre client mail.<br>
+          Si ça ne fonctionne pas, écrivez à <a href="" id="fallback-email"></a>
+        </p>
+      </div>
+
+    </form>
+  </section>
+
+  <div id="footer-mount"></div>
+
+  <script src="js/partials.js"></script>
+  <script src="js/contact.js"></script>
+</body>
+</html>

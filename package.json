@@ -1,0 +1,12 @@
+{
+  "name": "nuit-noire-tattoo",
+  "version": "1.0.0",
+  "description": "Site web de Nuit Noire Tattoo — salon de tatouage à Genève",
+  "scripts": {
+    "build": "node build.js",
+    "dev": "node build.js && python3 -m http.server 8000",
+    "cms": "npx decap-server"
+  },
+  "license": "UNLICENSED",
+  "private": true
+}
