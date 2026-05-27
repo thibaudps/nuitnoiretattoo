@@ -2,9 +2,13 @@
   "id": "vince-pages",
   "name": "Vince Pages",
   "role": "Fondateur",
-  "bio": "Présent au shop depuis ses débuts. Travaille principalement le tatouage traditionnel et néo-traditionnel, avec une affection particulière pour les motifs marins et la flore.",
-  "portrait": "assets/artists/vince-pages.jpg",
+  "bio": "Vince Pages est le fondateur de Nuit Noire Tattoo et un artiste incontournable de la scène du tatouage traditionnel. Fort de plus de 15 ans d’expérience, il s’est bâti une réputation internationale. Son trait précis, son sens du détail et sa rigueur donnent vie à des pièces à la fois puissantes et élégantes. Passionné, Vince incarne un tatouage authentique, pensé pour durer.",
+  "portrait": "/assets/uploads/vince.webp",
   "instagram": "vincepages_tattoo",
-  "portfolio": [],
+  "portfolio": [
+    {
+      "src": "/assets/uploads/capture-d-écran-2026-05-27-080201.png"
+    }
+  ],
   "order": 1
 }
