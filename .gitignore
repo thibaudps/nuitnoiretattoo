@@ -6,3 +6,7 @@ node_modules/
 
 # Backup folder (developpement local)
 nuit-noire-backup/
+
+# Fichiers index générés par build.js — ne pas committer
+data/artists/_index.json
+data/products/_index.json
