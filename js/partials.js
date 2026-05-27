@@ -88,6 +88,59 @@
     dropdown.innerHTML = items + `
       <li class="nav-dropdown-separator"><a href="artists.html">→ Voir tous</a></li>
     `;
+
+    // Une fois le dropdown rempli, on active la logique d'ouverture / fermeture
+    initDropdownBehavior();
+  }
+
+  function initDropdownBehavior() {
+    const trigger = document.getElementById('artists-trigger');
+    const dropdown = document.getElementById('artists-dropdown');
+    if (!trigger || !dropdown) return;
+
+    const CLOSE_DELAY = 250; // ms avant fermeture après que la souris quitte
+    let closeTimer = null;
+
+    function open() {
+      clearTimeout(closeTimer);
+      trigger.classList.add('is-open');
+    }
+
+    function scheduleClose() {
+      clearTimeout(closeTimer);
+      closeTimer = setTimeout(() => {
+        trigger.classList.remove('is-open');
+      }, CLOSE_DELAY);
+    }
+
+    // Le trigger ouvre au survol
+    trigger.addEventListener('mouseenter', open);
+    trigger.addEventListener('mouseleave', scheduleClose);
+
+    // Le dropdown reste ouvert tant qu'on est dessus
+    dropdown.addEventListener('mouseenter', open);
+    dropdown.addEventListener('mouseleave', scheduleClose);
+
+    // Gestion tactile : premier tap ouvre, deuxième suit le lien
+    let isTouch = false;
+    window.addEventListener('touchstart', () => { isTouch = true; }, { once: true });
+
+    const triggerLink = trigger.querySelector('.nav-link');
+    if (triggerLink) {
+      triggerLink.addEventListener('click', (e) => {
+        if (isTouch && !trigger.classList.contains('is-open')) {
+          e.preventDefault();
+          open();
+        }
+      });
+    }
+
+    // Fermer si on clique en dehors (utile sur mobile et après tap)
+    document.addEventListener('click', (e) => {
+      if (!trigger.contains(e.target)) {
+        trigger.classList.remove('is-open');
+      }
+    });
   }
 
   function populateFooter(settings) {
