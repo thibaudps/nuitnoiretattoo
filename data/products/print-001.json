@@ -1,0 +1,10 @@
+{
+  "id": "print-001",
+  "name": "Tirage A4 — Lune",
+  "artist": "La Pythie",
+  "category": "print",
+  "price": "45 CHF",
+  "image": "assets/shop/print-001.jpg",
+  "available": true,
+  "description": "Tirage giclée sur papier d'art, édition limitée à 30 exemplaires."
+}

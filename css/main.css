@@ -1,0 +1,1221 @@
+/* ============================================
+   NUIT NOIRE TATTOO — Main stylesheet
+   ============================================ */
+
+/* RESET & BASE */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Couleurs */
+  --bg: #0a0a0a;
+  --bg-elevated: #141414;
+  --fg: #e8e6e1;
+  --fg-muted: rgba(232, 230, 225, 0.65);
+  --fg-dim: rgba(232, 230, 225, 0.4);
+  --border: rgba(232, 230, 225, 0.12);
+  --border-strong: rgba(232, 230, 225, 0.25);
+
+  /* Typo */
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Espacements */
+  --max-width: 1200px;
+  --padding-x: 40px;
+  --padding-x-mobile: 24px;
+
+  /* Transitions */
+  --t-fast: 0.2s ease;
+  --t-slow: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* ============================================
+   NAVIGATION
+   ============================================ */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px var(--padding-x);
+  background: rgba(10, 10, 10, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 0.5px solid var(--border);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  height: 36px;
+  transition: opacity var(--t-fast);
+}
+
+.nav-logo:hover {
+  opacity: 0.7;
+}
+
+.nav-logo img {
+  height: 36px;
+  width: auto;
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  gap: 36px;
+}
+
+.nav-link {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  transition: color var(--t-fast);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 0;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--fg);
+}
+
+.nav-chevron {
+  font-size: 9px;
+  transition: transform 0.3s ease;
+  transform: translateY(1px);
+}
+
+/* DROPDOWN ARTISTS */
+.nav-item-dropdown {
+  position: relative;
+}
+
+.nav-dropdown {
+  position: absolute;
+  top: calc(100% + 14px);
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  min-width: 220px;
+  background: var(--bg);
+  border: 0.5px solid var(--border-strong);
+  list-style: none;
+  padding: 8px 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+}
+
+.nav-item-dropdown:hover .nav-dropdown,
+.nav-item-dropdown.is-open .nav-dropdown {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+.nav-item-dropdown:hover .nav-chevron,
+.nav-item-dropdown.is-open .nav-chevron {
+  transform: translateY(1px) rotate(180deg);
+}
+
+.nav-dropdown a {
+  display: block;
+  padding: 10px 22px;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  transition: color var(--t-fast), padding var(--t-fast);
+}
+
+.nav-dropdown a:hover {
+  color: var(--fg);
+  padding-left: 28px;
+}
+
+.nav-dropdown-separator {
+  border-top: 0.5px solid var(--border);
+  margin-top: 6px;
+  padding-top: 4px;
+}
+
+.nav-dropdown-separator a {
+  color: var(--fg);
+}
+
+/* ============================================
+   HERO — carrousel horizontal
+   ============================================ */
+.hero {
+  min-height: calc(100vh - 76px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 0;
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.hero-carousel {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Chaque slide est superposée, on les translate via JS */
+.hero-slide {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 90%;
+  max-width: 520px;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  /* Transition par défaut quand on bouge — sera surchargée par les classes */
+  transition: transform 0.9s cubic-bezier(0.65, 0, 0.35, 1),
+              opacity 0.6s ease;
+  will-change: transform, opacity;
+}
+
+/* Slide actuellement visible */
+.hero-slide.is-active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%);
+}
+
+/* Slide qui est sortie vers la gauche (déjà passée) */
+.hero-slide.is-leaving-left {
+  opacity: 0;
+  transform: translate(calc(-50% - 60vw), -50%);
+}
+
+/* Slide qui attend à droite (pas encore passée) */
+.hero-slide.is-waiting-right {
+  opacity: 0;
+  transform: translate(calc(-50% + 60vw), -50%);
+  /* Pas de transition quand on remet la slide à droite (téléportation) */
+  transition: none;
+}
+
+/* Slide qui arrive depuis la droite (en train d'entrer) */
+.hero-slide.is-entering {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+
+/* LOGO */
+.hero-logo {
+  width: 100%;
+  max-width: 520px;
+}
+
+.hero-logo img {
+  width: 100%;
+  height: auto;
+}
+
+/* PHRASES */
+.hero-phrase {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--fg);
+  letter-spacing: 0.01em;
+  line-height: 1.4;
+}
+
+/* DOTS */
+.hero-dots {
+  display: flex;
+  gap: 8px;
+  margin-top: 40px;
+  opacity: 0;
+  animation: fade-in 1.2s ease 1.2s forwards;
+}
+
+.hero-dots .dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--fg);
+  opacity: 0.25;
+  transition: opacity 0.4s ease;
+  cursor: pointer;
+}
+
+.hero-dots .dot.active {
+  opacity: 1;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================
+   INTRO
+   ============================================ */
+.intro {
+  padding: 80px var(--padding-x);
+  display: flex;
+  justify-content: center;
+}
+
+.intro p {
+  max-width: 540px;
+  text-align: center;
+  font-size: 15px;
+  line-height: 1.85;
+  color: var(--fg-muted);
+}
+
+/* ============================================
+   LATEST WORK
+   ============================================ */
+.latest-work {
+  padding: 40px var(--padding-x) 100px;
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.latest-work-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 0.5px solid var(--border);
+  padding-bottom: 16px;
+  margin-bottom: 32px;
+}
+
+.latest-work-header h2 {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.latest-work-handle {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--fg-dim);
+  transition: color var(--t-fast);
+}
+
+.latest-work-handle:hover {
+  color: var(--fg);
+}
+
+.latest-work-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.work-item {
+  /* Ratio 3:4 — format Instagram portrait 1080x1440 */
+  aspect-ratio: 3 / 4;
+  background: var(--bg-elevated);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.work-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), filter 0.4s ease;
+  filter: grayscale(0%);
+}
+
+.work-item:hover img {
+  transform: scale(1.04);
+}
+
+/* Placeholder pour items sans image */
+.work-item-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--fg-dim);
+}
+
+.work-item-placeholder svg {
+  opacity: 0.3;
+}
+
+.latest-work-footer {
+  margin-top: 48px;
+  text-align: center;
+}
+
+.link-underline {
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  border-bottom: 0.5px solid var(--border-strong);
+  padding-bottom: 4px;
+  transition: color var(--t-fast), border-color var(--t-fast);
+}
+
+.link-underline:hover {
+  color: var(--fg);
+  border-color: var(--fg);
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.footer {
+  padding: 32px var(--padding-x);
+  border-top: 0.5px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+}
+
+.footer a {
+  transition: color var(--t-fast);
+}
+
+.footer a:hover {
+  color: var(--fg);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+  :root {
+    --padding-x: var(--padding-x-mobile);
+  }
+
+  .nav {
+    padding: 16px var(--padding-x-mobile);
+  }
+
+  .nav-menu {
+    gap: 20px;
+  }
+
+  .nav-link {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+  }
+
+  /* Sur mobile, on cache le dropdown — le clic emmène à la page artists */
+  .nav-dropdown {
+    display: none;
+  }
+
+  .nav-chevron {
+    display: none;
+  }
+
+  .hero-carousel {
+    height: 240px;
+  }
+
+  .hero-logo {
+    max-width: 340px;
+  }
+
+  .hero-phrase {
+    font-size: 19px;
+    padding: 0 20px;
+  }
+
+  .latest-work-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px;
+  }
+
+  .footer {
+    flex-direction: column;
+    gap: 12px;
+    padding: 24px var(--padding-x-mobile);
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-menu {
+    gap: 14px;
+  }
+
+  .nav-link {
+    font-size: 9.5px;
+  }
+}
+
+/* ============================================
+   PAGE HEADER (commune aux sous-pages)
+   ============================================ */
+.page-header {
+  padding: 100px var(--padding-x) 60px;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.page-eyebrow {
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  margin-bottom: 16px;
+}
+
+.page-title {
+  font-family: var(--font-display);
+  font-size: clamp(48px, 8vw, 96px);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--fg);
+  line-height: 1;
+  margin-bottom: 24px;
+}
+
+.page-subtitle {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 19px;
+  font-weight: 400;
+  color: var(--fg-muted);
+}
+
+/* ============================================
+   ARTISTS — quicknav sticky
+   ============================================ */
+.artists-quicknav {
+  position: sticky;
+  top: 76px; /* hauteur de la nav principale */
+  z-index: 50;
+  background: rgba(10, 10, 10, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 0.5px solid var(--border);
+  border-bottom: 0.5px solid var(--border);
+  padding: 14px 0;
+  overflow: hidden;
+}
+
+.artists-quicknav-inner {
+  display: flex;
+  gap: 28px;
+  padding: 0 var(--padding-x);
+  overflow-x: auto;
+  scrollbar-width: none;
+  white-space: nowrap;
+  justify-content: center;
+}
+
+.artists-quicknav-inner::-webkit-scrollbar {
+  display: none;
+}
+
+.artists-quicknav-link {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  transition: color var(--t-fast);
+  flex-shrink: 0;
+  padding: 4px 0;
+  position: relative;
+}
+
+.artists-quicknav-link:hover {
+  color: var(--fg-muted);
+}
+
+.artists-quicknav-link.is-active {
+  color: var(--fg);
+}
+
+.artists-quicknav-link.is-active::after {
+  content: '';
+  position: absolute;
+  bottom: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--fg);
+}
+
+/* ============================================
+   ARTISTS — sections
+   ============================================ */
+.artists-list {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--padding-x) 80px;
+}
+
+.artist-section {
+  padding: 100px 0;
+  border-bottom: 0.5px solid var(--border);
+  scroll-margin-top: 130px;
+}
+
+.artist-section:last-child {
+  border-bottom: none;
+}
+
+.artist-intro {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 60px;
+  align-items: start;
+  margin-bottom: 60px;
+}
+
+.artist-section.is-reversed .artist-intro {
+  grid-template-columns: 1.5fr 1fr;
+}
+
+.artist-section.is-reversed .artist-portrait {
+  order: 2;
+}
+
+.artist-portrait {
+  aspect-ratio: 3 / 4;
+  background: var(--bg-elevated);
+  overflow: hidden;
+  position: relative;
+}
+
+.artist-portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.artist-portrait.no-image::after {
+  content: '◌';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  color: var(--fg-dim);
+}
+
+.artist-info {
+  padding-top: 20px;
+}
+
+.artist-role {
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  margin-bottom: 16px;
+}
+
+.artist-name {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--fg);
+  margin-bottom: 24px;
+  line-height: 1.05;
+}
+
+.artist-bio {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--fg-muted);
+  margin-bottom: 24px;
+  max-width: 520px;
+}
+
+.artist-instagram {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  border-bottom: 0.5px solid var(--border-strong);
+  padding-bottom: 3px;
+  transition: color var(--t-fast), border-color var(--t-fast);
+}
+
+.artist-instagram:hover {
+  color: var(--fg);
+  border-color: var(--fg);
+}
+
+.artist-portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+/* ============================================
+   CONTACT
+   ============================================ */
+.contact-info {
+  padding: 40px var(--padding-x) 60px;
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.contact-info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 60px;
+  border-top: 0.5px solid var(--border);
+  border-bottom: 0.5px solid var(--border);
+  padding: 50px 0;
+}
+
+.contact-block {
+  text-align: center;
+}
+
+.contact-label {
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  margin-bottom: 16px;
+}
+
+.contact-value {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--fg);
+}
+
+.contact-value a {
+  border-bottom: 0.5px solid var(--border-strong);
+  padding-bottom: 1px;
+  transition: border-color var(--t-fast);
+}
+
+.contact-value a:hover {
+  border-color: var(--fg);
+}
+
+.contact-meta {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--fg-dim);
+  font-style: italic;
+  font-family: var(--font-display);
+}
+
+/* FORMULAIRE */
+.contact-form-section {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 40px var(--padding-x) 100px;
+}
+
+.contact-form-intro {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.contact-form-intro h2 {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--fg);
+  margin-bottom: 14px;
+}
+
+.contact-form-intro p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--fg-muted);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field label {
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  margin-bottom: 10px;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  background: transparent;
+  border: none;
+  border-bottom: 0.5px solid var(--border-strong);
+  padding: 10px 0;
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--fg);
+  outline: none;
+  transition: border-color var(--t-fast);
+  width: 100%;
+}
+
+.form-field input::placeholder,
+.form-field textarea::placeholder {
+  color: var(--fg-dim);
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+  border-bottom-color: var(--fg);
+}
+
+.form-field select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%23e8e6e1' opacity='0.5' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 4px center;
+  padding-right: 24px;
+  cursor: pointer;
+}
+
+.form-field select option {
+  background: var(--bg);
+  color: var(--fg);
+}
+
+.form-field textarea {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.6;
+  font-family: var(--font-body);
+}
+
+.form-submit-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.form-submit {
+  background: transparent;
+  color: var(--fg);
+  border: 0.5px solid var(--fg);
+  padding: 16px 32px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  transition: background var(--t-fast), color var(--t-fast);
+}
+
+.form-submit:hover {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+.form-submit-arrow {
+  transition: transform var(--t-fast);
+}
+
+.form-submit:hover .form-submit-arrow {
+  transform: translateX(4px);
+}
+
+.form-disclaimer {
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--fg-dim);
+  font-style: italic;
+  font-family: var(--font-display);
+}
+
+.form-disclaimer a {
+  color: var(--fg-muted);
+  border-bottom: 0.5px solid var(--border-strong);
+}
+
+.form-disclaimer a:hover {
+  color: var(--fg);
+}
+
+/* ============================================
+   SHOP
+   ============================================ */
+.shop-filters {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 var(--padding-x);
+  margin-bottom: 50px;
+  flex-wrap: wrap;
+}
+
+.shop-filter {
+  background: transparent;
+  border: 0.5px solid var(--border);
+  color: var(--fg-muted);
+  padding: 10px 22px;
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all var(--t-fast);
+}
+
+.shop-filter:hover {
+  border-color: var(--border-strong);
+  color: var(--fg);
+}
+
+.shop-filter.is-active {
+  background: var(--fg);
+  color: var(--bg);
+  border-color: var(--fg);
+}
+
+.shop-grid-wrapper {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--padding-x) 60px;
+}
+
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px 24px;
+}
+
+.product-card {
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--t-fast);
+}
+
+.product-card:hover .product-image img {
+  transform: scale(1.04);
+}
+
+.product-image {
+  aspect-ratio: 3 / 4;
+  background: var(--bg-elevated);
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 18px;
+}
+
+.product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.product-image.no-image::after {
+  content: '◌';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  color: var(--fg-dim);
+}
+
+.product-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: var(--bg);
+  color: var(--fg);
+  padding: 5px 10px;
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  border: 0.5px solid var(--border-strong);
+}
+
+.product-card.is-sold-out .product-image {
+  opacity: 0.5;
+}
+
+.product-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.product-category {
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  margin-bottom: 6px;
+}
+
+.product-name {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--fg);
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
+.product-artist {
+  font-size: 12px;
+  color: var(--fg-muted);
+  margin-bottom: 12px;
+  font-style: italic;
+  font-family: var(--font-display);
+}
+
+.product-description {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--fg-muted);
+  margin-bottom: 12px;
+}
+
+.product-price {
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  color: var(--fg);
+  margin-top: auto;
+}
+
+.shop-empty {
+  text-align: center;
+  padding: 80px 0;
+  color: var(--fg-muted);
+  font-style: italic;
+  font-family: var(--font-display);
+}
+
+/* SHOP INFO */
+.shop-info {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 60px var(--padding-x) 100px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  border-top: 0.5px solid var(--border);
+}
+
+.shop-info-block h3 {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--fg);
+  margin-bottom: 16px;
+}
+
+.shop-info-block p {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--fg-muted);
+  margin-bottom: 20px;
+}
+
+/* ============================================
+   ERREURS
+   ============================================ */
+.error-message {
+  text-align: center;
+  padding: 60px var(--padding-x);
+  color: var(--fg-muted);
+  font-style: italic;
+  font-family: var(--font-display);
+}
+
+/* ============================================
+   RESPONSIVE — sous-pages
+   ============================================ */
+@media (max-width: 768px) {
+  .page-header {
+    padding: 60px var(--padding-x-mobile) 40px;
+  }
+
+  .artists-quicknav {
+    top: 64px; /* nav mobile plus petite */
+  }
+
+  .artists-quicknav-inner {
+    justify-content: flex-start;
+    overflow-x: auto;
+  }
+
+  .artist-intro {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .artist-section.is-reversed .artist-intro {
+    grid-template-columns: 1fr;
+  }
+
+  .artist-section.is-reversed .artist-portrait {
+    order: 0;
+  }
+
+  .artist-portrait {
+    max-width: 280px;
+    margin: 0 auto;
+  }
+
+  .artist-info {
+    text-align: center;
+    padding-top: 0;
+  }
+
+  .artist-bio {
+    text-align: left;
+  }
+
+  .artist-portfolio-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .artist-section {
+    padding: 60px 0;
+    scroll-margin-top: 110px;
+  }
+
+  /* Contact */
+  .contact-info-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding: 40px 0;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .form-submit-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+  }
+
+  .form-submit {
+    justify-content: center;
+  }
+
+  .form-disclaimer {
+    text-align: center;
+  }
+
+  /* Shop */
+  .shop-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px 16px;
+  }
+
+  .product-name {
+    font-size: 18px;
+  }
+
+  .shop-info {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding: 40px var(--padding-x-mobile) 60px;
+  }
+}
+
+@media (max-width: 480px) {
+  .shop-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .artist-portfolio-grid {
+    grid-template-columns: 1fr;
+  }
+}

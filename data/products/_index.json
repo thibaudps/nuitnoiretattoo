@@ -1,0 +1,44 @@
+{
+  "items": [
+    {
+      "id": "flash-002",
+      "name": "Pivoine moderne",
+      "artist": "Clea Ferlay",
+      "category": "flash",
+      "price": "280 CHF",
+      "image": "assets/shop/flash-002.jpg",
+      "available": true,
+      "description": "Flash unique, trait fin, environ 8 cm."
+    },
+    {
+      "id": "flash-001",
+      "name": "Serpent ouroboros",
+      "artist": "Vince Pages",
+      "category": "flash",
+      "price": "350 CHF",
+      "image": "assets/shop/flash-001.jpg",
+      "available": true,
+      "description": "Flash unique, encre noire, environ 12 cm."
+    },
+    {
+      "id": "merch-001",
+      "name": "T-shirt logo",
+      "artist": "Nuit Noire",
+      "category": "merch",
+      "price": "40 CHF",
+      "image": "assets/shop/merch-001.jpg",
+      "available": true,
+      "description": "T-shirt coton bio, sérigraphie crème sur noir. Tailles S à XL."
+    },
+    {
+      "id": "print-001",
+      "name": "Tirage A4 — Lune",
+      "artist": "La Pythie",
+      "category": "print",
+      "price": "45 CHF",
+      "image": "assets/shop/print-001.jpg",
+      "available": true,
+      "description": "Tirage giclée sur papier d'art, édition limitée à 30 exemplaires."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "id": "la-pythie",
+  "name": "La Pythie",
+  "role": "Résidente",
+  "bio": "Esthétique ésotérique, symboles mystiques, travail entre l'illustration ancienne et le tatouage contemporain.",
+  "portrait": "assets/artists/la-pythie.jpg",
+  "instagram": "la.pythie.tattoo",
+  "portfolio": [],
+  "order": 6
+}

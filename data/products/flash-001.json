@@ -1,0 +1,10 @@
+{
+  "id": "flash-001",
+  "name": "Serpent ouroboros",
+  "artist": "Vince Pages",
+  "category": "flash",
+  "price": "350 CHF",
+  "image": "assets/shop/flash-001.jpg",
+  "available": true,
+  "description": "Flash unique, encre noire, environ 12 cm."
+}

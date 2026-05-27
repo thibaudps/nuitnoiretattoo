@@ -1,0 +1,393 @@
+# =============================================================
+# Nuit Noire Tattoo — Configuration Decap CMS
+# =============================================================
+# Pour modifier le contenu du site, va sur : /admin/
+# Connexion via compte GitHub (ou Google selon config OAuth)
+# =============================================================
+
+# -------------------------------------------------------------
+# BACKEND : DecapBridge (auth + git-gateway)
+# -------------------------------------------------------------
+# DecapBridge gère l'auth (email magique ou Google) et le proxy
+# vers GitHub. Les artistes n'ont PAS besoin de compte GitHub.
+#
+# Setup à faire sur https://decapbridge.com :
+#   1. Créer un compte
+#   2. Ajouter le site (URL : https://nuitnoiretattoo.com/admin/)
+#   3. Connecter le repo GitHub
+#   4. DecapBridge te donne un site-id à coller ci-dessous
+#   5. Inviter les utilisateurs (toi, le patron, les artistes) par email
+# -------------------------------------------------------------
+backend:
+  name: git-gateway
+  repo: USERNAME/nuit-noire-tattoo                              # ⚠️ à remplacer
+  branch: main
+  identity_url: https://auth.decapbridge.com/sites/SITE_ID      # ⚠️ remplacer SITE_ID par celui donné par DecapBridge
+  gateway_url: https://gateway.decapbridge.com
+
+  # Messages de commit personnalisés (qui a fait quoi)
+  commit_messages:
+    create: 'Création {{collection}} "{{slug}}" — {{author-name}} via DecapBridge'
+    update: 'Modification {{collection}} "{{slug}}" — {{author-name}} via DecapBridge'
+    delete: 'Suppression {{collection}} "{{slug}}" — {{author-name}} via DecapBridge'
+    uploadMedia: 'Upload image "{{path}}" — {{author-name}} via DecapBridge'
+    deleteMedia: 'Suppression image "{{path}}" — {{author-name}} via DecapBridge'
+
+# Mode local pour développer sans pousser sur GitHub
+# Lance avec : npx decap-server (puis ouvre /admin/)
+local_backend: true
+
+# -------------------------------------------------------------
+# OÙ SONT STOCKÉES LES IMAGES UPLOADÉES
+# -------------------------------------------------------------
+media_folder: "assets/uploads"      # dossier où sont mises les images
+public_folder: "/assets/uploads"    # chemin public utilisé dans le HTML
+
+# -------------------------------------------------------------
+# OPTIONS GLOBALES
+# -------------------------------------------------------------
+site_url: https://nuitnoiretattoo.com
+display_url: https://nuitnoiretattoo.com
+logo_url: /assets/logo-cream.svg
+locale: fr
+
+# Éditeur : prévisualisation activée pour les Markdown
+editor:
+  preview: false
+
+# =============================================================
+# COLLECTIONS — une par page du site
+# =============================================================
+collections:
+
+  # -----------------------------------------------------------
+  # 1. ACCUEIL (page Home)
+  # -----------------------------------------------------------
+  - name: "home"
+    label: "🏠 Accueil"
+    label_singular: "Accueil"
+    description: "Tout le contenu de la page d'accueil : phrases d'animation, texte de présentation, photos du carrousel."
+    delete: false   # on ne peut pas supprimer cette page
+    editor:
+      preview: false
+    files:
+      - name: "homepage"
+        label: "Page d'accueil"
+        file: "data/home.json"
+        fields:
+          - label: "Phrases qui défilent dans l'animation"
+            name: "phrases"
+            widget: "list"
+            summary: "{{fields.text}}"
+            hint: "Les phrases apparaissent dans l'ordre, après le logo. Tu peux en ajouter, supprimer ou réorganiser."
+            fields:
+              - label: "Phrase"
+                name: "text"
+                widget: "string"
+
+          - label: "Texte de présentation"
+            name: "intro_text"
+            widget: "text"
+            hint: "Le texte court qui apparaît sous l'animation."
+
+          - label: "Titre de la section photos"
+            name: "latest_work_title"
+            widget: "string"
+            default: "Latest work"
+
+          - label: "Lien Instagram affiché à droite du titre"
+            name: "instagram_handle"
+            widget: "string"
+            default: "@nuitnoiretattoo"
+
+          - label: "Photos du carrousel (Latest work)"
+            name: "latest_work"
+            widget: "list"
+            summary: "{{fields.alt}}"
+            hint: "Format recommandé : 1080×1440 px (portrait). Idéalement 6 photos pour bien remplir la grille."
+            fields:
+              - label: "Image"
+                name: "image"
+                widget: "image"
+              - label: "Description (texte alternatif)"
+                name: "alt"
+                widget: "string"
+                required: false
+              - label: "Lien externe (optionnel)"
+                name: "link"
+                widget: "string"
+                required: false
+                hint: "Si renseigné, un clic sur la photo ouvre ce lien (ex. lien Instagram du post)."
+
+  # -----------------------------------------------------------
+  # 2. ARTISTES
+  # -----------------------------------------------------------
+  - name: "artists_settings"
+    label: "🎨 Artistes — Réglages"
+    description: "Réglages de l'en-tête de la page artistes."
+    delete: false
+    files:
+      - name: "artists_page"
+        label: "En-tête de la page Artistes"
+        file: "data/artists-page.json"
+        fields:
+          - label: "Étiquette (eyebrow)"
+            name: "eyebrow"
+            widget: "string"
+            default: "Le collectif"
+          - label: "Titre"
+            name: "title"
+            widget: "string"
+            default: "Artists"
+          - label: "Sous-titre"
+            name: "subtitle"
+            widget: "string"
+            default: "Huit univers, un seul toit."
+
+  - name: "artists"
+    label: "🎨 Artistes — Liste"
+    label_singular: "Artiste"
+    description: "Gère ici chaque artiste : bio, portrait, photos du portfolio, lien Instagram."
+    folder: "data/artists"
+    create: true
+    delete: true
+    slug: "{{id}}"
+    identifier_field: "name"
+    summary: "{{name}} — {{role}}"
+    sortable_fields: ['order', 'name']
+    view_groups:
+      - label: Rôle
+        field: role
+    fields:
+      - label: "Ordre d'affichage"
+        name: "order"
+        widget: "number"
+        default: 1
+        value_type: "int"
+        min: 1
+        hint: "Détermine l'ordre des artistes sur la page (1 = en premier)."
+
+      - label: "Nom complet"
+        name: "name"
+        widget: "string"
+
+      - label: "Identifiant (slug)"
+        name: "id"
+        widget: "string"
+        hint: "Utilisé pour le nom du fichier et l'ancre dans l'URL (ex. 'vince-pages'). Que des minuscules, chiffres et tirets. ⚠️ Ne pas modifier après création — ça casserait les liens existants."
+        pattern: ['^[a-z0-9-]+$', "Que des minuscules, chiffres et tirets"]
+
+      - label: "Rôle"
+        name: "role"
+        widget: "select"
+        options: ["Fondateur", "Résident", "Résidente", "Invité", "Invitée"]
+        default: "Résident"
+
+      - label: "Bio"
+        name: "bio"
+        widget: "text"
+        hint: "Petit texte de présentation (2-3 phrases idéalement)."
+
+      - label: "Portrait"
+        name: "portrait"
+        widget: "image"
+        required: false
+        hint: "Format portrait recommandé : 1080×1440 px."
+
+      - label: "Compte Instagram"
+        name: "instagram"
+        widget: "string"
+        required: false
+        hint: "Sans le @ devant. Ex. : 'vincepages_tattoo'"
+
+      - label: "Portfolio (photos de tatouages)"
+        name: "portfolio"
+        widget: "list"
+        required: false
+        summary: "{{fields.alt}}"
+        hint: "Format recommandé : 1080×1440 px (portrait, ratio Instagram)."
+        fields:
+          - label: "Image"
+            name: "src"
+            widget: "image"
+          - label: "Description"
+            name: "alt"
+            widget: "string"
+            required: false
+
+  # -----------------------------------------------------------
+  # 3. SHOP
+  # -----------------------------------------------------------
+  - name: "shop_settings"
+    label: "🛍 Shop — Réglages"
+    description: "Réglages de l'en-tête et des textes de la page Shop."
+    delete: false
+    files:
+      - name: "shop_page"
+        label: "En-tête + textes de la page Shop"
+        file: "data/shop-page.json"
+        fields:
+          - label: "Étiquette (eyebrow)"
+            name: "eyebrow"
+            widget: "string"
+            default: "Boutique"
+          - label: "Titre"
+            name: "title"
+            widget: "string"
+            default: "Shop"
+          - label: "Sous-titre"
+            name: "subtitle"
+            widget: "string"
+            default: "Flashs, tirages, objets du shop."
+          - label: "Texte 'Commander'"
+            name: "order_info"
+            widget: "text"
+            default: "Pour acquérir un flash ou un tirage, contactez-nous directement par email ou via Instagram."
+          - label: "Texte 'Flashs'"
+            name: "flash_info"
+            widget: "text"
+            default: "Les designs marqués 'flash' sont des modèles uniques, tatoués une seule fois. Une fois réservés, ils ne sont plus disponibles."
+
+  - name: "products"
+    label: "🛍 Shop — Produits"
+    label_singular: "Produit"
+    description: "Gère les flashs, tirages et merch du shop."
+    folder: "data/products"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    identifier_field: "name"
+    summary: "{{name}} — {{price}}"
+    sortable_fields: ['name', 'category', 'available']
+    view_groups:
+      - label: Catégorie
+        field: category
+      - label: Disponibilité
+        field: available
+    fields:
+      - label: "Nom du produit"
+        name: "name"
+        widget: "string"
+
+      - label: "Catégorie"
+        name: "category"
+        widget: "select"
+        options:
+          - { label: "Flash (tatouage unique)", value: "flash" }
+          - { label: "Tirage / Print", value: "print" }
+          - { label: "Merch (textile, accessoires)", value: "merch" }
+        default: "flash"
+
+      - label: "Artiste"
+        name: "artist"
+        widget: "string"
+        hint: "Nom de l'artiste auteur du produit (ou 'Nuit Noire' pour le merch du shop)."
+
+      - label: "Prix"
+        name: "price"
+        widget: "string"
+        hint: "Ex. : '350 CHF', '40 €'"
+
+      - label: "Image"
+        name: "image"
+        widget: "image"
+
+      - label: "Description"
+        name: "description"
+        widget: "text"
+        required: false
+
+      - label: "Disponible"
+        name: "available"
+        widget: "boolean"
+        default: true
+        hint: "Décoche si le flash a déjà été réservé ou que le produit est épuisé."
+
+  # -----------------------------------------------------------
+  # 4. CONTACT
+  # -----------------------------------------------------------
+  - name: "contact"
+    label: "✉️ Contact"
+    description: "Informations du shop, formulaire de contact."
+    delete: false
+    files:
+      - name: "contact_page"
+        label: "Page Contact"
+        file: "data/contact.json"
+        fields:
+          - label: "Étiquette (eyebrow)"
+            name: "eyebrow"
+            widget: "string"
+            default: "Une idée ?"
+
+          - label: "Titre"
+            name: "title"
+            widget: "string"
+            default: "Contact"
+
+          - label: "Sous-titre"
+            name: "subtitle"
+            widget: "string"
+            default: "Écrivez-nous, ou passez nous voir au shop."
+
+          - label: "Adresse"
+            name: "address"
+            widget: "text"
+            hint: "Une ligne par retour à la ligne. Ex. :\nRue de —\n1201 Genève\nSuisse"
+
+          - label: "Horaires"
+            name: "hours"
+            widget: "text"
+            hint: "Texte libre. Ex. :\nMardi — Samedi\n11h — 19h"
+
+          - label: "Note sur les horaires"
+            name: "hours_note"
+            widget: "string"
+            required: false
+            default: "Sur rendez-vous"
+
+          - label: "Email"
+            name: "email"
+            widget: "string"
+            pattern: ['^[^@]+@[^@]+\.[^@]+$', "Email invalide"]
+
+          - label: "Compte Instagram"
+            name: "instagram"
+            widget: "string"
+            default: "nuitnoiretattoo"
+            hint: "Sans le @ devant."
+
+          - label: "Introduction du formulaire — Titre"
+            name: "form_intro_title"
+            widget: "string"
+            default: "Décrivez votre projet"
+
+          - label: "Introduction du formulaire — Texte"
+            name: "form_intro_text"
+            widget: "text"
+            default: "Le bouton ci-dessous ouvrira votre application mail avec un message pré-rempli. Plus vos informations sont précises, plus la réponse sera rapide."
+
+  # -----------------------------------------------------------
+  # 5. RÉGLAGES GLOBAUX
+  # -----------------------------------------------------------
+  - name: "settings"
+    label: "⚙️ Réglages généraux"
+    description: "Infos affichées dans la barre de navigation et le pied de page."
+    delete: false
+    files:
+      - name: "footer"
+        label: "Pied de page"
+        file: "data/settings.json"
+        fields:
+          - label: "Adresse courte (footer)"
+            name: "footer_address"
+            widget: "string"
+            default: "Rue de —, Genève"
+          - label: "Texte 'année' (footer)"
+            name: "footer_years"
+            widget: "string"
+            default: "Since 2010"
+          - label: "Lien Instagram global"
+            name: "instagram_url"
+            widget: "string"
+            default: "https://instagram.com/nuitnoiretattoo"

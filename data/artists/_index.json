@@ -1,0 +1,84 @@
+{
+  "items": [
+    {
+      "id": "vince-pages",
+      "name": "Vince Pages",
+      "role": "Fondateur",
+      "bio": "Présent au shop depuis ses débuts. Travaille principalement le tatouage traditionnel et néo-traditionnel, avec une affection particulière pour les motifs marins et la flore.",
+      "portrait": "assets/artists/vince-pages.jpg",
+      "instagram": "vincepages_tattoo",
+      "portfolio": [],
+      "order": 1
+    },
+    {
+      "id": "clea-ferlay",
+      "name": "Clea Ferlay",
+      "role": "Résidente",
+      "bio": "Trait fin, compositions florales et illustrations délicates. Travaille sur projets personnalisés autour du végétal et du symbolique.",
+      "portrait": "assets/artists/clea-ferlay.jpg",
+      "instagram": "cleaferlay",
+      "portfolio": [],
+      "order": 2
+    },
+    {
+      "id": "lou-dc",
+      "name": "Lou DC",
+      "role": "Résidente",
+      "bio": "Tatoueuse aux univers graphiques et contrastés. Aime les motifs animaliers et les compositions noires denses.",
+      "portrait": "assets/artists/lou-dc.jpg",
+      "instagram": "lou.dc.tattoo",
+      "portfolio": [],
+      "order": 3
+    },
+    {
+      "id": "loic-vh",
+      "name": "Loic VH",
+      "role": "Résident",
+      "bio": "Style néo-traditionnel coloré, références à l'imagerie classique du tatouage avec une touche contemporaine.",
+      "portrait": "assets/artists/loic-vh.jpg",
+      "instagram": "loicvh_tattoo",
+      "portfolio": [],
+      "order": 4
+    },
+    {
+      "id": "gui-rudolf",
+      "name": "Gui Rudolf",
+      "role": "Résident",
+      "bio": "Compositions illustratives, travail à l'encre sombre, références à la nature et au folklore.",
+      "portrait": "assets/artists/gui-rudolf.jpg",
+      "instagram": "guirudolf",
+      "portfolio": [],
+      "order": 5
+    },
+    {
+      "id": "la-pythie",
+      "name": "La Pythie",
+      "role": "Résidente",
+      "bio": "Esthétique ésotérique, symboles mystiques, travail entre l'illustration ancienne et le tatouage contemporain.",
+      "portrait": "assets/artists/la-pythie.jpg",
+      "instagram": "la.pythie.tattoo",
+      "portfolio": [],
+      "order": 6
+    },
+    {
+      "id": "jolan-chappaz",
+      "name": "Jolan Chappaz",
+      "role": "Résident",
+      "bio": "Tatoueur, artiste graphique et poète. Compositions narratives, trait expressif, projets sur mesure.",
+      "portrait": "assets/artists/jolan-chappaz.jpg",
+      "instagram": "jolan.chappaz",
+      "portfolio": [],
+      "order": 7
+    },
+    {
+      "id": "souviens-toi",
+      "name": "Souviens-Toi",
+      "role": "Résident",
+      "bio": "Univers onirique et mélancolique, compositions illustratives à l'encre, références littéraires.",
+      "portrait": "assets/artists/souviens-toi.jpg",
+      "instagram": "souviens.toi.tattoo",
+      "portfolio": [],
+      "order": 8
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "id": "flash-002",
+  "name": "Pivoine moderne",
+  "artist": "Clea Ferlay",
+  "category": "flash",
+  "price": "280 CHF",
+  "image": "assets/shop/flash-002.jpg",
+  "available": true,
+  "description": "Flash unique, trait fin, environ 8 cm."
+}
