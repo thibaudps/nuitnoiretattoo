@@ -192,12 +192,12 @@ body[data-page="home"] .nav {
    HERO — carrousel horizontal
    ============================================ */
 .hero {
-  min-height: calc(100vh - 76px);
+  min-height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 60px 0;
+  padding: 30px 0 10px;
   text-align: center;
   overflow: hidden;
   position: relative;
@@ -206,7 +206,7 @@ body[data-page="home"] .nav {
 .hero-carousel {
   position: relative;
   width: 100%;
-  height: 380px;
+  height: 340px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -308,16 +308,16 @@ body[data-page="home"] .nav {
    INTRO
    ============================================ */
 .intro {
-  padding: 80px var(--padding-x);
+  padding: 40px var(--padding-x) 70px;
   display: flex;
   justify-content: center;
 }
 
 .intro p {
-  max-width: 540px;
+  max-width: 620px;
   text-align: center;
-  font-size: 15px;
-  line-height: 1.85;
+  font-size: 18px;
+  line-height: 1.9;
   color: var(--fg-muted);
 }
 
@@ -516,7 +516,7 @@ body[data-page="home"] .nav {
    PAGE HEADER (commune aux sous-pages)
    ============================================ */
 .page-header {
-  padding: 100px var(--padding-x) 60px;
+  padding: 80px var(--padding-x) 50px;
   text-align: center;
   max-width: 800px;
   margin: 0 auto;
@@ -527,12 +527,12 @@ body[data-page="home"] .nav {
 }
 
 .page-title {
-  font-family: var(--font-display);
-  font-size: clamp(48px, 8vw, 96px);
-  font-weight: 400;
-  letter-spacing: 0.04em;
+  font-family: var(--font-body);
+  font-size: clamp(34px, 4vw, 52px);
+  font-weight: 500;
+  letter-spacing: 0.02em;
   color: var(--fg);
-  line-height: 1;
+  line-height: 1.1;
   margin-bottom: 0;
 }
 
