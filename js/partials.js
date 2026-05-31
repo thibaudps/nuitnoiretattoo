@@ -35,6 +35,7 @@
       <span id="footer-address">Rue de —, Genève</span>
       <a href="#" target="_blank" rel="noopener" id="footer-instagram">Instagram</a>
       <span id="footer-years">Since 2010</span>
+      <a href="https://thibaudpages.com" target="_blank" rel="noopener" class="footer-credit">Designed by Thibaud Pagès</a>
     </footer>
   `;
 
