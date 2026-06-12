@@ -1,0 +1,9 @@
+{
+  "order": 1,
+  "role": "Invité",
+  "guest": true,
+  "name": "Guests",
+  "id": "guests",
+  "bio": "Upcoming guests",
+  "portrait": "/assets/uploads/post-guest-viege.webp"
+}
