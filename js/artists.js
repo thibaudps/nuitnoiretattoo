@@ -43,7 +43,7 @@
     const container = document.getElementById('artists-quicknav-inner');
     if (!container) return;
     container.innerHTML = artists.map(a => `
-      <a href="#${a.id}" class="artists-quicknav-link">${escapeHtml(a.name)}</a>
+      <a href="#${a.id}" class="artists-quicknav-link${a.guest ? ' is-guest' : ''}">${escapeHtml(a.name)}</a>
     `).join('');
   }
 
@@ -54,6 +54,8 @@
   }
 
   function renderArtist(artist, index) {
+    if (artist.guest) return renderGuestSection(artist);
+
     const portfolioHTML = renderPortfolio(artist);
     const isReversed = index % 2 === 1;
 
@@ -77,6 +79,26 @@
           </div>
         </div>
         ${portfolioHTML}
+      </section>
+    `;
+  }
+
+  function renderGuestSection(artist) {
+    return `
+      <section class="artist-section guest-section" id="${artist.id}">
+        <p class="artist-role">${escapeHtml(artist.role || 'Guests')}</p>
+        <h2 class="artist-name guest-name">${escapeHtml(artist.name)}</h2>
+        <div class="guest-image">
+          ${artist.portrait
+            ? `<img src="${artist.portrait}" alt="${escapeHtml(artist.name)}" loading="lazy" onerror="this.style.display='none'; this.parentElement.classList.add('no-image');" />`
+            : ''}
+        </div>
+        <p class="guest-text">${escapeHtml(artist.bio || '')}</p>
+        ${artist.instagram ? `
+          <a href="https://instagram.com/${artist.instagram}" target="_blank" rel="noopener" class="artist-instagram">
+            @${escapeHtml(artist.instagram)} ↗
+          </a>
+        ` : ''}
       </section>
     `;
   }
