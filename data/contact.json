@@ -5,8 +5,14 @@
   "hours": "Lundi - Samedi\n10h30 - 17h30",
   "instagram": "nuitnoiretattoo",
   "address": "Chemin des Coquelicots 7, \n1214 Vernier, Suisse",
+  "phone": "+41 (0)22 341 18 82",
+  "access_tpg": "Arrêt Blandonnet",
+  "access_cff": "Arrêt Vernier",
+  "parking": "Blandonnet",
+  "map_query": "Chemin des Coquelicots 7, 1214 Vernier, Suisse",
   "subtitle": "Écrivez-nous, ou passez nous voir au shop.",
   "title": "Contact",
   "form_intro_text": "Le bouton ci-dessous ouvrira votre application mail avec un message pré-rempli. Plus vos informations sont précises, plus la réponse sera rapide.",
+  "form_photos_note": "Vous pouvez joindre à votre email des photos de référence et/ou de l'emplacement souhaité, dans la limite de 4 photos.",
   "email": "contact@nuitnoiretattoo.com"
 }
