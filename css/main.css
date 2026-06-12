@@ -714,6 +714,58 @@ body[data-page="home"] .nav {
 }
 
 /* ============================================
+   ARTISTS — section guests
+   ============================================ */
+/* Nom en italique dans le dropdown nav et la quicknav */
+.nav-dropdown a.is-guest,
+.artists-quicknav-link.is-guest {
+  font-style: italic;
+}
+
+.guest-section {
+  text-align: center;
+}
+
+.guest-name {
+  font-style: italic;
+}
+
+.guest-image {
+  max-width: 520px;
+  margin: 0 auto 28px;
+  background: var(--bg-elevated);
+  position: relative;
+}
+
+.guest-image img {
+  width: 100%;
+  height: auto;
+}
+
+.guest-image.no-image {
+  aspect-ratio: 3 / 4;
+}
+
+.guest-image.no-image::after {
+  content: '◌';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  color: var(--fg-dim);
+}
+
+.guest-text {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--fg-muted);
+  max-width: 520px;
+  margin: 0 auto 24px;
+}
+
+/* ============================================
    CONTACT
    ============================================ */
 .contact-info {
