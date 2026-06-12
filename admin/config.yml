@@ -351,6 +351,37 @@ collections:
             widget: "text"
             hint: "Une ligne par retour à la ligne. Ex. :\nRue de —\n1201 Genève\nSuisse"
 
+          - label: "Téléphone"
+            name: "phone"
+            widget: "string"
+            required: false
+            default: "+41 (0)22 341 18 82"
+
+          - label: "Accès TPG"
+            name: "access_tpg"
+            widget: "string"
+            required: false
+            default: "Arrêt Blandonnet"
+            hint: "Affiché dans l'encart sous la carte. Laisser vide pour masquer la ligne."
+
+          - label: "Accès CFF"
+            name: "access_cff"
+            widget: "string"
+            required: false
+            default: "Arrêt Vernier"
+
+          - label: "Parking"
+            name: "parking"
+            widget: "string"
+            required: false
+            default: "Blandonnet"
+
+          - label: "Adresse pour la carte Google Maps"
+            name: "map_query"
+            widget: "string"
+            default: "Chemin des Coquelicots 7, 1214 Vernier, Suisse"
+            hint: "Adresse envoyée à Google Maps pour centrer la carte."
+
           - label: "Horaires"
             name: "hours"
             widget: "text"
@@ -382,6 +413,13 @@ collections:
             name: "form_intro_text"
             widget: "text"
             default: "Le bouton ci-dessous ouvrira votre application mail avec un message pré-rempli. Plus vos informations sont précises, plus la réponse sera rapide."
+
+          - label: "Note photos (formulaire)"
+            name: "form_photos_note"
+            widget: "text"
+            required: false
+            default: "Vous pouvez joindre à votre email des photos de référence et/ou de l'emplacement souhaité, dans la limite de 4 photos."
+            hint: "Petite phrase affichée sous l'intro du formulaire. Laisser vide pour masquer."
 
   # -----------------------------------------------------------
   # 5. RÉGLAGES GLOBAUX
