@@ -33,15 +33,6 @@
 
   const FOOTER_HTML = `
     <footer class="footer">
-      <div class="footer-icons">
-        <a href="mailto:info@nuitnoiretattoo.com" id="footer-icon-mail" aria-label="Envoyer un email">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="M3 7l9 6 9-6"/></svg>
-        </a>
-        <a href="https://instagram.com/nuitnoiretattoo" target="_blank" rel="noopener" id="footer-icon-instagram" aria-label="Instagram">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.8" fill="currentColor" stroke="none"/></svg>
-        </a>
-      </div>
-
       <p class="footer-line">
         <span class="footer-pair"><a href="tel:+41223411882" id="footer-phone" class="footer-strong">+41 (0)22 341 18 82</a><span class="footer-sep" aria-hidden="true">|</span><span id="footer-hours">lun - sam : 10h30 - 17h30</span></span>
         <span class="footer-sep footer-sep-mid" aria-hidden="true">|</span>
@@ -66,6 +57,9 @@
       </div>
 
       <div class="fab-actions">
+        <a class="fab-action" id="fab-instagram" href="https://instagram.com/nuitnoiretattoo" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.8" fill="currentColor" stroke="none"/></svg>
+        </a>
         <a class="fab-action" id="fab-mail" href="mailto:info@nuitnoiretattoo.com" aria-label="Envoyer un email">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="M3 7l9 6 9-6"/></svg>
         </a>
@@ -218,12 +212,6 @@
 
     const emailLink = document.getElementById('footer-email');
     if (emailLink && settings.footer_email) emailLink.href = 'mailto:' + settings.footer_email;
-
-    const iconMail = document.getElementById('footer-icon-mail');
-    if (iconMail && settings.footer_email) iconMail.href = 'mailto:' + settings.footer_email;
-
-    const iconInsta = document.getElementById('footer-icon-instagram');
-    if (iconInsta && settings.instagram_url) iconInsta.href = settings.instagram_url;
   }
 
   // ============================================
@@ -236,6 +224,9 @@
 
     const mail = document.getElementById('fab-mail');
     if (mail && settings.footer_email) mail.href = 'mailto:' + settings.footer_email;
+
+    const insta = document.getElementById('fab-instagram');
+    if (insta && settings.instagram_url) insta.href = settings.instagram_url;
 
     const phone = document.getElementById('fab-phone');
     if (phone && settings.footer_phone) phone.href = 'tel:' + telHref(settings.footer_phone);
