@@ -200,7 +200,8 @@ collections:
       - label: "Bio"
         name: "bio"
         widget: "text"
-        hint: "Petit texte de présentation (2-3 phrases idéalement)."
+        required: false
+        hint: "Petit texte de présentation (2-3 phrases idéalement). Optionnel pour la page Guests."
 
       - label: "Portrait"
         name: "portrait"
@@ -485,6 +486,31 @@ collections:
             widget: "string"
             required: false
             default: "dim : fermé"
+          - label: "Heure d'ouverture"
+            name: "open_from"
+            widget: "string"
+            default: "10:30"
+            pattern: ['^\d{1,2}:\d{2}$', "Format 24h attendu, ex. 10:30"]
+            hint: "Format 24h HH:MM. Utilisé pour le badge Open/Closed du bouton contact."
+          - label: "Heure de fermeture"
+            name: "open_until"
+            widget: "string"
+            default: "17:30"
+            pattern: ['^\d{1,2}:\d{2}$', "Format 24h attendu, ex. 17:30"]
+          - label: "Jours d'ouverture"
+            name: "open_days"
+            widget: "select"
+            multiple: true
+            options:
+              - { label: "Lundi", value: "1" }
+              - { label: "Mardi", value: "2" }
+              - { label: "Mercredi", value: "3" }
+              - { label: "Jeudi", value: "4" }
+              - { label: "Vendredi", value: "5" }
+              - { label: "Samedi", value: "6" }
+              - { label: "Dimanche", value: "0" }
+            default: ["1", "2", "3", "4", "5", "6"]
+            hint: "Jours où le badge peut afficher Open."
           - label: "Email"
             name: "footer_email"
             widget: "string"
