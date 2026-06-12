@@ -47,7 +47,7 @@ function buildIndex(folderName, sortBy = null) {
   const indexPath = path.join(folderPath, '_index.json');
   fs.writeFileSync(indexPath, JSON.stringify({ items }, null, 2));
 
-  console.log(`✓ ${folderName}/_index.json — ${items.length} entrées`);
+  console.log(`✓ ${folderName}/_index.json - ${items.length} entrées`);
 }
 
 console.log('🔨 Build des index Nuit Noire Tattoo\n');
