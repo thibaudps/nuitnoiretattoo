@@ -25,6 +25,7 @@
           </ul>
         </li>
         <li><a href="shop.html" class="nav-link" data-page="shop">Shop</a></li>
+        <li><a href="faq.html" class="nav-link" data-page="faq">FAQ</a></li>
         <li><a href="contact.html" class="nav-link" data-page="contact">Contact</a></li>
       </ul>
     </nav>
