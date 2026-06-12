@@ -22,8 +22,15 @@ const DATA_DIR = path.join(__dirname, 'data');
 function buildIndex(folderName, sortBy = null) {
   const folderPath = path.join(DATA_DIR, folderName);
 
+  // Git ne versionne pas les dossiers vides : si le dernier élément
+  // a été supprimé via le CMS, le dossier n'existe plus dans le repo.
+  // On le recrée et on génère un index vide pour que le site affiche
+  // proprement "aucun élément" au lieu de planter sur un 404.
   if (!fs.existsSync(folderPath)) {
-    console.warn(`⚠️  Dossier introuvable : ${folderPath}`);
+    console.warn(`⚠️  Dossier introuvable : ${folderPath} - génération d'un index vide`);
+    fs.mkdirSync(folderPath, { recursive: true });
+    fs.writeFileSync(path.join(folderPath, '_index.json'), JSON.stringify({ items: [] }, null, 2));
+    console.log(`✓ ${folderName}/_index.json - 0 entrée`);
     return;
   }
 
