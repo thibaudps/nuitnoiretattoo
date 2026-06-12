@@ -464,6 +464,14 @@ body[data-page="home"] .nav {
   gap: 6px 10px;
 }
 
+.footer-pair {
+  white-space: nowrap;
+}
+
+.footer-pair .footer-sep {
+  margin: 0 10px;
+}
+
 .footer-sep {
   color: var(--fg-dim);
 }
@@ -644,15 +652,20 @@ body[data-page="home"] .nav {
 
   .footer {
     padding: 36px var(--padding-x-mobile) 28px;
+    font-size: 11px;
+    gap: 12px;
+  }
+
+  /* On masque le séparateur central : la ligne 1 se coupe
+     proprement en deux paires insécables.
+     Le nom du shop est masqué pour que l'adresse tienne sur une ligne. */
+  .footer-sep-mid,
+  .footer-name {
+    display: none;
   }
 
   .footer-line {
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .footer-sep {
-    display: none;
+    gap: 5px 10px;
   }
 
   .fab {
@@ -984,8 +997,27 @@ body[data-page="home"] .nav {
 .contact-access em {
   font-family: var(--font-display);
   font-style: italic;
+  font-size: 17px;
   letter-spacing: 0.06em;
   color: var(--fg-muted);
+}
+
+.contact-access a {
+  border-bottom: 0.5px solid var(--border-strong);
+  padding-bottom: 1px;
+  transition: border-color var(--t-fast);
+}
+
+.contact-access a:hover {
+  border-color: var(--fg);
+}
+
+.contact-access a em {
+  transition: color var(--t-fast);
+}
+
+.contact-access a:hover em {
+  color: var(--fg);
 }
 
 /* Coordonnées sous l'encart */
