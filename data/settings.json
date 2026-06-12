@@ -4,5 +4,15 @@
   "footer_hours_note": "dim : fermé",
   "footer_email": "info@nuitnoiretattoo.com",
   "footer_address": "Ch. des Coquelicots, 7 - 1214 Vernier - Switzerland.",
-  "instagram_url": "https://instagram.com/nuitnoiretattoo"
+  "instagram_url": "https://instagram.com/nuitnoiretattoo",
+  "open_from": "10:30",
+  "open_until": "17:30",
+  "open_days": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6"
+  ]
 }
