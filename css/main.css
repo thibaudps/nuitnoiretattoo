@@ -594,12 +594,41 @@ body[data-page="home"] .nav {
   bottom: 64px;
   background: var(--bg);
   border: 0.5px solid var(--border-strong);
-  padding: 14px 18px;
-  font-size: 12px;
-  line-height: 1.8;
+  padding: 18px 22px;
+  font-size: 14.5px;
+  line-height: 1.9;
   letter-spacing: 0.04em;
   color: var(--fg);
   white-space: nowrap;
+}
+
+.fab-status {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--fg);
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 0.5px solid var(--border);
+}
+
+.fab-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.fab-status.is-open-now .fab-status-dot {
+  background: #8fb88f;
+}
+
+.fab-status.is-closed-now .fab-status-dot {
+  background: #b58383;
 }
 
 /* ============================================
@@ -787,7 +816,7 @@ body[data-page="home"] .nav {
 }
 
 .artist-section {
-  padding: 100px 0;
+  padding: 70px 0;
   border-bottom: 0.5px solid var(--border);
   scroll-margin-top: 130px;
 }
@@ -801,7 +830,7 @@ body[data-page="home"] .nav {
   grid-template-columns: 1fr 1.5fr;
   gap: 60px;
   align-items: start;
-  margin-bottom: 60px;
+  margin-bottom: 40px;
 }
 
 .artist-section.is-reversed .artist-intro {
@@ -810,10 +839,13 @@ body[data-page="home"] .nav {
 
 .artist-section.is-reversed .artist-portrait {
   order: 2;
+  justify-self: end;
 }
 
 .artist-portrait {
   aspect-ratio: 3 / 4;
+  max-width: 320px;
+  width: 100%;
   background: var(--bg-elevated);
   overflow: hidden;
   position: relative;
