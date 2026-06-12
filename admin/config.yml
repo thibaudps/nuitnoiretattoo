@@ -190,6 +190,13 @@ collections:
         options: ["Fondateur", "Résident", "Résidente", "Invité", "Invitée"]
         default: "Résident"
 
+      - label: "Page Guests"
+        name: "guest"
+        widget: "boolean"
+        default: false
+        required: false
+        hint: "Coche pour la page des guests : nom en italique dans les menus, layout simplifié (une image principale + court texte)."
+
       - label: "Bio"
         name: "bio"
         widget: "text"
