@@ -1,5 +1,5 @@
 /* ============================================
-   NUIT NOIRE TATTOO — artists.js
+   NUIT NOIRE TATTOO - artists.js
    Charge data/artists-page.json (en-tête) + data/artists/_index.json (artistes)
    ============================================ */
 

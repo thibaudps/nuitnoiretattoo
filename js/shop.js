@@ -1,5 +1,5 @@
 /* ============================================
-   NUIT NOIRE TATTOO — shop.js
+   NUIT NOIRE TATTOO - shop.js
    Charge data/shop-page.json (en-tête) + data/products/_index.json (produits)
    ============================================ */
 

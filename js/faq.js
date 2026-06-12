@@ -1,5 +1,5 @@
 /* ============================================
-   NUIT NOIRE TATTOO — faq.js
+   NUIT NOIRE TATTOO - faq.js
    Charge data/faq.json (en-tête + questions/réponses)
    ============================================ */
 

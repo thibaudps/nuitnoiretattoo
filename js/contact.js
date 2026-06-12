@@ -1,5 +1,5 @@
 /* ============================================
-   NUIT NOIRE TATTOO — contact.js
+   NUIT NOIRE TATTOO - contact.js
    Charge data/contact.json + data/artists/_index.json (pour le dropdown artistes)
    Génère un mailto: pré-rempli depuis le formulaire
    ============================================ */
@@ -149,7 +149,7 @@
   // MAILTO
   // ============================================
   function buildMailto(data) {
-    const subjectLine = `[${data.subject}] ${data.name}${data.artist ? ' — ' + data.artist : ''}`;
+    const subjectLine = `[${data.subject}] ${data.name}${data.artist ? ' - ' + data.artist : ''}`;
 
     const bodyLines = [
       `Bonjour,`, ``,
@@ -157,10 +157,10 @@
       `Email : ${data.email}`,
       `Artiste souhaité : ${data.artist || 'Sans préférence'}`,
       `Type de demande : ${data.subject}`, ``,
-      `Emplacement / taille : ${data.placement || '—'}`, ``,
+      `Emplacement / taille : ${data.placement || '-'}`, ``,
       `Description du projet :`,
       data.message, ``,
-      `Disponibilités : ${data.availability || '—'}`, ``,
+      `Disponibilités : ${data.availability || '-'}`, ``,
       `Cordialement,`, data.name
     ];
 

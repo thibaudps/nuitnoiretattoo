@@ -1,5 +1,5 @@
 /* ============================================
-   NUIT NOIRE TATTOO — main.js (page d'accueil)
+   NUIT NOIRE TATTOO - main.js (page d'accueil)
    Contenu chargé depuis data/home.json (géré via CMS)
    ============================================ */
 

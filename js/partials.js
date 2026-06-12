@@ -1,5 +1,5 @@
 /* ============================================
-   NUIT NOIRE TATTOO — partials.js
+   NUIT NOIRE TATTOO - partials.js
    Injecte nav + footer + bouton contact (FAB) sur toutes les pages.
    Footer et FAB sont ensuite enrichis avec settings.json.
    ============================================ */
@@ -227,7 +227,7 @@
   }
 
   // ============================================
-  // FAB — bouton contact flottant
+  // FAB - bouton contact flottant
   // ============================================
   let fabSettings = null;
 
