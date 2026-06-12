@@ -1,0 +1,51 @@
+{
+  "eyebrow": "Questions fréquentes",
+  "title": "FAQ",
+  "subtitle": "Réponses aux questions fréquentes.",
+  "items": [
+    {
+      "question": "Comment prendre rendez-vous ?",
+      "answer": "Vous pouvez passer au salon pendant nos heures de consultation (Lundi - Samedi | 10h30 - 17h30) afin de nous présenter votre projet.\n\nSi vous n'avez pas la possibilité de venir nous voir, vous pouvez prendre RDV par [email](contact.html) ou par téléphone au [+41 22 341 18 82](tel:+41223411882). Il est souvent plus facile pour nous de vous voir en chair et en os, si vous avez la possibilité de vous déplacer jusqu'au salon nous vous en remercions d'avance."
+    },
+    {
+      "question": "Combien mon tatouage va-t-il coûter ?",
+      "answer": "Notre prix de départ est fixé à 150.- CHF.\n\nEn dessous de 2 heures de travail nous fixerons un prix à la pièce en fonction du temps de travail nécessaire, du temps de dessin et de la zone à tatouer.\n\nPour toute pièce nécessitant plus de 2 heures de travail nous appliquons un tarif horaire, 200.- CHF par heure de tatouage."
+    },
+    {
+      "question": "Je n'ai pas de dessin, juste une idée de ce que je veux, comment faire ?",
+      "answer": "Nous sommes là pour ça, nous réalisons des dessins uniques pour tous nos clients. Passez nous exposer vos idées et nous tâcherons de faire de notre mieux pour les illustrer."
+    },
+    {
+      "question": "J'ai déjà un dessin, est-ce que vous pouvez me le tatouer ?",
+      "answer": "Nous ne sommes pas des photocopieurs : afin que chacune de nos réalisations soit unique et adaptée à notre style, nous re-dessinons tout. Cependant, n'hésitez pas à venir nous voir avec des références car elles nous sont toujours très utiles."
+    },
+    {
+      "question": "Je ne suis pas sûr(e) de vouloir me faire tatouer mais pouvez-vous me faire un dessin ?",
+      "answer": "Non, désolé, mais nous travaillons uniquement les dessins pour les clients ayant fixé la date de rendez-vous."
+    },
+    {
+      "question": "Une fois le rendez-vous fixé, quand est-ce que je pourrai voir le dessin ?",
+      "answer": "Cette date sera fixée lors de la prise de rendez-vous. Nous préparons à l'avance uniquement les dessins de grande taille, pour le reste nous montrons le dessin le jour du tatouage."
+    },
+    {
+      "question": "Est-ce qu'il y a des styles de tatouage que vous ne faites pas ?",
+      "answer": "Oui, nous nous concentrons sur nos créations : nous ne faisons pas de tatouage dans les styles \"Tribal\", \"Maori / Polynésien\" et \"Réaliste\". Nous sélectionnons nos travaux afin de coller à notre style et notre vision du tatouage."
+    },
+    {
+      "question": "Je suis mineur, est-ce que je peux venir me faire tatouer ?",
+      "answer": "Non, désolé, il faudra attendre."
+    },
+    {
+      "question": "J'ai déjà un rendez-vous, est-ce que le jour du tatouage je peux venir avec des ami(e)s ?",
+      "answer": "Non, par mesure d'hygiène et pour la concentration des tatoueurs, nous demandons à nos clients de ne pas venir en groupe."
+    },
+    {
+      "question": "J'ai un tatouage que je souhaiterais recouvrir ?",
+      "answer": "Passez nous montrer celui-ci et nous tâcherons de vous proposer des solutions. Nous ne ferons rien par mail ou téléphone."
+    },
+    {
+      "question": "Combien de temps d'attente avez-vous ?",
+      "answer": "Ce temps est variable selon la taille de votre projet et le tatoueur que vous demandez (généralement entre 2 semaines et 2 mois d'attente)."
+    }
+  ]
+}
