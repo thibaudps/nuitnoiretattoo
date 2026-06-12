@@ -88,8 +88,8 @@
   }
 
   function renderAccess(c) {
-    setAccessLine('access-tpg', 'Accès TPG', c.access_tpg);
-    setAccessLine('access-cff', 'Accès CFF', c.access_cff);
+    setAccessLine('access-tpg', 'Accès TPG', c.access_tpg, 'https://www.tpg.ch/');
+    setAccessLine('access-cff', 'Accès CFF', c.access_cff, 'https://www.sbb.ch/');
     setAccessLine('access-parking', 'Parking', c.parking);
 
     // Masquer l'encart si aucune info d'accès n'est renseignée
@@ -99,14 +99,16 @@
     }
   }
 
-  function setAccessLine(id, label, value) {
+  function setAccessLine(id, label, value, url) {
     const el = document.getElementById(id);
     if (!el) return;
     if (!value) {
       el.hidden = true;
       return;
     }
-    el.innerHTML = `<span class="access-label">${escapeHtml(label)} :</span> <em>${escapeHtml(value)}</em>`;
+    const inner = `<em>${escapeHtml(value)}</em>`;
+    el.innerHTML = `<span class="access-label">${escapeHtml(label)} :</span> ` +
+      (url ? `<a href="${url}" target="_blank" rel="noopener">${inner}</a>` : inner);
   }
 
   function renderMap(c) {
