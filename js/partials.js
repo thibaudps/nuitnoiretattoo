@@ -42,19 +42,15 @@
       </div>
 
       <p class="footer-line">
-        <a href="tel:+41223411882" id="footer-phone" class="footer-strong">+41 (0)22 341 18 82</a>
-        <span class="footer-sep" aria-hidden="true">|</span>
-        <span id="footer-hours">lun - sam : 10h30 - 17h30</span>
-        <span class="footer-sep" aria-hidden="true">|</span>
-        <span id="footer-hours-note">dim : fermé</span>
-        <span class="footer-sep" aria-hidden="true">|</span>
-        <a href="mailto:info@nuitnoiretattoo.com" id="footer-email">info@nuitnoiretattoo.com</a>
+        <span class="footer-pair"><a href="tel:+41223411882" id="footer-phone" class="footer-strong">+41 (0)22 341 18 82</a><span class="footer-sep" aria-hidden="true">|</span><span id="footer-hours">lun - sam : 10h30 - 17h30</span></span>
+        <span class="footer-sep footer-sep-mid" aria-hidden="true">|</span>
+        <span class="footer-pair"><span id="footer-hours-note">dim : fermé</span><span class="footer-sep" aria-hidden="true">|</span><a href="mailto:info@nuitnoiretattoo.com" id="footer-email">info@nuitnoiretattoo.com</a></span>
       </p>
 
       <p class="footer-line">
-        <span class="footer-strong">Nuit Noire Tattoo</span>
-        <span class="footer-sep" aria-hidden="true">|</span>
-        <span id="footer-address">Chemin des coquelicots, 7 - 1214 - Vernier - Switzerland.</span>
+        <span class="footer-strong footer-name">Nuit Noire Tattoo</span>
+        <span class="footer-sep footer-name" aria-hidden="true">|</span>
+        <span id="footer-address">Ch. des Coquelicots, 7 - 1214 Vernier - Switzerland.</span>
       </p>
 
       <a href="https://thibaudpages.com" target="_blank" rel="noopener" class="footer-credit">Designed by Thibaud Pagès</a>
