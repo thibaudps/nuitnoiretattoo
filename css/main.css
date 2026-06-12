@@ -929,25 +929,75 @@ body[data-page="home"] .nav {
 }
 
 /* ============================================
-   CONTACT
+   CONTACT — layout deux colonnes (map / formulaire)
    ============================================ */
-.contact-info {
-  padding: 40px var(--padding-x) 60px;
+.contact-layout {
   max-width: var(--max-width);
   margin: 0 auto;
+  padding: 20px var(--padding-x) 100px;
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 70px;
+  align-items: start;
 }
 
-.contact-info-grid {
+.contact-left {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Map */
+.contact-map {
+  aspect-ratio: 4 / 3;
+  background: var(--bg-elevated);
+  scroll-margin-top: 110px;
+  overflow: hidden;
+}
+
+.contact-map iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  /* Rendu sombre / désaturé pour coller au thème */
+  filter: grayscale(100%) invert(90%) contrast(88%);
+}
+
+/* Encart accès sous la map */
+.contact-access {
+  border: 0.5px solid var(--border);
+  padding: 22px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--fg-muted);
+}
+
+.access-label {
+  font-weight: 500;
+  color: var(--fg);
+}
+
+.contact-access em {
+  font-family: var(--font-display);
+  font-style: italic;
+  letter-spacing: 0.06em;
+  color: var(--fg-muted);
+}
+
+/* Coordonnées sous l'encart */
+.contact-details {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 60px;
-  border-top: 0.5px solid var(--border);
-  border-bottom: 0.5px solid var(--border);
-  padding: 50px 0;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px 24px;
+  padding-top: 8px;
 }
 
 .contact-block {
-  text-align: center;
+  text-align: left;
 }
 
 .contact-label {
@@ -955,7 +1005,7 @@ body[data-page="home"] .nav {
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--fg-dim);
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .contact-value {
@@ -983,16 +1033,10 @@ body[data-page="home"] .nav {
   font-family: var(--font-display);
 }
 
-/* FORMULAIRE */
-.contact-form-section {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 40px var(--padding-x) 100px;
-}
-
-.contact-form-intro {
-  text-align: center;
-  margin-bottom: 50px;
+/* Colonne formulaire */
+.contact-right .contact-form-intro {
+  text-align: left;
+  margin-bottom: 40px;
 }
 
 .contact-form-intro h2 {
@@ -1008,8 +1052,20 @@ body[data-page="home"] .nav {
   font-size: 14px;
   line-height: 1.7;
   color: var(--fg-muted);
-  max-width: 500px;
-  margin: 0 auto;
+}
+
+.contact-right .contact-form-intro p {
+  margin: 0;
+  max-width: none;
+}
+
+.form-photos-note {
+  margin-top: 12px !important;
+  font-size: 13px;
+  line-height: 1.7;
+  font-style: italic;
+  font-family: var(--font-display);
+  color: var(--fg-dim);
 }
 
 .contact-form {
@@ -1385,10 +1441,14 @@ body[data-page="home"] .nav {
   }
 
   /* Contact */
-  .contact-info-grid {
+  .contact-layout {
     grid-template-columns: 1fr;
-    gap: 40px;
-    padding: 40px 0;
+    gap: 48px;
+    padding: 10px var(--padding-x-mobile) 60px;
+  }
+
+  .contact-details {
+    gap: 28px 18px;
   }
 
   .form-row {
