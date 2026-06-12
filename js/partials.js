@@ -1,7 +1,7 @@
 /* ============================================
    NUIT NOIRE TATTOO — partials.js
-   Injecte nav + footer sur toutes les pages.
-   Le footer est ensuite enrichi avec settings.json.
+   Injecte nav + footer + bouton contact (FAB) sur toutes les pages.
+   Footer et FAB sont ensuite enrichis avec settings.json.
    ============================================ */
 
 (function () {
@@ -32,11 +32,61 @@
 
   const FOOTER_HTML = `
     <footer class="footer">
-      <span id="footer-address">Rue de —, Genève</span>
-      <a href="#" target="_blank" rel="noopener" id="footer-instagram">Instagram</a>
-      <span id="footer-years">Since 2010</span>
+      <div class="footer-icons">
+        <a href="mailto:info@nuitnoiretattoo.com" id="footer-icon-mail" aria-label="Envoyer un email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="M3 7l9 6 9-6"/></svg>
+        </a>
+        <a href="https://instagram.com/nuitnoiretattoo" target="_blank" rel="noopener" id="footer-icon-instagram" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.8" fill="currentColor" stroke="none"/></svg>
+        </a>
+      </div>
+
+      <p class="footer-line">
+        <a href="tel:+41223411882" id="footer-phone" class="footer-strong">+41 (0)22 341 18 82</a>
+        <span class="footer-sep" aria-hidden="true">|</span>
+        <span id="footer-hours">lun - sam : 10h30 - 17h30</span>
+        <span class="footer-sep" aria-hidden="true">|</span>
+        <span id="footer-hours-note">dim : fermé</span>
+        <span class="footer-sep" aria-hidden="true">|</span>
+        <a href="mailto:info@nuitnoiretattoo.com" id="footer-email">info@nuitnoiretattoo.com</a>
+      </p>
+
+      <p class="footer-line">
+        <span class="footer-strong">Nuit Noire Tattoo</span>
+        <span class="footer-sep" aria-hidden="true">|</span>
+        <span id="footer-address">Chemin des coquelicots, 7 - 1214 - Vernier - Switzerland.</span>
+      </p>
+
       <a href="https://thibaudpages.com" target="_blank" rel="noopener" class="footer-credit">Designed by Thibaud Pagès</a>
     </footer>
+  `;
+
+  const FAB_HTML = `
+    <div class="fab" id="fab">
+      <div class="fab-hours-popover" id="fab-hours-popover" hidden>
+        <p id="fab-hours-text">lun - sam : 10h30 - 17h30<br>dim : fermé</p>
+      </div>
+
+      <div class="fab-actions">
+        <a class="fab-action" id="fab-mail" href="mailto:info@nuitnoiretattoo.com" aria-label="Envoyer un email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="M3 7l9 6 9-6"/></svg>
+        </a>
+        <a class="fab-action" id="fab-phone" href="tel:+41223411882" aria-label="Appeler le shop">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a12 12 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"/></svg>
+        </a>
+        <a class="fab-action" href="contact.html#map" aria-label="Voir le plan d'accès">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M12 21s7-6.1 7-11a7 7 0 10-14 0c0 4.9 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+        </a>
+        <button type="button" class="fab-action" id="fab-hours-btn" aria-label="Voir les horaires" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+        </button>
+      </div>
+
+      <button type="button" class="fab-toggle" id="fab-toggle" aria-expanded="false" aria-label="Contact rapide">
+        <svg class="fab-icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="M3 7l9 6 9-6"/></svg>
+        <svg class="fab-icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
   `;
 
   function injectPartials() {
@@ -45,6 +95,10 @@
 
     const footerMount = document.getElementById('footer-mount');
     if (footerMount) footerMount.outerHTML = FOOTER_HTML;
+
+    // Bouton contact flottant, présent sur toutes les pages
+    document.body.insertAdjacentHTML('beforeend', FAB_HTML);
+    initFab();
 
     // Marquer le lien actif
     const currentPage = document.body.dataset.page;
@@ -67,11 +121,12 @@
       console.warn('Impossible de charger la liste des artistes pour le dropdown', err);
     }
 
-    // Réglages du footer
+    // Réglages du footer et du bouton contact
     try {
       const response = await fetch('data/settings.json');
       const settings = await response.json();
       populateFooter(settings);
+      populateFab(settings);
     } catch (err) {
       console.warn('Impossible de charger les réglages', err);
     }
@@ -144,14 +199,97 @@
     });
   }
 
+  // ============================================
+  // FOOTER
+  // ============================================
   function populateFooter(settings) {
-    const address = document.getElementById('footer-address');
-    const insta = document.getElementById('footer-instagram');
-    const years = document.getElementById('footer-years');
+    const textMap = {
+      'footer-phone': settings.footer_phone,
+      'footer-hours': settings.footer_hours,
+      'footer-hours-note': settings.footer_hours_note,
+      'footer-email': settings.footer_email,
+      'footer-address': settings.footer_address
+    };
+    Object.keys(textMap).forEach(id => {
+      const el = document.getElementById(id);
+      if (el && textMap[id]) el.textContent = textMap[id];
+    });
 
-    if (address && settings.footer_address) address.textContent = settings.footer_address;
-    if (years && settings.footer_years) years.textContent = settings.footer_years;
-    if (insta && settings.instagram_url) insta.href = settings.instagram_url;
+    const phoneLink = document.getElementById('footer-phone');
+    if (phoneLink && settings.footer_phone) phoneLink.href = 'tel:' + telHref(settings.footer_phone);
+
+    const emailLink = document.getElementById('footer-email');
+    if (emailLink && settings.footer_email) emailLink.href = 'mailto:' + settings.footer_email;
+
+    const iconMail = document.getElementById('footer-icon-mail');
+    if (iconMail && settings.footer_email) iconMail.href = 'mailto:' + settings.footer_email;
+
+    const iconInsta = document.getElementById('footer-icon-instagram');
+    if (iconInsta && settings.instagram_url) iconInsta.href = settings.instagram_url;
+  }
+
+  // ============================================
+  // FAB — bouton contact flottant
+  // ============================================
+  function populateFab(settings) {
+    const mail = document.getElementById('fab-mail');
+    if (mail && settings.footer_email) mail.href = 'mailto:' + settings.footer_email;
+
+    const phone = document.getElementById('fab-phone');
+    if (phone && settings.footer_phone) phone.href = 'tel:' + telHref(settings.footer_phone);
+
+    const hoursText = document.getElementById('fab-hours-text');
+    if (hoursText && (settings.footer_hours || settings.footer_hours_note)) {
+      hoursText.innerHTML = [settings.footer_hours, settings.footer_hours_note]
+        .filter(Boolean)
+        .map(escapeHtml)
+        .join('<br>');
+    }
+  }
+
+  function initFab() {
+    const fab = document.getElementById('fab');
+    const toggle = document.getElementById('fab-toggle');
+    const hoursBtn = document.getElementById('fab-hours-btn');
+    const popover = document.getElementById('fab-hours-popover');
+    if (!fab || !toggle) return;
+
+    function hidePopover() {
+      if (popover) popover.hidden = true;
+      if (hoursBtn) hoursBtn.setAttribute('aria-expanded', 'false');
+    }
+
+    function closeFab() {
+      fab.classList.remove('is-open');
+      toggle.setAttribute('aria-expanded', 'false');
+      hidePopover();
+    }
+
+    toggle.addEventListener('click', () => {
+      const isOpen = fab.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', String(isOpen));
+      if (!isOpen) hidePopover();
+    });
+
+    if (hoursBtn && popover) {
+      hoursBtn.addEventListener('click', () => {
+        popover.hidden = !popover.hidden;
+        hoursBtn.setAttribute('aria-expanded', String(!popover.hidden));
+      });
+    }
+
+    // Fermer si on clique en dehors ou avec Échap
+    document.addEventListener('click', (e) => {
+      if (!fab.contains(e.target)) closeFab();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeFab();
+    });
+  }
+
+  // Convertit "+41 (0)22 341 18 82" en "+41223411882" pour le lien tel:
+  function telHref(phone) {
+    return String(phone).replace(/\(0\)/g, '').replace(/[^+\d]/g, '');
   }
 
   function escapeHtml(str) {
