@@ -83,7 +83,7 @@
 
     const sorted = artists.sort((a, b) => (a.order || 999) - (b.order || 999));
     const items = sorted.map(a => `
-      <li><a href="artists.html#${a.id}">${escapeHtml(a.name)}</a></li>
+      <li><a href="artists.html#${a.id}"${a.guest ? ' class="is-guest"' : ''}>${escapeHtml(a.name)}</a></li>
     `).join('');
 
     dropdown.innerHTML = items + `
