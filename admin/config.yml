@@ -422,7 +422,45 @@ collections:
             hint: "Petite phrase affichée sous l'intro du formulaire. Laisser vide pour masquer."
 
   # -----------------------------------------------------------
-  # 5. RÉGLAGES GLOBAUX
+  # 5. FAQ
+  # -----------------------------------------------------------
+  - name: "faq"
+    label: "❓ FAQ"
+    description: "Questions fréquentes affichées sur la page FAQ."
+    delete: false
+    files:
+      - name: "faq_page"
+        label: "Page FAQ"
+        file: "data/faq.json"
+        fields:
+          - label: "Étiquette (eyebrow)"
+            name: "eyebrow"
+            widget: "string"
+            default: "Questions fréquentes"
+          - label: "Titre"
+            name: "title"
+            widget: "string"
+            default: "FAQ"
+          - label: "Sous-titre"
+            name: "subtitle"
+            widget: "string"
+            default: "Réponses aux questions fréquentes."
+          - label: "Questions"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.question}}"
+            hint: "Tu peux ajouter, supprimer et réorganiser les questions par glisser-déposer."
+            fields:
+              - label: "Question"
+                name: "question"
+                widget: "string"
+              - label: "Réponse"
+                name: "answer"
+                widget: "text"
+                hint: "Pour insérer un lien : [texte affiché](adresse). Ex. [email](contact.html) ou [appelez-nous](tel:+41223411882)."
+
+  # -----------------------------------------------------------
+  # 6. RÉGLAGES GLOBAUX
   # -----------------------------------------------------------
   - name: "settings"
     label: "⚙️ Réglages généraux"
