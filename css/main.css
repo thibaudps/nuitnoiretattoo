@@ -421,7 +421,7 @@ body[data-page="home"] .nav {
    FOOTER
    ============================================ */
 .footer {
-  padding: 48px var(--padding-x) 32px;
+  padding: 36px var(--padding-x) 28px;
   border-top: 0.5px solid var(--border);
   display: flex;
   flex-direction: column;
@@ -439,21 +439,6 @@ body[data-page="home"] .nav {
 
 .footer a:hover {
   color: var(--fg);
-}
-
-.footer-icons {
-  display: flex;
-  gap: 24px;
-  margin-bottom: 8px;
-}
-
-.footer-icons a {
-  color: var(--fg-muted);
-}
-
-.footer-icons svg {
-  width: 22px;
-  height: 22px;
 }
 
 .footer-line {
@@ -587,6 +572,7 @@ body[data-page="home"] .nav {
 .fab.is-open .fab-action:nth-last-child(2) { transition-delay: 0.05s; }
 .fab.is-open .fab-action:nth-last-child(3) { transition-delay: 0.1s; }
 .fab.is-open .fab-action:nth-last-child(4) { transition-delay: 0.15s; }
+.fab.is-open .fab-action:nth-last-child(5) { transition-delay: 0.2s; }
 
 .fab-hours-popover {
   position: absolute;
