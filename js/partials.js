@@ -61,6 +61,7 @@
   const FAB_HTML = `
     <div class="fab" id="fab">
       <div class="fab-hours-popover" id="fab-hours-popover" hidden>
+        <p class="fab-status" id="fab-status" hidden><span class="fab-status-dot" aria-hidden="true"></span><span id="fab-status-text"></span></p>
         <p id="fab-hours-text">lun - sam : 10h30 - 17h30<br>dim : fermé</p>
       </div>
 
@@ -228,7 +229,11 @@
   // ============================================
   // FAB — bouton contact flottant
   // ============================================
+  let fabSettings = null;
+
   function populateFab(settings) {
+    fabSettings = settings;
+
     const mail = document.getElementById('fab-mail');
     if (mail && settings.footer_email) mail.href = 'mailto:' + settings.footer_email;
 
@@ -241,6 +246,50 @@
         .filter(Boolean)
         .map(escapeHtml)
         .join('<br>');
+    }
+  }
+
+  // Badge Open/Closed calculé sur l'heure actuelle à Vernier (Europe/Zurich)
+  function updateFabStatus() {
+    const wrap = document.getElementById('fab-status');
+    if (!wrap) return;
+
+    const s = fabSettings;
+    if (!s || !s.open_from || !s.open_until || !Array.isArray(s.open_days) || s.open_days.length === 0) {
+      wrap.hidden = true;
+      return;
+    }
+
+    try {
+      const parts = new Intl.DateTimeFormat('en-GB', {
+        timeZone: 'Europe/Zurich',
+        weekday: 'short',
+        hour: '2-digit',
+        minute: '2-digit',
+        hourCycle: 'h23'
+      }).formatToParts(new Date());
+
+      const get = type => (parts.find(p => p.type === type) || {}).value;
+      const dayMap = { Sun: '0', Mon: '1', Tue: '2', Wed: '3', Thu: '4', Fri: '5', Sat: '6' };
+      const day = dayMap[get('weekday')];
+      const nowMin = parseInt(get('hour'), 10) * 60 + parseInt(get('minute'), 10);
+
+      const toMin = str => {
+        const bits = String(str).split(':');
+        return parseInt(bits[0], 10) * 60 + (parseInt(bits[1], 10) || 0);
+      };
+
+      const isOpen = s.open_days.map(String).includes(day)
+        && nowMin >= toMin(s.open_from)
+        && nowMin < toMin(s.open_until);
+
+      wrap.hidden = false;
+      wrap.classList.toggle('is-open-now', isOpen);
+      wrap.classList.toggle('is-closed-now', !isOpen);
+      const txt = document.getElementById('fab-status-text');
+      if (txt) txt.textContent = isOpen ? 'Open' : 'Closed';
+    } catch (err) {
+      wrap.hidden = true;
     }
   }
 
@@ -265,13 +314,18 @@
     toggle.addEventListener('click', () => {
       const isOpen = fab.classList.toggle('is-open');
       toggle.setAttribute('aria-expanded', String(isOpen));
-      if (!isOpen) hidePopover();
+      if (isOpen) {
+        updateFabStatus();
+      } else {
+        hidePopover();
+      }
     });
 
     if (hoursBtn && popover) {
       hoursBtn.addEventListener('click', () => {
         popover.hidden = !popover.hidden;
         hoursBtn.setAttribute('aria-expanded', String(!popover.hidden));
+        if (!popover.hidden) updateFabStatus();
       });
     }
 

@@ -86,14 +86,13 @@
   function renderGuestSection(artist) {
     return `
       <section class="artist-section guest-section" id="${artist.id}">
-        <p class="artist-role">${escapeHtml(artist.role || 'Guests')}</p>
         <h2 class="artist-name guest-name">${escapeHtml(artist.name)}</h2>
         <div class="guest-image">
           ${artist.portrait
             ? `<img src="${artist.portrait}" alt="${escapeHtml(artist.name)}" loading="lazy" onerror="this.style.display='none'; this.parentElement.classList.add('no-image');" />`
             : ''}
         </div>
-        <p class="guest-text">${escapeHtml(artist.bio || '')}</p>
+        ${artist.bio ? `<p class="guest-text">${escapeHtml(artist.bio)}</p>` : ''}
         ${artist.instagram ? `
           <a href="https://instagram.com/${artist.instagram}" target="_blank" rel="noopener" class="artist-instagram">
             @${escapeHtml(artist.instagram)} ↗
