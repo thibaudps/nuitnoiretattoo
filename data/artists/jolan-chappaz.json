@@ -1,10 +1,11 @@
 {
-  "id": "jolan-chappaz",
-  "name": "Jolan Chappaz",
-  "role": "Résident",
+  "bio_en": "Jolan Chappaz is an artist apart, a poet who expresses himself on skin as on many other surfaces. Unlike the other members of the shop, he uses no machine: a single needle at his fingertips is enough. His inspirations: traditional tattooing, the early-20th-century French school, folk art and his Swiss mountains. Calm and reserved at first glance, Jolan hides a teeming imagination and an approach to tattooing that is as unique as it is classic, as simple as it is complex. He gives his clients timeless pieces, shaped with patience and poetry.",
   "bio": "Jolan Chappaz est un artiste à part, un poète qui s’exprime aussi bien sur la peau que sur de multiples supports. Contrairement aux autres membres du shop, il n’utilise pas de machine : une simple aiguille au bout des doigts suffit. Ses inspirations : le tatouage traditionnel, l’école française du début du XXᵉ siècle, l’art folklorique ou encore ses montagnes suisses. Calme et réservé au premier abord, Jolan cache une imagination foisonnante, une approche du tatouage aussi unique que classique, aussi simple que complexe. Il offre à ses clients des pièces intemporelles, façonnées avec patience et poésie.",
-  "portrait": "/assets/uploads/jolan.webp",
-  "instagram": "jolan_chappaz",
   "portfolio": [],
-  "order": 7
+  "name": "Jolan Chappaz",
+  "order": 7,
+  "instagram": "jolan_chappaz",
+  "role": "Résident",
+  "id": "jolan-chappaz",
+  "portrait": "/assets/uploads/jolan.webp"
 }
