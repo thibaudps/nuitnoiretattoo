@@ -1,10 +1,11 @@
 {
-  "id": "lou-dc",
-  "name": "Lou DC",
-  "role": "Résidente",
+  "bio_en": "Lou DC has been part of the Nuit Noire Tattoo team for many years. Inspired by American Traditional, she has made the style her own by adding a colourful, folk-tinged touch, giving rise to tattoos that are both delicate and assertive. Lou looks after her clients, guiding each project with sensitivity. Her pieces, solid and expressive, are made to stand the test of time.",
   "bio": "Lou DC fait partie de l’équipe de Nuit Noire Tattoo depuis de nombreuses années. Inspirée par le Traditionnel Américain, elle a su s’approprier ce style en y ajoutant une touche folklorique et colorée, donnant naissance à des tatouages à la fois délicats et affirmés. Lou prend soin de ses clients, guidant chaque démarche avec sensibilité. Ses pièces, solides et expressives, sont pensées pour traverser le temps.",
-  "portrait": "/assets/uploads/lou.webp",
-  "instagram": "lou_dctattoos",
   "portfolio": [],
-  "order": 3
+  "name": "Lou DC",
+  "order": 3,
+  "instagram": "lou_dctattoos",
+  "role": "Résidente",
+  "id": "lou-dc",
+  "portrait": "/assets/uploads/lou.webp"
 }
