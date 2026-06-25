@@ -1687,3 +1687,47 @@ body[data-page="home"] .nav {
     grid-template-columns: 1fr;
   }
 }
+
+/* ============================================
+   SELECTEUR DE LANGUE (FR / EN) - navbar
+   ============================================ */
+.nav-lang {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.nav-lang-btn {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  background: none;
+  border: none;
+  padding: 6px 0;
+  cursor: pointer;
+  transition: color var(--t-fast);
+  line-height: 1;
+}
+
+.nav-lang-btn:hover {
+  color: var(--fg-muted);
+}
+
+.nav-lang-btn.is-active {
+  color: var(--fg);
+}
+
+.nav-lang-sep {
+  font-size: 10px;
+  color: var(--fg-dim);
+  user-select: none;
+}
+
+@media (max-width: 480px) {
+  .nav-lang-btn {
+    font-size: 9.5px;
+  }
+}
