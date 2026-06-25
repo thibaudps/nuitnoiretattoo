@@ -131,6 +131,26 @@ body[data-page="home"] .nav {
   transform: translateY(1px);
 }
 
+/* Bouton MENU : visible uniquement sur mobile (voir media query) */
+.nav-burger {
+  display: none;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  background: none;
+  border: none;
+  padding: 6px 0;
+  cursor: pointer;
+  transition: color var(--t-fast);
+}
+
+.nav.is-open .nav-burger {
+  color: var(--fg);
+}
+
 /* DROPDOWN ARTISTS — ouverture pilotée en JS (classe is-open) */
 .nav-item-dropdown {
   position: relative;
@@ -629,22 +649,75 @@ body[data-page="home"] .nav {
     padding: 16px var(--padding-x-mobile);
   }
 
+  /* Bouton MENU visible, liens repliés dans un panneau */
+  .nav-burger {
+    display: inline-flex;
+  }
+
+  /* Le panneau s'ouvre comme un petit cadre sous le bouton MENU, aligné à droite */
   .nav-menu {
-    gap: 20px;
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    left: auto;
+    flex-direction: column;
+    gap: 0;
+    min-width: 200px;
+    max-width: 72vw;
+    background: var(--bg);
+    border: 0.5px solid var(--border-strong);
+    padding: 0;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-6px);
+    pointer-events: none;
+    transition: max-height 0.32s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.22s ease,
+                transform 0.3s ease;
+  }
+
+  .nav.is-open .nav-menu {
+    max-height: 75vh;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .nav-menu > li {
+    width: 100%;
+    border-top: 0.5px solid var(--border);
+  }
+
+  .nav-menu > li:first-child {
+    border-top: none;
   }
 
   .nav-link {
-    font-size: 10px;
-    letter-spacing: 0.18em;
+    display: flex;
+    width: 100%;
+    padding: 14px 22px;
+    font-size: 11px;
+    letter-spacing: 0.2em;
   }
 
-  /* Sur mobile, on cache le dropdown — le clic emmène à la page artists */
+  /* Sur mobile, on cache le sous-menu — le clic emmène à la page artists */
   .nav-dropdown {
     display: none;
   }
 
   .nav-chevron {
     display: none;
+  }
+
+  /* Pastille langue : centrée dans le cadre */
+  .nav-lang {
+    justify-content: center;
+    padding: 14px 22px;
+  }
+
+  .nav-lang-btn {
+    padding: 4px 6px;
   }
 
   .hero-carousel {
@@ -694,12 +767,8 @@ body[data-page="home"] .nav {
 }
 
 @media (max-width: 480px) {
-  .nav-menu {
-    gap: 14px;
-  }
-
-  .nav-link {
-    font-size: 9.5px;
+  .nav-lang-btn {
+    font-size: 10px;
   }
 }
 
