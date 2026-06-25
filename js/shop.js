@@ -1,14 +1,30 @@
 /* ============================================
    NUIT NOIRE TATTOO - shop.js
    Charge data/shop-page.json (en-tête) + data/products/_index.json (produits)
+   Bilingue FR/EN via window.NN.
    ============================================ */
 
 (function () {
   'use strict';
 
+  const T = (window.NN && window.NN.t) ? window.NN.t : (v => (v && v.fr) || v || '');
+  const UI = (window.NN && window.NN.ui) ? window.NN.ui : (() => '');
+
+  // Champs a deux variantes (ex. description + description_en) : anglais si dispo
+  // et langue = en, sinon francais. Tolere aussi un objet {fr,en}.
+  function pick(base, en) {
+    if (base && typeof base === 'object') return T(base);
+    const lang = window.NN ? window.NN.lang : 'fr';
+    if (lang === 'en' && en) return en;
+    return base || '';
+  }
+
   let allProducts = [];
 
   async function loadPage() {
+    if (window.NN && window.NN.ready) {
+      try { await window.NN.ready; } catch (e) { /* on continue */ }
+    }
     try {
       const [pageResponse, indexResponse] = await Promise.all([
         fetch('data/shop-page.json'),
@@ -24,7 +40,7 @@
     } catch (err) {
       console.error('Erreur de chargement de la page shop', err);
       const grid = document.getElementById('shop-grid');
-      if (grid) grid.innerHTML = '<p class="error-message">Impossible de charger la boutique pour le moment.</p>';
+      if (grid) grid.innerHTML = `<p class="error-message">${escapeHtml(UI('err_shop'))}</p>`;
     }
   }
 
@@ -35,11 +51,11 @@
     const orderInfo = document.getElementById('order-info');
     const flashInfo = document.getElementById('flash-info');
 
-    if (eyebrow) eyebrow.textContent = page.eyebrow || '';
-    if (title) title.textContent = page.title || 'Shop';
-    if (subtitle) subtitle.textContent = page.subtitle || '';
-    if (orderInfo) orderInfo.textContent = page.order_info || '';
-    if (flashInfo) flashInfo.textContent = page.flash_info || '';
+    if (eyebrow) eyebrow.textContent = T(page.eyebrow) || '';
+    if (title) title.textContent = T(page.title) || 'Shop';
+    if (subtitle) subtitle.textContent = T(page.subtitle) || '';
+    if (orderInfo) orderInfo.textContent = T(page.order_info) || '';
+    if (flashInfo) flashInfo.textContent = T(page.flash_info) || '';
   }
 
   function renderProducts(products) {
@@ -58,19 +74,20 @@
 
   function renderProduct(p) {
     const soldOut = p.available === false;
+    const by = UI('shop_by') || 'par';
     return `
       <article class="product-card ${soldOut ? 'is-sold-out' : ''}">
         <div class="product-image">
           ${p.image
             ? `<img src="${p.image}" alt="${escapeHtml(p.name)}" loading="lazy" onerror="this.style.display='none'; this.parentElement.classList.add('no-image');" />`
             : ''}
-          ${soldOut ? '<span class="product-badge">Réservé</span>' : ''}
+          ${soldOut ? `<span class="product-badge">${escapeHtml(UI('shop_reserved'))}</span>` : ''}
         </div>
         <div class="product-info">
           <p class="product-category">${labelCategory(p.category)}</p>
           <h3 class="product-name">${escapeHtml(p.name)}</h3>
-          <p class="product-artist">par ${escapeHtml(p.artist || '')}</p>
-          ${p.description ? `<p class="product-description">${escapeHtml(p.description)}</p>` : ''}
+          <p class="product-artist">${escapeHtml(by)} ${escapeHtml(p.artist || '')}</p>
+          ${pick(p.description, p.description_en) ? `<p class="product-description">${escapeHtml(pick(p.description, p.description_en))}</p>` : ''}
           <p class="product-price">${escapeHtml(p.price || '')}</p>
         </div>
       </article>
@@ -78,8 +95,9 @@
   }
 
   function labelCategory(c) {
-    const labels = { flash: 'Flash', print: 'Tirage', merch: 'Merch' };
-    return labels[c] || c;
+    const keys = { flash: 'cat_flash', print: 'cat_print', merch: 'cat_merch' };
+    const key = keys[c];
+    return key ? escapeHtml(UI(key) || c) : escapeHtml(c || '');
   }
 
   function initFilters() {

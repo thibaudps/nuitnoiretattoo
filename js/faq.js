@@ -1,13 +1,18 @@
 /* ============================================
    NUIT NOIRE TATTOO - faq.js
-   Charge data/faq.json (en-tête + questions/réponses)
+   Charge data/faq.json (en-tete + questions/reponses)
+   Bilingue : contenu via NN.t({fr,en}), interface via NN.ui(key)
    ============================================ */
 
 (function () {
   'use strict';
 
+  const T = (v) => (window.NN ? window.NN.t(v) : (typeof v === 'string' ? v : (v && (v.fr || v.en)) || ''));
+  const UI = (k) => (window.NN ? window.NN.ui(k) : '');
+
   async function loadPage() {
     try {
+      if (window.NN && window.NN.ready) { await window.NN.ready; }
       const response = await fetch('data/faq.json');
       const data = await response.json();
       renderHeader(data);
@@ -15,7 +20,7 @@
     } catch (err) {
       console.error('Erreur de chargement de la page FAQ', err);
       const list = document.getElementById('faq-list');
-      if (list) list.innerHTML = '<p class="error-message">Impossible de charger la FAQ pour le moment.</p>';
+      if (list) list.innerHTML = `<p class="error-message">${escapeHtml(UI('err_faq'))}</p>`;
     }
   }
 
@@ -23,9 +28,9 @@
     const eyebrow = document.getElementById('page-eyebrow');
     const title = document.getElementById('page-title');
     const subtitle = document.getElementById('page-subtitle');
-    if (eyebrow) eyebrow.textContent = data.eyebrow || '';
-    if (title) title.textContent = data.title || 'FAQ';
-    if (subtitle) subtitle.textContent = data.subtitle || '';
+    if (eyebrow) eyebrow.textContent = T(data.eyebrow) || '';
+    if (title) title.textContent = T(data.title) || 'FAQ';
+    if (subtitle) subtitle.textContent = T(data.subtitle) || '';
   }
 
   function renderItems(items) {
@@ -33,20 +38,20 @@
     if (!container) return;
 
     container.innerHTML = items
-      .filter(item => item && item.question)
+      .filter(item => item && T(item.question))
       .map(item => `
         <details class="faq-item">
           <summary>
-            <span class="faq-question">${escapeHtml(item.question)}</span>
+            <span class="faq-question">${escapeHtml(T(item.question))}</span>
             <span class="faq-marker" aria-hidden="true">+</span>
           </summary>
-          <div class="faq-answer">${renderAnswer(item.answer || '')}</div>
+          <div class="faq-answer">${renderAnswer(T(item.answer) || '')}</div>
         </details>
       `).join('');
   }
 
-  // Échappe le HTML, puis convertit les liens [texte](url) et les retours à la ligne.
-  // Seuls les liens http(s), mailto, tel et relatifs (.html, #) sont autorisés.
+  // Echappe le HTML, puis convertit les liens [texte](url) et les retours a la ligne.
+  // Seuls les liens http(s), mailto, tel et relatifs (.html, #) sont autorises.
   function renderAnswer(text) {
     let html = escapeHtml(text);
     html = html.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (match, label, url) => {

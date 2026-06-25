@@ -1,16 +1,22 @@
 /* ============================================
    NUIT NOIRE TATTOO - contact.js
    Charge data/contact.json + data/artists/_index.json (pour le dropdown artistes)
-   Génère un mailto: pré-rempli depuis le formulaire
+   Genere un mailto: pre-rempli depuis le formulaire
+   Bilingue : textes de contenu via NN.t({fr,en}), interface via NN.ui(key)
    ============================================ */
 
 (function () {
   'use strict';
 
+  const T = (v) => (window.NN ? window.NN.t(v) : (typeof v === 'string' ? v : (v && (v.fr || v.en)) || ''));
+  const UI = (k) => (window.NN ? window.NN.ui(k) : '');
+
   let contactEmail = 'contact@nuitnoiretattoo.com';
 
   async function loadPage() {
     try {
+      if (window.NN && window.NN.ready) { await window.NN.ready; }
+
       const [contactResponse, artistsResponse] = await Promise.all([
         fetch('data/contact.json'),
         fetch('data/artists/_index.json')
@@ -25,7 +31,7 @@
 
       contactEmail = contact.email || contactEmail;
 
-      // Mettre à jour le lien fallback dans le formulaire
+      // Mettre a jour le lien fallback dans le formulaire
       const fallback = document.getElementById('fallback-email');
       if (fallback) {
         fallback.textContent = contactEmail;
@@ -42,9 +48,9 @@
     const eyebrow = document.getElementById('page-eyebrow');
     const title = document.getElementById('page-title');
     const subtitle = document.getElementById('page-subtitle');
-    if (eyebrow) eyebrow.textContent = c.eyebrow || '';
-    if (title) title.textContent = c.title || 'Contact';
-    if (subtitle) subtitle.textContent = c.subtitle || '';
+    if (eyebrow) eyebrow.textContent = T(c.eyebrow) || '';
+    if (title) title.textContent = T(c.title) || 'Contact';
+    if (subtitle) subtitle.textContent = T(c.subtitle) || '';
   }
 
   function renderInfo(c) {
@@ -54,7 +60,7 @@
     const direct = document.getElementById('contact-direct');
 
     if (address && c.address) {
-      address.innerHTML = textToHtml(c.address);
+      address.innerHTML = textToHtml(T(c.address));
     }
 
     if (phone) {
@@ -67,9 +73,10 @@
     }
 
     if (hours) {
-      let html = textToHtml(c.hours || '');
-      if (c.hours_note) {
-        html += `<br><span class="contact-meta">${escapeHtml(c.hours_note)}</span>`;
+      let html = textToHtml(T(c.hours) || '');
+      const note = T(c.hours_note);
+      if (note) {
+        html += `<br><span class="contact-meta">${escapeHtml(note)}</span>`;
       }
       hours.innerHTML = html;
     }
@@ -88,12 +95,12 @@
   }
 
   function renderAccess(c) {
-    setAccessLine('access-tpg', 'Accès TPG', c.access_tpg, 'https://www.tpg.ch/');
-    setAccessLine('access-cff', 'Accès CFF', c.access_cff, 'https://www.sbb.ch/');
-    setAccessLine('access-parking', 'Parking', c.parking);
+    setAccessLine('access-tpg', UI('access_tpg'), T(c.access_tpg), 'https://www.tpg.ch/');
+    setAccessLine('access-cff', UI('access_cff'), T(c.access_cff), 'https://www.sbb.ch/');
+    setAccessLine('access-parking', UI('access_parking'), T(c.parking));
 
-    // Masquer l'encart si aucune info d'accès n'est renseignée
-    if (!c.access_tpg && !c.access_cff && !c.parking) {
+    // Masquer l'encart si aucune info d'acces n'est renseignee
+    if (!T(c.access_tpg) && !T(c.access_cff) && !T(c.parking)) {
       const box = document.querySelector('.contact-access');
       if (box) box.hidden = true;
     }
@@ -122,11 +129,12 @@
     const title = document.getElementById('form-intro-title');
     const text = document.getElementById('form-intro-text');
     const photosNote = document.getElementById('form-photos-note');
-    if (title) title.textContent = c.form_intro_title || '';
-    if (text) text.textContent = c.form_intro_text || '';
+    if (title) title.textContent = T(c.form_intro_title) || '';
+    if (text) text.textContent = T(c.form_intro_text) || '';
     if (photosNote) {
-      if (c.form_photos_note) {
-        photosNote.textContent = c.form_photos_note;
+      const note = T(c.form_photos_note);
+      if (note) {
+        photosNote.textContent = note;
       } else {
         photosNote.hidden = true;
       }
@@ -146,22 +154,22 @@
   }
 
   // ============================================
-  // MAILTO
+  // MAILTO (corps genere dans la langue courante)
   // ============================================
   function buildMailto(data) {
     const subjectLine = `[${data.subject}] ${data.name}${data.artist ? ' - ' + data.artist : ''}`;
 
     const bodyLines = [
-      `Bonjour,`, ``,
-      `Nom : ${data.name}`,
-      `Email : ${data.email}`,
-      `Artiste souhaité : ${data.artist || 'Sans préférence'}`,
-      `Type de demande : ${data.subject}`, ``,
-      `Emplacement / taille : ${data.placement || '-'}`, ``,
-      `Description du projet :`,
+      UI('mail_greeting'), ``,
+      `${UI('mail_name')} : ${data.name}`,
+      `${UI('mail_email')} : ${data.email}`,
+      `${UI('mail_artist')} : ${data.artist || UI('mail_no_pref')}`,
+      `${UI('mail_subject')} : ${data.subject}`, ``,
+      `${UI('mail_placement')} : ${data.placement || '-'}`, ``,
+      UI('mail_description'),
       data.message, ``,
-      `Disponibilités : ${data.availability || '-'}`, ``,
-      `Cordialement,`, data.name
+      `${UI('mail_availability')} : ${data.availability || '-'}`, ``,
+      UI('mail_regards'), data.name
     ];
 
     const body = bodyLines.join('\n');
@@ -178,14 +186,17 @@
       const message = document.getElementById('form-message').value.trim();
 
       if (!name || !email || !message) {
-        alert('Merci de remplir au moins votre nom, votre email et la description du projet.');
+        alert(UI('form_validation'));
         return;
       }
+
+      const subjectSelect = document.getElementById('form-subject');
+      const subjectText = subjectSelect.options[subjectSelect.selectedIndex].textContent.trim();
 
       const data = {
         name, email,
         artist: document.getElementById('form-artist').value,
-        subject: document.getElementById('form-subject').value,
+        subject: subjectText,
         placement: document.getElementById('form-placement').value.trim(),
         message,
         availability: document.getElementById('form-availability').value.trim()

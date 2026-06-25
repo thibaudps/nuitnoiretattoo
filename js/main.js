@@ -1,10 +1,13 @@
 /* ============================================
    NUIT NOIRE TATTOO - main.js (page d'accueil)
-   Contenu chargé depuis data/home.json (géré via CMS)
+   Contenu chargé depuis data/home.json (géré via CMS, bilingue FR/EN)
    ============================================ */
 
 (function () {
   'use strict';
+
+  // Helper langue (fallback identité si i18n.js absent)
+  const T = (window.NN && window.NN.t) ? window.NN.t : (v => (v && v.fr) || v || '');
 
   // Timings
   const SLIDE_DURATION = 4000;
@@ -25,7 +28,7 @@
       const slide = document.createElement('div');
       slide.className = 'hero-slide';
       slide.dataset.slide = String(i + 1);
-      slide.innerHTML = `<p class="hero-phrase">${escapeHtml(phrase.text)}</p>`;
+      slide.innerHTML = `<p class="hero-phrase">${escapeHtml(T(phrase.text))}</p>`;
       carousel.appendChild(slide);
     });
 
@@ -152,11 +155,11 @@
 
       // Texte de présentation
       const introEl = document.getElementById('intro-text');
-      if (introEl && data.intro_text) introEl.textContent = data.intro_text;
+      if (introEl && data.intro_text) introEl.textContent = T(data.intro_text);
 
       // Titre Latest work
       const titleEl = document.getElementById('latest-work-title');
-      if (titleEl && data.latest_work_title) titleEl.textContent = data.latest_work_title;
+      if (titleEl && data.latest_work_title) titleEl.textContent = T(data.latest_work_title);
 
       // Handle Instagram
       const handleEl = document.getElementById('latest-work-handle');
@@ -175,8 +178,8 @@
       initCarousel();
     } catch (err) {
       console.error('Impossible de charger home.json', err);
-      // Fallback : phrases par défaut
-      phrases = [{ text: 'Here we do great quality tattoos.' }];
+      // Fallback : une phrase par défaut
+      phrases = [{ text: { fr: 'Ici, on fait du tatouage de qualité.', en: 'Here we make great quality tattoos.' } }];
       buildCarouselSlides();
       initCarousel();
     }
@@ -195,7 +198,7 @@
 
     grid.innerHTML = visible.map(item => `
       <a href="${item.link || '#'}" class="work-item" ${item.link ? 'target="_blank" rel="noopener"' : ''}>
-        <img src="${item.image}" alt="${escapeHtml(item.alt || 'Tatouage Nuit Noire')}" loading="lazy" />
+        <img src="${item.image}" alt="${escapeHtml(T(item.alt) || 'Tatouage Nuit Noire')}" loading="lazy" />
       </a>
     `).join('');
   }

@@ -1,12 +1,28 @@
 /* ============================================
    NUIT NOIRE TATTOO - artists.js
    Charge data/artists-page.json (en-tête) + data/artists/_index.json (artistes)
+   Bilingue FR/EN via window.NN.
    ============================================ */
 
 (function () {
   'use strict';
 
+  const T = (window.NN && window.NN.t) ? window.NN.t : (v => (v && v.fr) || v || '');
+  const UI = (window.NN && window.NN.ui) ? window.NN.ui : (() => '');
+
+  // Champs a deux variantes (ex. bio + bio_en) : renvoie l'anglais si dispo et
+  // langue = en, sinon le francais. Tolere aussi un objet {fr,en} le cas echeant.
+  function pick(base, en) {
+    if (base && typeof base === 'object') return T(base);
+    const lang = window.NN ? window.NN.lang : 'fr';
+    if (lang === 'en' && en) return en;
+    return base || '';
+  }
+
   async function loadPage() {
+    if (window.NN && window.NN.ready) {
+      try { await window.NN.ready; } catch (e) { /* on continue */ }
+    }
     try {
       const [pageResponse, indexResponse] = await Promise.all([
         fetch('data/artists-page.json'),
@@ -26,7 +42,7 @@
     } catch (err) {
       console.error('Erreur de chargement de la page artistes', err);
       const list = document.getElementById('artists-list');
-      if (list) list.innerHTML = '<p class="error-message">Impossible de charger les artistes pour le moment.</p>';
+      if (list) list.innerHTML = `<p class="error-message">${escapeHtml(UI('err_artists'))}</p>`;
     }
   }
 
@@ -34,9 +50,26 @@
     const eyebrow = document.getElementById('page-eyebrow');
     const title = document.getElementById('page-title');
     const subtitle = document.getElementById('page-subtitle');
-    if (eyebrow) eyebrow.textContent = page.eyebrow || '';
-    if (title) title.textContent = page.title || 'Artists';
-    if (subtitle) subtitle.textContent = page.subtitle || '';
+    if (eyebrow) eyebrow.textContent = T(page.eyebrow) || '';
+    if (title) title.textContent = T(page.title) || 'Artists';
+    if (subtitle) subtitle.textContent = T(page.subtitle) || '';
+  }
+
+  // Affiche le rôle traduit. En FR on garde la valeur saisie ;
+  // en EN on traduit les valeurs connues du select.
+  function roleLabel(role) {
+    if (!role) return '';
+    if (window.NN && window.NN.lang === 'fr') return role;
+    const map = {
+      'Fondateur': 'role_fondateur',
+      'Fondatrice': 'role_fondatrice',
+      'Résident': 'role_resident',
+      'Résidente': 'role_residente',
+      'Invité': 'role_invite',
+      'Invitée': 'role_invitee'
+    };
+    const key = map[role];
+    return key ? (UI(key) || role) : role;
   }
 
   function renderQuickNav(artists) {
@@ -68,9 +101,9 @@
               : ''}
           </div>
           <div class="artist-info">
-            <p class="artist-role">${escapeHtml(artist.role || '')}</p>
+            <p class="artist-role">${escapeHtml(roleLabel(artist.role))}</p>
             <h2 class="artist-name">${escapeHtml(artist.name)}</h2>
-            <p class="artist-bio">${escapeHtml(artist.bio || '')}</p>
+            <p class="artist-bio">${escapeHtml(pick(artist.bio, artist.bio_en))}</p>
             ${artist.instagram ? `
               <a href="https://instagram.com/${artist.instagram}" target="_blank" rel="noopener" class="artist-instagram">
                 @${escapeHtml(artist.instagram)} ↗
@@ -92,7 +125,7 @@
             ? `<img src="${artist.portrait}" alt="${escapeHtml(artist.name)}" loading="lazy" onerror="this.style.display='none'; this.parentElement.classList.add('no-image');" />`
             : ''}
         </div>
-        ${artist.bio ? `<p class="guest-text">${escapeHtml(artist.bio)}</p>` : ''}
+        ${pick(artist.bio, artist.bio_en) ? `<p class="guest-text">${escapeHtml(pick(artist.bio, artist.bio_en))}</p>` : ''}
         ${artist.instagram ? `
           <a href="https://instagram.com/${artist.instagram}" target="_blank" rel="noopener" class="artist-instagram">
             @${escapeHtml(artist.instagram)} ↗
@@ -124,7 +157,7 @@
         <div class="artist-portfolio-grid">
           ${items.map(img => `
             <div class="work-item">
-              <img src="${img.src || img}" alt="${escapeHtml(img.alt || 'Tatouage')}" loading="lazy" />
+              <img src="${img.src || img}" alt="${escapeHtml(T(img.alt) || 'Tatouage')}" loading="lazy" />
             </div>
           `).join('')}
         </div>

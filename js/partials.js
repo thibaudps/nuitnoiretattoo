@@ -1,7 +1,7 @@
 /* ============================================
    NUIT NOIRE TATTOO - partials.js
-   Injecte nav + footer + bouton contact (FAB) sur toutes les pages.
-   Footer et FAB sont ensuite enrichis avec settings.json.
+   Injecte nav (+ pastille langue) + footer + bouton contact (FAB) sur toutes les pages.
+   Footer et FAB sont ensuite enrichis avec settings.json (bilingue via NN.t).
    ============================================ */
 
 (function () {
@@ -27,6 +27,11 @@
         <li><a href="shop.html" class="nav-link" data-page="shop">Shop</a></li>
         <li><a href="faq.html" class="nav-link" data-page="faq">FAQ</a></li>
         <li><a href="contact.html" class="nav-link" data-page="contact">Contact</a></li>
+        <li class="nav-lang" id="nav-lang">
+          <button type="button" class="nav-lang-btn" data-lang="fr" aria-label="Français">FR</button>
+          <span class="nav-lang-sep" aria-hidden="true">/</span>
+          <button type="button" class="nav-lang-btn" data-lang="en" aria-label="English">EN</button>
+        </li>
       </ul>
     </nav>
   `;
@@ -57,24 +62,24 @@
       </div>
 
       <div class="fab-actions">
-        <a class="fab-action" id="fab-instagram" href="https://instagram.com/nuitnoiretattoo" target="_blank" rel="noopener" aria-label="Instagram">
+        <a class="fab-action" id="fab-instagram" href="https://instagram.com/nuitnoiretattoo" target="_blank" rel="noopener" data-i18n-aria="fab_instagram" aria-label="Instagram">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.8" fill="currentColor" stroke="none"/></svg>
         </a>
-        <a class="fab-action" id="fab-mail" href="mailto:info@nuitnoiretattoo.com" aria-label="Envoyer un email">
+        <a class="fab-action" id="fab-mail" href="mailto:info@nuitnoiretattoo.com" data-i18n-aria="fab_mail" aria-label="Envoyer un email">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="M3 7l9 6 9-6"/></svg>
         </a>
-        <a class="fab-action" id="fab-phone" href="tel:+41223411882" aria-label="Appeler le shop">
+        <a class="fab-action" id="fab-phone" href="tel:+41223411882" data-i18n-aria="fab_phone" aria-label="Appeler le shop">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a12 12 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"/></svg>
         </a>
-        <a class="fab-action" href="contact.html#map" aria-label="Voir le plan d'accès">
+        <a class="fab-action" href="contact.html#map" data-i18n-aria="fab_map" aria-label="Voir le plan d'accès">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M12 21s7-6.1 7-11a7 7 0 10-14 0c0 4.9 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
         </a>
-        <button type="button" class="fab-action" id="fab-hours-btn" aria-label="Voir les horaires" aria-expanded="false">
+        <button type="button" class="fab-action" id="fab-hours-btn" data-i18n-aria="fab_hours" aria-label="Voir les horaires" aria-expanded="false">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
         </button>
       </div>
 
-      <button type="button" class="fab-toggle" id="fab-toggle" aria-expanded="false" aria-label="Contact rapide">
+      <button type="button" class="fab-toggle" id="fab-toggle" data-i18n-aria="fab_toggle" aria-expanded="false" aria-label="Contact rapide">
         <svg class="fab-icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="M3 7l9 6 9-6"/></svg>
         <svg class="fab-icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
       </button>
@@ -92,6 +97,9 @@
     document.body.insertAdjacentHTML('beforeend', FAB_HTML);
     initFab();
 
+    // Pastille langue
+    initLangToggle();
+
     // Marquer le lien actif
     const currentPage = document.body.dataset.page;
     if (currentPage) {
@@ -103,7 +111,25 @@
     loadDynamicData();
   }
 
+  // ============================================
+  // PASTILLE LANGUE FR / EN
+  // ============================================
+  function initLangToggle() {
+    const wrap = document.getElementById('nav-lang');
+    if (!wrap || !window.NN) return;
+
+    wrap.querySelectorAll('.nav-lang-btn').forEach(btn => {
+      const lang = btn.dataset.lang;
+      btn.classList.toggle('is-active', lang === window.NN.lang);
+      btn.addEventListener('click', () => window.NN.setLang(lang));
+    });
+  }
+
   async function loadDynamicData() {
+    if (window.NN && window.NN.ready) {
+      try { await window.NN.ready; } catch (e) { /* on continue */ }
+    }
+
     // Dropdown des artistes
     try {
       const response = await fetch('data/artists/_index.json');
@@ -122,11 +148,16 @@
     } catch (err) {
       console.warn('Impossible de charger les réglages', err);
     }
+
+    // Traduire les libellés statiques injectés (nav, fab...)
+    if (window.NN && window.NN.applyStatic) window.NN.applyStatic(document);
   }
 
   function populateArtistsDropdown(artists) {
     const dropdown = document.getElementById('artists-dropdown');
     if (!dropdown) return;
+
+    const viewAll = (window.NN && window.NN.ui) ? window.NN.ui('nav_view_all') : '→ Voir tous';
 
     const sorted = artists.sort((a, b) => (a.order || 999) - (b.order || 999));
     const items = sorted.map(a => `
@@ -134,7 +165,7 @@
     `).join('');
 
     dropdown.innerHTML = items + `
-      <li class="nav-dropdown-separator"><a href="artists.html">→ Voir tous</a></li>
+      <li class="nav-dropdown-separator"><a href="artists.html">${escapeHtml(viewAll)}</a></li>
     `;
 
     // Une fois le dropdown rempli, on active la logique d'ouverture / fermeture
@@ -195,10 +226,12 @@
   // FOOTER
   // ============================================
   function populateFooter(settings) {
+    const T = (window.NN && window.NN.t) ? window.NN.t : (v => v);
+
     const textMap = {
       'footer-phone': settings.footer_phone,
-      'footer-hours': settings.footer_hours,
-      'footer-hours-note': settings.footer_hours_note,
+      'footer-hours': T(settings.footer_hours),
+      'footer-hours-note': T(settings.footer_hours_note),
       'footer-email': settings.footer_email,
       'footer-address': settings.footer_address
     };
@@ -221,6 +254,7 @@
 
   function populateFab(settings) {
     fabSettings = settings;
+    const T = (window.NN && window.NN.t) ? window.NN.t : (v => v);
 
     const mail = document.getElementById('fab-mail');
     if (mail && settings.footer_email) mail.href = 'mailto:' + settings.footer_email;
@@ -232,8 +266,10 @@
     if (phone && settings.footer_phone) phone.href = 'tel:' + telHref(settings.footer_phone);
 
     const hoursText = document.getElementById('fab-hours-text');
-    if (hoursText && (settings.footer_hours || settings.footer_hours_note)) {
-      hoursText.innerHTML = [settings.footer_hours, settings.footer_hours_note]
+    const hours = T(settings.footer_hours);
+    const note = T(settings.footer_hours_note);
+    if (hoursText && (hours || note)) {
+      hoursText.innerHTML = [hours, note]
         .filter(Boolean)
         .map(escapeHtml)
         .join('<br>');
@@ -278,6 +314,7 @@
       wrap.classList.toggle('is-open-now', isOpen);
       wrap.classList.toggle('is-closed-now', !isOpen);
       const txt = document.getElementById('fab-status-text');
+      // Les libellés Open/Closed restent identiques en FR et EN (choix de marque).
       if (txt) txt.textContent = isOpen ? 'Open' : 'Closed';
     } catch (err) {
       wrap.hidden = true;
