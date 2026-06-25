@@ -129,6 +129,7 @@
     window.addEventListener('touchstart', () => { isTouch = true; }, { once: true });
 
     link.addEventListener('click', (e) => {
+      if (window.matchMedia('(max-width: 768px)').matches) return;
       if (isTouch && !trigger.classList.contains('is-open')) {
         e.preventDefault();
         trigger.classList.add('is-open');

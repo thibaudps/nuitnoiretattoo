@@ -13,7 +13,9 @@
         <img src="assets/logo-mini-cream.svg" alt="NN" />
       </a>
 
-      <ul class="nav-menu">
+      <button type="button" class="nav-burger" id="nav-burger" aria-expanded="false" aria-controls="nav-menu" aria-label="Menu">MENU</button>
+
+      <ul class="nav-menu" id="nav-menu">
         <li><a href="index.html" class="nav-link" data-page="home">Home</a></li>
         <li class="nav-item-dropdown" id="artists-trigger">
           <a href="artists.html" class="nav-link" data-page="artists">
@@ -100,6 +102,9 @@
     // Pastille langue
     initLangToggle();
 
+    // Menu mobile (bouton MENU)
+    initBurger();
+
     // Marquer le lien actif
     const currentPage = document.body.dataset.page;
     if (currentPage) {
@@ -122,6 +127,47 @@
       const lang = btn.dataset.lang;
       btn.classList.toggle('is-active', lang === window.NN.lang);
       btn.addEventListener('click', () => window.NN.setLang(lang));
+    });
+  }
+
+  // ============================================
+  // MENU MOBILE (bouton MENU -> panneau deroulant)
+  // ============================================
+  function initBurger() {
+    const nav = document.querySelector('.nav');
+    const burger = document.getElementById('nav-burger');
+    const menu = document.getElementById('nav-menu');
+    if (!nav || !burger || !menu) return;
+
+    function close() {
+      nav.classList.remove('is-open');
+      burger.setAttribute('aria-expanded', 'false');
+    }
+
+    burger.addEventListener('click', () => {
+      const open = nav.classList.toggle('is-open');
+      burger.setAttribute('aria-expanded', String(open));
+    });
+
+    // Un tap sur un lien du panneau referme le menu (la navigation suit).
+    // On ignore les boutons de langue (ils rechargent deja la page).
+    menu.querySelectorAll('a.nav-link').forEach(link => {
+      link.addEventListener('click', close);
+    });
+
+    // Fermer si on tape en dehors de la nav.
+    document.addEventListener('click', (e) => {
+      if (nav.classList.contains('is-open') && !nav.contains(e.target)) close();
+    });
+
+    // Fermer avec Echap.
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') close();
+    });
+
+    // Repasser en desktop reinitialise l'etat.
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768) close();
     });
   }
 
@@ -207,6 +253,9 @@
     const triggerLink = trigger.querySelector('.nav-link');
     if (triggerLink) {
       triggerLink.addEventListener('click', (e) => {
+        // Sur mobile, le sous-menu est masqué : le lien navigue directement
+        // vers la page artistes, pas de tap d'ouverture intermédiaire.
+        if (window.matchMedia('(max-width: 768px)').matches) return;
         if (isTouch && !trigger.classList.contains('is-open')) {
           e.preventDefault();
           open();
