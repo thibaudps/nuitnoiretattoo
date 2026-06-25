@@ -1,10 +1,11 @@
 {
-  "id": "clea-ferlay",
-  "name": "Clea Ferlay",
-  "role": "Résidente",
+  "bio_en": "Cléa Ferlay is part of the soul of Nuit Noire Tattoo, here since the very first day of the adventure. After exploring different styles, it was on her return from three years spent in Indonesia that she found her path in ornamental tattooing, drawing on a range of cultural influences: Asian and North African, but also Finnish, as a nod to her roots. Equally at ease with delicate small pieces and large, ambitious projects, Cléa stands out for the way she works closely with her clients, often drawing directly onto their skin. Always smiling and driven by a love of human connection, she balances her life as a mother with her artistic passion, creating tattoos full of sensitivity and warmth.",
   "bio": "Cléa Ferlay fait partie de l’âme de Nuit Noire Tattoo, présente depuis le premier jour de l’aventure. Après avoir exploré différents styles, c’est à son retour de trois années passées en Indonésie qu’elle a trouvé sa voie dans le tatouage ornemental, nourri de diverses influences culturelles : asiatiques, nord-africaines, mais aussi finlandaises, en hommage à ses origines. Capable de réaliser aussi bien de délicates petites pièces que de vastes projets ambitieux, Cléa se distingue par sa manière de travailler au plus près de ses clients, dessinant souvent directement sur leur peau. Toujours souriante et animée par le plaisir du contact humain, elle conjugue son rôle de mère de famille avec sa passion artistique, offrant des tatouages empreints de sensibilité et de chaleur.",
-  "portrait": "/assets/uploads/clea.webp",
-  "instagram": "cleaferlaytattoos",
   "portfolio": [],
-  "order": 2
+  "name": "Clea Ferlay",
+  "order": 2,
+  "instagram": "cleaferlaytattoos",
+  "role": "Résidente",
+  "id": "clea-ferlay",
+  "portrait": "/assets/uploads/clea.webp"
 }
