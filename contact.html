@@ -48,19 +48,19 @@
 
       <div class="contact-details">
         <div class="contact-block">
-          <p class="contact-label">Adresse</p>
+          <p class="contact-label" data-i18n="label_address">Adresse</p>
           <p class="contact-value" id="contact-address"></p>
         </div>
         <div class="contact-block">
-          <p class="contact-label">Téléphone</p>
+          <p class="contact-label" data-i18n="label_phone">Téléphone</p>
           <p class="contact-value" id="contact-phone"></p>
         </div>
         <div class="contact-block">
-          <p class="contact-label">Direct</p>
+          <p class="contact-label" data-i18n="label_direct">Direct</p>
           <p class="contact-value" id="contact-direct"></p>
         </div>
         <div class="contact-block">
-          <p class="contact-label">Horaires</p>
+          <p class="contact-label" data-i18n="label_hours">Horaires</p>
           <p class="contact-value" id="contact-hours"></p>
         </div>
       </div>
@@ -80,57 +80,57 @@
 
         <div class="form-row">
           <div class="form-field">
-            <label for="form-name">Nom complet</label>
+            <label for="form-name" data-i18n="form_name">Nom complet</label>
             <input type="text" id="form-name" name="name" required />
           </div>
           <div class="form-field">
-            <label for="form-email">Email</label>
+            <label for="form-email" data-i18n="form_email">Email</label>
             <input type="email" id="form-email" name="email" required />
           </div>
         </div>
 
         <div class="form-row">
           <div class="form-field">
-            <label for="form-artist">Artiste souhaité</label>
+            <label for="form-artist" data-i18n="form_artist">Artiste souhaité</label>
             <select id="form-artist" name="artist">
-              <option value="">- Sans préférence -</option>
+              <option value="" data-i18n="form_no_pref">- Sans préférence -</option>
               <!-- Options injectées dynamiquement -->
             </select>
           </div>
           <div class="form-field">
-            <label for="form-subject">Type de demande</label>
+            <label for="form-subject" data-i18n="form_subject">Type de demande</label>
             <select id="form-subject" name="subject">
-              <option value="Nouveau projet">Nouveau projet</option>
-              <option value="Retouche">Retouche</option>
-              <option value="Question">Question</option>
-              <option value="Autre">Autre</option>
+              <option value="Nouveau projet" data-i18n="form_subject_new">Nouveau projet</option>
+              <option value="Retouche" data-i18n="form_subject_touch">Retouche</option>
+              <option value="Question" data-i18n="form_subject_q">Question</option>
+              <option value="Autre" data-i18n="form_subject_other">Autre</option>
             </select>
           </div>
         </div>
 
         <div class="form-field">
-          <label for="form-placement">Emplacement et taille approximative</label>
-          <input type="text" id="form-placement" name="placement" placeholder="ex. avant-bras, environ 15 cm" />
+          <label for="form-placement" data-i18n="form_placement">Emplacement et taille approximative</label>
+          <input type="text" id="form-placement" name="placement" data-i18n-ph="form_placement_ph" placeholder="ex. avant-bras, environ 15 cm" />
         </div>
 
         <div class="form-field">
-          <label for="form-message">Description du projet</label>
-          <textarea id="form-message" name="message" rows="6" required placeholder="Décrivez votre idée, ambiance, références, contraintes…"></textarea>
+          <label for="form-message" data-i18n="form_message">Description du projet</label>
+          <textarea id="form-message" name="message" rows="6" required data-i18n-ph="form_message_ph" placeholder="Décrivez votre idée, ambiance, références, contraintes…"></textarea>
         </div>
 
         <div class="form-field">
-          <label for="form-availability">Disponibilités</label>
-          <input type="text" id="form-availability" name="availability" placeholder="ex. après-midi en semaine, week-ends…" />
+          <label for="form-availability" data-i18n="form_availability">Disponibilités</label>
+          <input type="text" id="form-availability" name="availability" data-i18n-ph="form_availability_ph" placeholder="ex. après-midi en semaine, week-ends…" />
         </div>
 
         <div class="form-submit-row">
           <button type="button" id="form-submit" class="form-submit">
-            Envoyer le message
+            <span data-i18n="form_submit">Envoyer le message</span>
             <span class="form-submit-arrow">→</span>
           </button>
           <p class="form-disclaimer">
-            Le bouton ouvre votre client mail.<br>
-            Si ça ne fonctionne pas, écrivez à <a href="" id="fallback-email"></a>
+            <span data-i18n="form_disclaimer_1">Le bouton ouvre votre client mail.</span><br>
+            <span data-i18n="form_disclaimer_2">Si ça ne fonctionne pas, écrivez à</span> <a href="" id="fallback-email"></a>
           </p>
         </div>
 
@@ -142,6 +142,7 @@
 
   <div id="footer-mount"></div>
 
+  <script src="js/i18n.js"></script>
   <script src="js/partials.js"></script>
   <script src="js/contact.js"></script>
 </body>

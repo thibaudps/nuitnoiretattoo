@@ -24,10 +24,10 @@
   </header>
 
   <nav class="shop-filters" id="shop-filters" aria-label="Filtrer les produits">
-    <button class="shop-filter is-active" data-filter="all">Tout</button>
-    <button class="shop-filter" data-filter="flash">Flashs</button>
-    <button class="shop-filter" data-filter="print">Tirages</button>
-    <button class="shop-filter" data-filter="merch">Merch</button>
+    <button class="shop-filter is-active" data-filter="all" data-i18n="shop_filter_all">Tout</button>
+    <button class="shop-filter" data-filter="flash" data-i18n="shop_filter_flash">Flashs</button>
+    <button class="shop-filter" data-filter="print" data-i18n="shop_filter_print">Tirages</button>
+    <button class="shop-filter" data-filter="merch" data-i18n="shop_filter_merch">Merch</button>
   </nav>
 
   <main class="shop-grid-wrapper">
@@ -36,20 +36,21 @@
     </div>
 
     <div class="shop-empty" id="shop-empty" hidden>
-      <p>Aucun produit dans cette catégorie pour le moment.</p>
+      <p data-i18n="shop_empty">Aucun produit dans cette catégorie pour le moment.</p>
     </div>
   </main>
 
   <section class="shop-info">
     <div class="shop-info-block">
-      <h3>Commander</h3>
+      <h3 data-i18n="shop_order_heading">Commander</h3>
       <p id="order-info"></p>
-      <a href="contact.html" class="link-underline">Nous contacter →</a>
+      <a href="contact.html" class="link-underline" data-i18n="shop_contact_us">Nous contacter →</a>
     </div>
   </section>
 
   <div id="footer-mount"></div>
 
+  <script src="js/i18n.js"></script>
   <script src="js/partials.js"></script>
   <script src="js/shop.js"></script>
 </body>
