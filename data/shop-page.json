@@ -1,7 +1,22 @@
 {
-  "eyebrow": "Boutique",
-  "title": "Shop",
-  "subtitle": "Flashs, tirages, objets du shop.",
-  "order_info": "Pour acquérir un tee-shirt ou un tirage, contactez nous directement par email ou via Instagram. Nous confirmons la disponibilité et organisons l'expédition ou le retrait au shop.",
-  "flash_info": "/"
+  "eyebrow": {
+    "fr": "Boutique",
+    "en": "Shop"
+  },
+  "title": {
+    "fr": "Shop",
+    "en": "Shop"
+  },
+  "subtitle": {
+    "fr": "Flashs, tirages, objets du shop.",
+    "en": "Flashes, prints, shop goods."
+  },
+  "order_info": {
+    "fr": "Pour acquérir un tee-shirt ou un tirage, contactez nous directement par email ou via Instagram. Nous confirmons la disponibilité et organisons l'expédition ou le retrait au shop.",
+    "en": "To get a tee-shirt or a print, contact us directly by email or via Instagram. We'll confirm availability and arrange shipping or pickup at the shop."
+  },
+  "flash_info": {
+    "fr": "/",
+    "en": "/"
+  }
 }

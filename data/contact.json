@@ -1,18 +1,54 @@
 {
-  "hours_note": "Sur rendez-vous",
-  "eyebrow": "Une idée ?",
-  "form_intro_title": "Décrivez votre projet",
-  "hours": "Lundi - Samedi\n10h30 - 17h30",
-  "instagram": "nuitnoiretattoo",
-  "address": "Chemin des Coquelicots 7, \n1214 Vernier, Suisse",
+  "eyebrow": {
+    "fr": "Une idée ?",
+    "en": "Got an idea?"
+  },
+  "title": {
+    "fr": "Contact",
+    "en": "Contact"
+  },
+  "subtitle": {
+    "fr": "Écrivez-nous, ou passez nous voir au shop.",
+    "en": "Write to us, or drop by the shop."
+  },
+  "form_intro_title": {
+    "fr": "Décrivez votre projet",
+    "en": "Describe your project"
+  },
+  "form_intro_text": {
+    "fr": "Le bouton ci-dessous ouvrira votre application mail avec un message pré-rempli. Plus vos informations sont précises, plus la réponse sera rapide.",
+    "en": "The button below opens your email app with a pre-filled message. The more precise your details, the faster we can reply."
+  },
+  "form_photos_note": {
+    "fr": "Vous pouvez joindre à votre email des photos de référence et/ou de l'emplacement souhaité, dans la limite de 4 photos.",
+    "en": "You can attach reference photos and/or photos of the intended placement to your email, up to 4 photos."
+  },
+  "hours": {
+    "fr": "Lundi - Samedi\n10h30 - 17h30",
+    "en": "Monday - Saturday\n10:30 - 17:30"
+  },
+  "hours_note": {
+    "fr": "Sur rendez-vous",
+    "en": "By appointment"
+  },
+  "address": {
+    "fr": "Chemin des Coquelicots 7, \n1214 Vernier, Suisse",
+    "en": "Chemin des Coquelicots 7, \n1214 Vernier, Switzerland"
+  },
+  "access_tpg": {
+    "fr": "Arrêt Blandonnet",
+    "en": "Blandonnet stop"
+  },
+  "access_cff": {
+    "fr": "Arrêt Vernier",
+    "en": "Vernier station"
+  },
+  "parking": {
+    "fr": "Centre Commercial Blandonnet",
+    "en": "Blandonnet Shopping Centre"
+  },
   "phone": "+41 (0)22 341 18 82",
-  "access_tpg": "Arrêt Blandonnet",
-  "access_cff": "Arrêt Vernier",
-  "parking": "Centre Commercial Blandonnet",
-  "map_query": "Chemin des Coquelicots 7, 1214 Vernier, Suisse",
-  "subtitle": "Écrivez-nous, ou passez nous voir au shop.",
-  "title": "Contact",
-  "form_intro_text": "Le bouton ci-dessous ouvrira votre application mail avec un message pré-rempli. Plus vos informations sont précises, plus la réponse sera rapide.",
-  "form_photos_note": "Vous pouvez joindre à votre email des photos de référence et/ou de l'emplacement souhaité, dans la limite de 4 photos.",
-  "email": "contact@nuitnoiretattoo.com"
+  "instagram": "nuitnoiretattoo",
+  "email": "contact@nuitnoiretattoo.com",
+  "map_query": "Chemin des Coquelicots 7, 1214 Vernier, Suisse"
 }

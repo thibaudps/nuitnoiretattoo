@@ -1,5 +1,14 @@
 {
-  "eyebrow": "Nuit Noire's",
-  "title": "Artists",
-  "subtitle": "Huit univers, un seul toit."
+  "eyebrow": {
+    "fr": "Nuit Noire's",
+    "en": "Nuit Noire's"
+  },
+  "title": {
+    "fr": "Artistes",
+    "en": "Artists"
+  },
+  "subtitle": {
+    "fr": "Huit univers, un seul toit.",
+    "en": "Eight worlds, one roof."
+  }
 }

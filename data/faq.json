@@ -1,51 +1,126 @@
 {
-  "eyebrow": "Questions fréquentes",
-  "title": "FAQ",
-  "subtitle": "Réponses aux questions fréquentes.",
+  "eyebrow": {
+    "fr": "Questions fréquentes",
+    "en": "Frequently asked questions"
+  },
+  "title": {
+    "fr": "FAQ",
+    "en": "FAQ"
+  },
+  "subtitle": {
+    "fr": "Réponses aux questions fréquentes.",
+    "en": "Answers to common questions."
+  },
   "items": [
     {
-      "question": "Comment prendre rendez-vous ?",
-      "answer": "Vous pouvez passer au salon pendant nos heures de consultation (Lundi - Samedi | 10h30 - 17h30) afin de nous présenter votre projet.\n\nSi vous n'avez pas la possibilité de venir nous voir, vous pouvez prendre RDV par [email](contact.html) ou par téléphone au [+41 22 341 18 82](tel:+41223411882). Il est souvent plus facile pour nous de vous voir en chair et en os, si vous avez la possibilité de vous déplacer jusqu'au salon nous vous en remercions d'avance."
+      "question": {
+        "fr": "Comment prendre rendez-vous ?",
+        "en": "How do I make an appointment?"
+      },
+      "answer": {
+        "fr": "Vous pouvez passer au salon pendant nos heures de consultation (Lundi - Samedi | 10h30 - 17h30) afin de nous présenter votre projet.\n\nSi vous n'avez pas la possibilité de venir nous voir, vous pouvez prendre RDV par [email](contact.html) ou par téléphone au [+41 22 341 18 82](tel:+41223411882). Il est souvent plus facile pour nous de vous voir en chair et en os, si vous avez la possibilité de vous déplacer jusqu'au salon nous vous en remercions d'avance.",
+        "en": "You can drop by the studio during our consultation hours (Monday - Saturday | 10:30 - 17:30) to tell us about your project.\n\nIf you can't come see us, you can book by [email](contact.html) or by phone at [+41 22 341 18 82](tel:+41223411882). It's often easier for us to meet you in person, so if you can make it to the studio we thank you in advance."
+      }
     },
     {
-      "question": "Combien mon tatouage va-t-il coûter ?",
-      "answer": "Notre prix de départ est fixé à 150.- CHF.\n\nEn dessous de 2 heures de travail nous fixerons un prix à la pièce en fonction du temps de travail nécessaire, du temps de dessin et de la zone à tatouer.\n\nPour toute pièce nécessitant plus de 2 heures de travail nous appliquons un tarif horaire, 200.- CHF par heure de tatouage."
+      "question": {
+        "fr": "Combien mon tatouage va-t-il coûter ?",
+        "en": "How much will my tattoo cost?"
+      },
+      "answer": {
+        "fr": "Notre prix de départ est fixé à 150.- CHF.\n\nEn dessous de 2 heures de travail nous fixerons un prix à la pièce en fonction du temps de travail nécessaire, du temps de dessin et de la zone à tatouer.\n\nPour toute pièce nécessitant plus de 2 heures de travail nous appliquons un tarif horaire, 200.- CHF par heure de tatouage.",
+        "en": "Our starting price is 150.- CHF.\n\nUnder 2 hours of work, we set a flat price per piece based on the time required, the drawing time and the area to be tattooed.\n\nFor any piece requiring more than 2 hours of work, we charge an hourly rate of 200.- CHF per hour of tattooing."
+      }
     },
     {
-      "question": "Je n'ai pas de dessin, juste une idée de ce que je veux, comment faire ?",
-      "answer": "Nous sommes là pour ça, nous réalisons des dessins uniques pour tous nos clients. Passez nous exposer vos idées et nous tâcherons de faire de notre mieux pour les illustrer."
+      "question": {
+        "fr": "Je n'ai pas de dessin, juste une idée de ce que je veux, comment faire ?",
+        "en": "I don't have a design, just an idea of what I want, what should I do?"
+      },
+      "answer": {
+        "fr": "Nous sommes là pour ça, nous réalisons des dessins uniques pour tous nos clients. Passez nous exposer vos idées et nous tâcherons de faire de notre mieux pour les illustrer.",
+        "en": "That's exactly what we're here for. We create unique designs for every client. Come and share your ideas and we'll do our best to bring them to life."
+      }
     },
     {
-      "question": "J'ai déjà un dessin, est-ce que vous pouvez me le tatouer ?",
-      "answer": "Nous ne sommes pas des photocopieurs : afin que chacune de nos réalisations soit unique et adaptée à notre style, nous re-dessinons tout. Cependant, n'hésitez pas à venir nous voir avec des références car elles nous sont toujours très utiles."
+      "question": {
+        "fr": "J'ai déjà un dessin, est-ce que vous pouvez me le tatouer ?",
+        "en": "I already have a design, can you tattoo it for me?"
+      },
+      "answer": {
+        "fr": "Nous ne sommes pas des photocopieurs : afin que chacune de nos réalisations soit unique et adaptée à notre style, nous re-dessinons tout. Cependant, n'hésitez pas à venir nous voir avec des références car elles nous sont toujours très utiles.",
+        "en": "We're not photocopiers: so that each of our pieces is unique and suited to our style, we redraw everything. That said, feel free to come and see us with references, they're always very helpful to us."
+      }
     },
     {
-      "question": "Je ne suis pas sûr(e) de vouloir me faire tatouer mais pouvez-vous me faire un dessin ?",
-      "answer": "Non, désolé, mais nous travaillons uniquement les dessins pour les clients ayant fixé la date de rendez-vous."
+      "question": {
+        "fr": "Je ne suis pas sûr(e) de vouloir me faire tatouer mais pouvez-vous me faire un dessin ?",
+        "en": "I'm not sure I want a tattoo yet, but can you make me a design?"
+      },
+      "answer": {
+        "fr": "Non, désolé, mais nous travaillons uniquement les dessins pour les clients ayant fixé la date de rendez-vous.",
+        "en": "No, sorry, but we only work on designs for clients who have set an appointment date."
+      }
     },
     {
-      "question": "Une fois le rendez-vous fixé, quand est-ce que je pourrai voir le dessin ?",
-      "answer": "Cette date sera fixée lors de la prise de rendez-vous. Nous préparons à l'avance uniquement les dessins de grande taille, pour le reste nous montrons le dessin le jour du tatouage."
+      "question": {
+        "fr": "Une fois le rendez-vous fixé, quand est-ce que je pourrai voir le dessin ?",
+        "en": "Once the appointment is set, when will I be able to see the design?"
+      },
+      "answer": {
+        "fr": "Cette date sera fixée lors de la prise de rendez-vous. Nous préparons à l'avance uniquement les dessins de grande taille, pour le reste nous montrons le dessin le jour du tatouage.",
+        "en": "That date is agreed when you book. We only prepare large pieces in advance; for everything else, we show the design on the day of the tattoo."
+      }
     },
     {
-      "question": "Est-ce qu'il y a des styles de tatouage que vous ne faites pas ?",
-      "answer": "Oui, nous nous concentrons sur nos créations : nous ne faisons pas de tatouage dans les styles \"Tribal\", \"Maori / Polynésien\" et \"Réaliste\". Nous sélectionnons nos travaux afin de coller à notre style et notre vision du tatouage."
+      "question": {
+        "fr": "Est-ce qu'il y a des styles de tatouage que vous ne faites pas ?",
+        "en": "Are there tattoo styles you don't do?"
+      },
+      "answer": {
+        "fr": "Oui, nous nous concentrons sur nos créations : nous ne faisons pas de tatouage dans les styles \"Tribal\", \"Maori / Polynésien\" et \"Réaliste\". Nous sélectionnons nos travaux afin de coller à notre style et notre vision du tatouage.",
+        "en": "Yes. We focus on our own creations: we don't tattoo in the \"Tribal\", \"Maori / Polynesian\" or \"Realistic\" styles. We curate our work to match our style and our vision of tattooing."
+      }
     },
     {
-      "question": "Je suis mineur, est-ce que je peux venir me faire tatouer ?",
-      "answer": "Non, désolé, il faudra attendre."
+      "question": {
+        "fr": "Je suis mineur, est-ce que je peux venir me faire tatouer ?",
+        "en": "I'm a minor, can I come and get tattooed?"
+      },
+      "answer": {
+        "fr": "Non, désolé, il faudra attendre.",
+        "en": "No, sorry, you'll have to wait."
+      }
     },
     {
-      "question": "J'ai déjà un rendez-vous, est-ce que le jour du tatouage je peux venir avec des ami(e)s ?",
-      "answer": "Non, par mesure d'hygiène et pour la concentration des tatoueurs, nous demandons à nos clients de ne pas venir en groupe."
+      "question": {
+        "fr": "J'ai déjà un rendez-vous, est-ce que le jour du tatouage je peux venir avec des ami(e)s ?",
+        "en": "I already have an appointment, can I bring friends on the day of the tattoo?"
+      },
+      "answer": {
+        "fr": "Non, par mesure d'hygiène et pour la concentration des tatoueurs, nous demandons à nos clients de ne pas venir en groupe.",
+        "en": "No. For hygiene reasons and so our tattooers can stay focused, we ask clients not to come in groups."
+      }
     },
     {
-      "question": "J'ai un tatouage que je souhaiterais recouvrir ?",
-      "answer": "Passez nous montrer celui-ci et nous tâcherons de vous proposer des solutions. Nous ne ferons rien par mail ou téléphone."
+      "question": {
+        "fr": "J'ai un tatouage que je souhaiterais recouvrir ?",
+        "en": "I have a tattoo I'd like to cover up?"
+      },
+      "answer": {
+        "fr": "Passez nous montrer celui-ci et nous tâcherons de vous proposer des solutions. Nous ne ferons rien par mail ou téléphone.",
+        "en": "Come and show it to us and we'll try to suggest some options. We won't handle this by email or phone."
+      }
     },
     {
-      "question": "Combien de temps d'attente avez-vous ?",
-      "answer": "Ce temps est variable selon la taille de votre projet et le tatoueur que vous demandez (généralement entre 2 semaines et 2 mois d'attente)."
+      "question": {
+        "fr": "Combien de temps d'attente avez-vous ?",
+        "en": "How long is the waiting time?"
+      },
+      "answer": {
+        "fr": "Ce temps est variable selon la taille de votre projet et le tatoueur que vous demandez (généralement entre 2 semaines et 2 mois d'attente).",
+        "en": "It varies depending on the size of your project and the tattooer you request (usually between 2 weeks and 2 months)."
+      }
     }
   ]
 }

@@ -1,17 +1,32 @@
 {
   "phrases": [
     {
-      "text": "Here we make great quality tattoos"
+      "text": {
+        "fr": "Ici, on fait du tatouage de qualité.",
+        "en": "Here we make great quality tattoos."
+      }
     },
     {
-      "text": "You bring the idea, we make it last."
+      "text": {
+        "fr": "Vous apportez l'idée, on la grave pour de bon.",
+        "en": "You bring the idea, we make it last."
+      }
     },
     {
-      "text": "Write us, or come say hi at the shop."
+      "text": {
+        "fr": "Écrivez-nous, ou passez dire bonjour au shop.",
+        "en": "Write us, or come say hi at the shop."
+      }
     }
   ],
-  "intro_text": "Salon de tatouage indépendant au cœur de Genève, Nuit Noire réunit huit artistes aux univers singuliers. Nous travaillons sur projets personnalisés, dans le respect de chaque démarche.",
-  "latest_work_title": "Latest work",
+  "intro_text": {
+    "fr": "Salon de tatouage indépendant au cœur de Genève, Nuit Noire réunit huit artistes aux univers singuliers. Nous travaillons sur projets personnalisés, dans le respect de chaque démarche.",
+    "en": "An independent tattoo studio in the heart of Geneva, Nuit Noire brings together eight artists with their own singular styles. We work on custom projects, with respect for each person's vision."
+  },
+  "latest_work_title": {
+    "fr": "Derniers travaux",
+    "en": "Latest work"
+  },
   "instagram_handle": "@nuitnoiretattoo",
   "latest_work": [
     {

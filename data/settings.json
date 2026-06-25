@@ -1,7 +1,13 @@
 {
   "footer_phone": "+41 (0)22 341 18 82",
-  "footer_hours": "lun - sam : 10h30 - 17h30",
-  "footer_hours_note": "dim : fermé",
+  "footer_hours": {
+    "fr": "lun - sam : 10h30 - 17h30",
+    "en": "Mon - Sat : 10:30 - 17:30"
+  },
+  "footer_hours_note": {
+    "fr": "dim : fermé",
+    "en": "Sun : closed"
+  },
   "footer_email": "info@nuitnoiretattoo.com",
   "footer_address": "Ch. des Coquelicots, 7 - 1214 Vernier - Switzerland.",
   "instagram_url": "https://instagram.com/nuitnoiretattoo",
