@@ -1,17 +1,13 @@
 # =============================================================
-# Nuit Noire Tattoo - Configuration Decap CMS
+# Nuit Noire Tattoo - Configuration Decap CMS (bilingue FR / EN)
 # =============================================================
 # Pour modifier le contenu du site, va sur : /admin/
-# Connexion via compte GitHub (ou Google selon config OAuth)
+# Chaque texte traduisible a deux champs : Francais et English.
+# Les textes d'interface (boutons, libelles du formulaire...) sont
+# dans la collection "Textes d'interface" tout en bas - la plupart
+# du temps tu n'auras pas besoin d'y toucher.
 # =============================================================
 
-# -------------------------------------------------------------
-# BACKEND : DecapBridge avec PKCE
-# -------------------------------------------------------------
-# DecapBridge gère l'auth (Google, Microsoft, password) et le
-# proxy vers GitHub. Les artistes n'ont PAS besoin de compte
-# GitHub - invitation par email depuis le dashboard DecapBridge.
-# -------------------------------------------------------------
 backend:
   name: git-gateway
   repo: thibaudps/nuitnoiretattoo
@@ -22,57 +18,44 @@ backend:
   auth_token_endpoint: /sites/ce3448f1-2a51-4357-b24f-c64dcde60751/token
   gateway_url: https://gateway.decapbridge.com
 
-  # Messages de commit personnalisés - on voit qui a fait quoi
   commit_messages:
-    create: 'Création {{collection}} "{{slug}}" - {{author-name}} <{{author-login}}> via DecapBridge'
+    create: 'Creation {{collection}} "{{slug}}" - {{author-name}} <{{author-login}}> via DecapBridge'
     update: 'Modification {{collection}} "{{slug}}" - {{author-name}} <{{author-login}}> via DecapBridge'
     delete: 'Suppression {{collection}} "{{slug}}" - {{author-name}} <{{author-login}}> via DecapBridge'
     uploadMedia: 'Upload "{{path}}" - {{author-name}} <{{author-login}}> via DecapBridge'
     deleteMedia: 'Suppression "{{path}}" - {{author-name}} <{{author-login}}> via DecapBridge'
     openAuthoring: 'Message {{message}} - {{author-name}} <{{author-login}}> via DecapBridge'
 
-# Champs d'identité PKCE (recommandé par DecapBridge)
 auth:
   email_claim: email
   first_name_claim: first_name
   last_name_claim: last_name
   avatar_url_claim: avatar_url
 
-# Mode local pour développer sans pousser sur GitHub
-# Lance avec : npx decap-server (puis ouvre /admin/)
 local_backend: true
 
-# -------------------------------------------------------------
-# OÙ SONT STOCKÉES LES IMAGES UPLOADÉES
-# -------------------------------------------------------------
-media_folder: "assets/uploads"      # dossier où sont mises les images
-public_folder: "/assets/uploads"    # chemin public utilisé dans le HTML
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
 
-# -------------------------------------------------------------
-# OPTIONS GLOBALES
-# -------------------------------------------------------------
 site_url: https://nuitnoiretattoo.pages.dev
 display_url: https://nuitnoiretattoo.pages.dev
 logo_url: https://decapbridge.com/decapcms-with-bridge.svg
 locale: fr
 
-# Éditeur : prévisualisation activée pour les Markdown
 editor:
   preview: false
 
-# =============================================================
-# COLLECTIONS - une par page du site
-# =============================================================
 collections:
 
+
   # -----------------------------------------------------------
-  # 1. ACCUEIL (page Home)
+  # 1. ACCUEIL
   # -----------------------------------------------------------
   - name: "home"
     label: "🏠 Accueil"
     label_singular: "Accueil"
-    description: "Tout le contenu de la page d'accueil : phrases d'animation, texte de présentation, photos du carrousel."
-    delete: false   # on ne peut pas supprimer cette page
+    description: "Contenu de la page d'accueil : phrases d'animation, presentation, photos."
+    delete: false
     editor:
       preview: false
     files:
@@ -80,36 +63,63 @@ collections:
         label: "Page d'accueil"
         file: "data/home.json"
         fields:
-          - label: "Phrases qui défilent dans l'animation"
+          - label: "Phrases qui defilent dans l'animation"
             name: "phrases"
             widget: "list"
-            summary: "{{fields.text}}"
-            hint: "Les phrases apparaissent dans l'ordre, après le logo. Tu peux en ajouter, supprimer ou réorganiser."
+            summary: "{{fields.text.fr}}"
+            hint: "Les phrases apparaissent dans l'ordre, apres le logo."
             fields:
+
               - label: "Phrase"
                 name: "text"
-                widget: "string"
+                widget: "object"
+                fields:
+                  - label: "🇫🇷 Francais"
+                    name: "fr"
+                    widget: "string"
+                  - label: "🇬🇧 English"
+                    name: "en"
+                    widget: "string"
 
-          - label: "Texte de présentation"
+
+          - label: "Texte de presentation"
             name: "intro_text"
-            widget: "text"
-            hint: "Le texte court qui apparaît sous l'animation."
+            widget: "object"
+            hint: "Le texte court sous l'animation."
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "text"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "text"
+
 
           - label: "Titre de la section photos"
             name: "latest_work_title"
-            widget: "string"
-            default: "Latest work"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Derniers travaux"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Latest work"
 
-          - label: "Lien Instagram affiché à droite du titre"
+
+          - label: "Lien Instagram affiche a droite du titre"
             name: "instagram_handle"
             widget: "string"
             default: "@nuitnoiretattoo"
+
 
           - label: "Photos du carrousel (Latest work)"
             name: "latest_work"
             widget: "list"
             summary: "{{fields.alt}}"
-            hint: "Format recommandé : 1080×1440 px (portrait). Idéalement 6 photos pour bien remplir la grille."
+            hint: "Format recommande : 1080x1440 px (portrait). Idealement 6 photos."
             fields:
               - label: "Image"
                 name: "image"
@@ -122,37 +132,68 @@ collections:
                 name: "link"
                 widget: "string"
                 required: false
-                hint: "Si renseigné, un clic sur la photo ouvre ce lien (ex. lien Instagram du post)."
+                hint: "Si renseigne, un clic sur la photo ouvre ce lien."
+
 
   # -----------------------------------------------------------
   # 2. ARTISTES
   # -----------------------------------------------------------
   - name: "artists_settings"
-    label: "🎨 Artistes - Réglages"
-    description: "Réglages de l'en-tête de la page artistes."
+    label: "🎨 Artistes - Reglages"
+    description: "En-tete de la page artistes."
     delete: false
     files:
       - name: "artists_page"
-        label: "En-tête de la page Artistes"
+        label: "En-tete de la page Artistes"
         file: "data/artists-page.json"
         fields:
-          - label: "Étiquette (eyebrow)"
+
+          - label: "Etiquette (eyebrow)"
             name: "eyebrow"
-            widget: "string"
-            default: "Le collectif"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Nuit Noire's"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Nuit Noire's"
+
+
           - label: "Titre"
             name: "title"
-            widget: "string"
-            default: "Artists"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Artistes"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Artists"
+
+
           - label: "Sous-titre"
             name: "subtitle"
-            widget: "string"
-            default: "Huit univers, un seul toit."
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Huit univers, un seul toit."
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Eight worlds, one roof."
+
 
   - name: "artists"
     label: "🎨 Artistes - Liste"
     label_singular: "Artiste"
-    description: "Gère ici chaque artiste : bio, portrait, photos du portfolio, lien Instagram."
+    description: "Chaque artiste : bio (FR/EN), portrait, portfolio, Instagram."
     folder: "data/artists"
     extension: "json"
     format: "json"
@@ -163,7 +204,7 @@ collections:
     summary: "{{name}} - {{role}}"
     sortable_fields: ['order', 'name']
     view_groups:
-      - label: Rôle
+      - label: Role
         field: role
     fields:
       - label: "Ordre d'affichage"
@@ -172,7 +213,7 @@ collections:
         default: 1
         value_type: "int"
         min: 1
-        hint: "Détermine l'ordre des artistes sur la page (1 = en premier)."
+        hint: "Ordre des artistes sur la page (1 = en premier)."
 
       - label: "Nom complet"
         name: "name"
@@ -181,33 +222,43 @@ collections:
       - label: "Identifiant (slug)"
         name: "id"
         widget: "string"
-        hint: "Utilisé pour le nom du fichier et l'ancre dans l'URL (ex. 'vince-pages'). Que des minuscules, chiffres et tirets. ⚠️ Ne pas modifier après création - ça casserait les liens existants."
+        hint: "Nom de fichier et ancre URL. Minuscules, chiffres, tirets. Ne pas modifier apres creation."
         pattern: ['^[a-z0-9-]+$', "Que des minuscules, chiffres et tirets"]
 
-      - label: "Rôle"
+      - label: "Role"
         name: "role"
         widget: "select"
-        options: ["Fondateur", "Résident", "Résidente", "Invité", "Invitée"]
+        options: ["Fondateur", "Fondatrice", "Résident", "Résidente", "Invité", "Invitée"]
         default: "Résident"
+        hint: "La traduction anglaise est automatique (Founder / Resident / Guest)."
 
       - label: "Page Guests"
         name: "guest"
         widget: "boolean"
         default: false
         required: false
-        hint: "Coche pour la page des guests : nom en italique dans les menus, layout simplifié (une image principale + court texte)."
+        hint: "Coche pour la page guests : nom en italique, layout simplifie."
 
-      - label: "Bio"
+
+      - label: "Bio (francais)"
         name: "bio"
         widget: "text"
         required: false
-        hint: "Petit texte de présentation (2-3 phrases idéalement). Optionnel pour la page Guests."
+        hint: "Petit texte de presentation (2-3 phrases). Optionnel pour les guests."
+
+
+      - label: "Bio (English)"
+        name: "bio_en"
+        widget: "text"
+        required: false
+        hint: "Traduction anglaise. Laisser vide = la version francaise s'affiche aussi en anglais."
+
 
       - label: "Portrait"
         name: "portrait"
         widget: "image"
         required: false
-        hint: "Format portrait recommandé : 1080×1440 px."
+        hint: "Format portrait recommande : 1080x1440 px."
 
       - label: "Compte Instagram"
         name: "instagram"
@@ -220,7 +271,7 @@ collections:
         widget: "list"
         required: false
         summary: "{{fields.alt}}"
-        hint: "Format recommandé : 1080×1440 px (portrait, ratio Instagram)."
+        hint: "Format recommande : 1080x1440 px (portrait)."
         fields:
           - label: "Image"
             name: "src"
@@ -230,43 +281,94 @@ collections:
             widget: "string"
             required: false
 
+
   # -----------------------------------------------------------
   # 3. SHOP
   # -----------------------------------------------------------
   - name: "shop_settings"
-    label: "🛍 Shop - Réglages"
-    description: "Réglages de l'en-tête et des textes de la page Shop."
+    label: "🛍 Shop - Reglages"
+    description: "En-tete et textes de la page Shop."
     delete: false
     files:
       - name: "shop_page"
-        label: "En-tête + textes de la page Shop"
+        label: "En-tete + textes de la page Shop"
         file: "data/shop-page.json"
         fields:
-          - label: "Étiquette (eyebrow)"
+
+          - label: "Etiquette (eyebrow)"
             name: "eyebrow"
-            widget: "string"
-            default: "Boutique"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Boutique"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Shop"
+
+
           - label: "Titre"
             name: "title"
-            widget: "string"
-            default: "Shop"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Shop"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Shop"
+
+
           - label: "Sous-titre"
             name: "subtitle"
-            widget: "string"
-            default: "Flashs, tirages, objets du shop."
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Flashs, tirages, objets du shop."
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Flashes, prints, shop goods."
+
+
           - label: "Texte 'Commander'"
             name: "order_info"
-            widget: "text"
-            default: "Pour acquérir un flash ou un tirage, contactez-nous directement par email ou via Instagram."
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "text"
+                default: "Pour acquerir un flash ou un tirage, contactez-nous directement par email ou via Instagram."
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "text"
+                default: "To get a flash or a print, contact us directly by email or via Instagram."
+
+
           - label: "Texte 'Flashs'"
             name: "flash_info"
-            widget: "text"
-            default: "Les designs marqués 'flash' sont des modèles uniques, tatoués une seule fois. Une fois réservés, ils ne sont plus disponibles."
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "text"
+                default: "Les designs marques 'flash' sont des modeles uniques, tatoues une seule fois. Une fois reserves, ils ne sont plus disponibles."
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "text"
+                default: "Designs marked 'flash' are unique pieces, tattooed only once. Once reserved, they are no longer available."
+
 
   - name: "products"
     label: "🛍 Shop - Produits"
     label_singular: "Produit"
-    description: "Gère les flashs, tirages et merch du shop."
+    description: "Flashs, tirages et merch du shop."
     folder: "data/products"
     extension: "json"
     format: "json"
@@ -277,16 +379,16 @@ collections:
     summary: "{{name}} - {{price}}"
     sortable_fields: ['name', 'category', 'available']
     view_groups:
-      - label: Catégorie
+      - label: Categorie
         field: category
-      - label: Disponibilité
+      - label: Disponibilite
         field: available
     fields:
       - label: "Nom du produit"
         name: "name"
         widget: "string"
 
-      - label: "Catégorie"
+      - label: "Categorie"
         name: "category"
         widget: "select"
         options:
@@ -298,106 +400,207 @@ collections:
       - label: "Artiste"
         name: "artist"
         widget: "string"
-        hint: "Nom de l'artiste auteur du produit (ou 'Nuit Noire' pour le merch du shop)."
+        hint: "Nom de l'artiste auteur du produit (ou 'Nuit Noire')."
 
       - label: "Prix"
         name: "price"
         widget: "string"
-        hint: "Ex. : '350 CHF', '40 €'"
+        hint: "Ex. : '350 CHF', '40 EUR'"
 
       - label: "Image"
         name: "image"
         widget: "image"
 
-      - label: "Description"
+
+      - label: "Description (francais)"
         name: "description"
         widget: "text"
         required: false
+
+
+      - label: "Description (English)"
+        name: "description_en"
+        widget: "text"
+        required: false
+        hint: "Traduction anglaise. Laisser vide = la version francaise s'affiche aussi en anglais."
+
 
       - label: "Disponible"
         name: "available"
         widget: "boolean"
         default: true
-        hint: "Décoche si le flash a déjà été réservé ou que le produit est épuisé."
+        hint: "Decoche si le flash est reserve ou le produit epuise."
+
 
   # -----------------------------------------------------------
   # 4. CONTACT
   # -----------------------------------------------------------
   - name: "contact"
     label: "✉️ Contact"
-    description: "Informations du shop, formulaire de contact."
+    description: "Infos du shop et textes de la page contact."
     delete: false
     files:
       - name: "contact_page"
         label: "Page Contact"
         file: "data/contact.json"
         fields:
-          - label: "Étiquette (eyebrow)"
+
+          - label: "Etiquette (eyebrow)"
             name: "eyebrow"
-            widget: "string"
-            default: "Une idée ?"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Une idee ?"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "An idea?"
+
 
           - label: "Titre"
             name: "title"
-            widget: "string"
-            default: "Contact"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Contact"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Contact"
+
 
           - label: "Sous-titre"
             name: "subtitle"
-            widget: "string"
-            default: "Écrivez-nous, ou passez nous voir au shop."
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Ecrivez-nous, ou passez nous voir au shop."
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Write to us, or drop by the shop."
+
 
           - label: "Adresse"
             name: "address"
-            widget: "text"
-            hint: "Une ligne par retour à la ligne. Ex. :\nRue de -\n1201 Genève\nSuisse"
+            widget: "object"
+            hint: "Une ligne par retour a la ligne."
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "text"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "text"
 
-          - label: "Téléphone"
+
+          - label: "Telephone"
             name: "phone"
             widget: "string"
             required: false
             default: "+41 (0)22 341 18 82"
 
-          - label: "Accès TPG"
-            name: "access_tpg"
-            widget: "string"
-            required: false
-            default: "Arrêt Blandonnet"
-            hint: "Affiché dans l'encart sous la carte. Laisser vide pour masquer la ligne."
 
-          - label: "Accès CFF"
-            name: "access_cff"
-            widget: "string"
+          - label: "Acces TPG"
+            name: "access_tpg"
+            widget: "object"
             required: false
-            default: "Arrêt Vernier"
+            hint: "Affiche sous la carte. Laisser vide pour masquer."
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                required: false
+                default: "Arret Blandonnet"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                required: false
+                default: "Blandonnet stop"
+
+
+          - label: "Acces CFF"
+            name: "access_cff"
+            widget: "object"
+            required: false
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                required: false
+                default: "Arret Vernier"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                required: false
+                default: "Vernier station"
+
 
           - label: "Parking"
             name: "parking"
-            widget: "string"
+            widget: "object"
             required: false
-            default: "Centre Commercial Blandonnet"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                required: false
+                default: "Centre Commercial Blandonnet"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                required: false
+                default: "Blandonnet shopping centre"
+
 
           - label: "Adresse pour la carte Google Maps"
             name: "map_query"
             widget: "string"
             default: "Chemin des Coquelicots 7, 1214 Vernier, Suisse"
-            hint: "Adresse envoyée à Google Maps pour centrer la carte."
+            hint: "Adresse envoyee a Google Maps pour centrer la carte."
+
 
           - label: "Horaires"
             name: "hours"
-            widget: "text"
-            hint: "Texte libre. Ex. :\nMardi - Samedi\n11h - 19h"
+            widget: "object"
+            hint: "Texte libre. Ex. : Mardi - Samedi / 11h - 19h"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "text"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "text"
+
 
           - label: "Note sur les horaires"
             name: "hours_note"
-            widget: "string"
+            widget: "object"
             required: false
-            default: "Sur rendez-vous"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                required: false
+                default: "Sur rendez-vous"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                required: false
+                default: "By appointment"
+
 
           - label: "Email"
             name: "email"
             widget: "string"
-            pattern: ['^[^@]+@[^@]+\.[^@]+$', "Email invalide"]
+            pattern: ["^[^@]+@[^@]+\\.[^@]+$", "Email invalide"]
+
 
           - label: "Compte Instagram"
             name: "instagram"
@@ -405,93 +608,195 @@ collections:
             default: "nuitnoiretattoo"
             hint: "Sans le @ devant."
 
+
           - label: "Introduction du formulaire - Titre"
             name: "form_intro_title"
-            widget: "string"
-            default: "Décrivez votre projet"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Decrivez votre projet"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Describe your project"
+
 
           - label: "Introduction du formulaire - Texte"
             name: "form_intro_text"
-            widget: "text"
-            default: "Le bouton ci-dessous ouvrira votre application mail avec un message pré-rempli. Plus vos informations sont précises, plus la réponse sera rapide."
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "text"
+                default: "Le bouton ci-dessous ouvrira votre application mail avec un message pre-rempli. Plus vos informations sont precises, plus la reponse sera rapide."
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "text"
+                default: "The button below opens your mail app with a pre-filled message. The more precise your details, the faster the reply."
+
 
           - label: "Note photos (formulaire)"
             name: "form_photos_note"
-            widget: "text"
+            widget: "object"
             required: false
-            default: "Vous pouvez joindre à votre email des photos de référence et/ou de l'emplacement souhaité, dans la limite de 4 photos."
-            hint: "Petite phrase affichée sous l'intro du formulaire. Laisser vide pour masquer."
+            hint: "Phrase sous l'intro. Laisser vide pour masquer."
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "text"
+                required: false
+                default: "Vous pouvez joindre a votre email des photos de reference et/ou de l'emplacement souhaite, dans la limite de 4 photos."
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "text"
+                required: false
+                default: "You can attach reference photos and/or photos of the desired placement to your email, up to 4 photos."
+
 
   # -----------------------------------------------------------
   # 5. FAQ
   # -----------------------------------------------------------
   - name: "faq"
     label: "❓ FAQ"
-    description: "Questions fréquentes affichées sur la page FAQ."
+    description: "Questions frequentes."
     delete: false
     files:
       - name: "faq_page"
         label: "Page FAQ"
         file: "data/faq.json"
         fields:
-          - label: "Étiquette (eyebrow)"
+
+          - label: "Etiquette (eyebrow)"
             name: "eyebrow"
-            widget: "string"
-            default: "Questions fréquentes"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Questions frequentes"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Frequently asked"
+
+
           - label: "Titre"
             name: "title"
-            widget: "string"
-            default: "FAQ"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "FAQ"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "FAQ"
+
+
           - label: "Sous-titre"
             name: "subtitle"
-            widget: "string"
-            default: "Réponses aux questions fréquentes."
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Reponses aux questions frequentes."
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Answers to common questions."
+
+
           - label: "Questions"
             name: "items"
             widget: "list"
-            summary: "{{fields.question}}"
-            hint: "Tu peux ajouter, supprimer et réorganiser les questions par glisser-déposer."
+            summary: "{{fields.question.fr}}"
+            hint: "Ajoute, supprime et reorganise les questions par glisser-deposer."
             fields:
+
               - label: "Question"
                 name: "question"
-                widget: "string"
-              - label: "Réponse"
+                widget: "object"
+                fields:
+                  - label: "🇫🇷 Francais"
+                    name: "fr"
+                    widget: "string"
+                  - label: "🇬🇧 English"
+                    name: "en"
+                    widget: "string"
+
+
+              - label: "Reponse"
                 name: "answer"
-                widget: "text"
-                hint: "Pour insérer un lien : [texte affiché](adresse). Ex. [email](contact.html) ou [appelez-nous](tel:+41223411882)."
+                widget: "object"
+                hint: "Lien : [texte affiche](adresse). Ex. [email](contact.html)."
+                fields:
+                  - label: "🇫🇷 Francais"
+                    name: "fr"
+                    widget: "text"
+                  - label: "🇬🇧 English"
+                    name: "en"
+                    widget: "text"
+
 
   # -----------------------------------------------------------
-  # 6. RÉGLAGES GLOBAUX
+  # 6. REGLAGES GENERAUX
   # -----------------------------------------------------------
   - name: "settings"
-    label: "⚙️ Réglages généraux"
-    description: "Infos affichées dans la barre de navigation et le pied de page."
+    label: "⚙️ Reglages generaux"
+    description: "Infos de la barre de navigation et du pied de page."
     delete: false
     files:
       - name: "footer"
         label: "Pied de page + bouton contact"
         file: "data/settings.json"
         fields:
-          - label: "Téléphone"
+          - label: "Telephone"
             name: "footer_phone"
             widget: "string"
             default: "+41 (0)22 341 18 82"
-            hint: "Affiché dans le footer et utilisé par le bouton contact flottant (appel direct)."
+            hint: "Affiche dans le footer et utilise par le bouton contact flottant."
+
           - label: "Horaires"
             name: "footer_hours"
-            widget: "string"
-            default: "lun - sam : 10h30 - 17h30"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "lun - sam : 10h30 - 17h30"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Mon - Sat: 10:30 - 17:30"
+
+
           - label: "Note horaires"
             name: "footer_hours_note"
-            widget: "string"
+            widget: "object"
             required: false
-            default: "dim : fermé"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                required: false
+                default: "dim : ferme"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                required: false
+                default: "Sun: closed"
+
+
           - label: "Heure d'ouverture"
             name: "open_from"
             widget: "string"
             default: "10:30"
             pattern: ['^\d{1,2}:\d{2}$', "Format 24h attendu, ex. 10:30"]
-            hint: "Format 24h HH:MM. Utilisé pour le badge Open/Closed du bouton contact."
+            hint: "Format 24h HH:MM. Badge Open/Closed du bouton contact."
           - label: "Heure de fermeture"
             name: "open_until"
             widget: "string"
@@ -510,13 +815,13 @@ collections:
               - { label: "Samedi", value: "6" }
               - { label: "Dimanche", value: "0" }
             default: ["1", "2", "3", "4", "5", "6"]
-            hint: "Jours où le badge peut afficher Open."
+            hint: "Jours ou le badge peut afficher Open."
           - label: "Email"
             name: "footer_email"
             widget: "string"
             default: "info@nuitnoiretattoo.com"
-            hint: "Affiché dans le footer et utilisé par le bouton contact flottant."
-          - label: "Adresse complète"
+            hint: "Affiche dans le footer et utilise par le bouton contact flottant."
+          - label: "Adresse complete"
             name: "footer_address"
             widget: "string"
             default: "Ch. des Coquelicots, 7 - 1214 Vernier - Switzerland."
@@ -524,3 +829,861 @@ collections:
             name: "instagram_url"
             widget: "string"
             default: "https://instagram.com/nuitnoiretattoo"
+
+
+  # -----------------------------------------------------------
+  # 7. TEXTES D'INTERFACE (boutons, libelles, emails...)
+  # -----------------------------------------------------------
+  # La plupart du temps tu n'as PAS besoin d'y toucher : ce sont
+  # les petits textes de l'interface. Chacun a sa version FR et EN.
+  - name: "ui_strings"
+    label: "🔤 Textes d'interface"
+    description: "Boutons, libelles du formulaire, textes du bouton flottant, emails. FR / EN."
+    delete: false
+    files:
+      - name: "ui"
+        label: "Textes d'interface (FR / EN)"
+        file: "data/ui.json"
+        fields:
+
+          - label: "Menu artistes : voir tous"
+            name: "nav_view_all"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "→ Voir tous"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "→ View all"
+          - label: "Accueil : lien voir les artistes"
+            name: "home_view_artists"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Voir les artistes →"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "View the artists →"
+          - label: "Shop : filtre Tout"
+            name: "shop_filter_all"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Tout"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "All"
+          - label: "Shop : filtre Flashs"
+            name: "shop_filter_flash"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Flashs"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Flashes"
+          - label: "Shop : filtre Tirages"
+            name: "shop_filter_print"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Tirages"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Prints"
+          - label: "Shop : filtre Merch"
+            name: "shop_filter_merch"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Merch"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Merch"
+          - label: "Shop : aucun produit"
+            name: "shop_empty"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Aucun produit dans cette catégorie pour le moment."
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "No products in this category yet."
+          - label: "Shop : 'par' (avant le nom d'artiste)"
+            name: "shop_by"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "par"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "by"
+          - label: "Shop : badge Reserve"
+            name: "shop_reserved"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Réservé"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Reserved"
+          - label: "Shop : titre Commander"
+            name: "shop_order_heading"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Commander"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Order"
+          - label: "Shop : lien Nous contacter"
+            name: "shop_contact_us"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Nous contacter →"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Contact us →"
+          - label: "Categorie : Flash"
+            name: "cat_flash"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Flash"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Flash"
+          - label: "Categorie : Tirage"
+            name: "cat_print"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Tirage"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Print"
+          - label: "Categorie : Merch"
+            name: "cat_merch"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Merch"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Merch"
+          - label: "Role : Fondateur"
+            name: "role_fondateur"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Fondateur"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Founder"
+          - label: "Role : Fondatrice"
+            name: "role_fondatrice"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Fondatrice"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Founder"
+          - label: "Role : Resident"
+            name: "role_resident"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Résident"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Resident"
+          - label: "Role : Residente"
+            name: "role_residente"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Résidente"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Resident"
+          - label: "Role : Invite"
+            name: "role_invite"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Invité"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Guest"
+          - label: "Role : Invitee"
+            name: "role_invitee"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Invitée"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Guest"
+          - label: "Formulaire : Nom complet"
+            name: "form_name"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Nom complet"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Full name"
+          - label: "Formulaire : Email"
+            name: "form_email"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Email"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Email"
+          - label: "Formulaire : Artiste souhaite"
+            name: "form_artist"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Artiste souhaité"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Preferred artist"
+          - label: "Formulaire : Sans preference"
+            name: "form_no_pref"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "- Sans préférence -"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "- No preference -"
+          - label: "Formulaire : Type de demande"
+            name: "form_subject"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Type de demande"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Request type"
+          - label: "Formulaire : Nouveau projet"
+            name: "form_subject_new"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Nouveau projet"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "New project"
+          - label: "Formulaire : Retouche"
+            name: "form_subject_touch"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Retouche"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Touch-up"
+          - label: "Formulaire : Question"
+            name: "form_subject_q"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Question"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Question"
+          - label: "Formulaire : Autre"
+            name: "form_subject_other"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Autre"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Other"
+          - label: "Formulaire : Emplacement et taille"
+            name: "form_placement"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Emplacement et taille approximative"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Placement and approximate size"
+          - label: "Formulaire : placeholder emplacement"
+            name: "form_placement_ph"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "ex. avant-bras, environ 15 cm"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "e.g. forearm, around 15 cm"
+          - label: "Formulaire : Description du projet"
+            name: "form_message"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Description du projet"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Project description"
+          - label: "Formulaire : placeholder description"
+            name: "form_message_ph"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Décrivez votre idée, ambiance, références, contraintes…"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Describe your idea, mood, references, constraints…"
+          - label: "Formulaire : Disponibilites"
+            name: "form_availability"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Disponibilités"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Availability"
+          - label: "Formulaire : placeholder disponibilites"
+            name: "form_availability_ph"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "ex. après-midi en semaine, week-ends…"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "e.g. weekday afternoons, weekends…"
+          - label: "Formulaire : bouton Envoyer"
+            name: "form_submit"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Envoyer le message"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Send message"
+          - label: "Formulaire : disclaimer ligne 1"
+            name: "form_disclaimer_1"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Le bouton ouvre votre client mail."
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "This button opens your email client."
+          - label: "Formulaire : disclaimer ligne 2"
+            name: "form_disclaimer_2"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Si ça ne fonctionne pas, écrivez à"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "If it doesn't work, email"
+          - label: "Formulaire : message de validation"
+            name: "form_validation"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Merci de remplir au moins votre nom, votre email et la description du projet."
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Please fill in at least your name, email and project description."
+          - label: "Contact : libelle Adresse"
+            name: "label_address"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Adresse"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Address"
+          - label: "Contact : libelle Telephone"
+            name: "label_phone"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Téléphone"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Phone"
+          - label: "Contact : libelle Direct"
+            name: "label_direct"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Direct"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Direct"
+          - label: "Contact : libelle Horaires"
+            name: "label_hours"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Horaires"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Hours"
+          - label: "Contact : libelle Acces TPG"
+            name: "access_tpg"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Accès TPG"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Public transport"
+          - label: "Contact : libelle Acces CFF"
+            name: "access_cff"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Accès CFF"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Train"
+          - label: "Contact : libelle Parking"
+            name: "access_parking"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Parking"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Parking"
+          - label: "Email : salutation"
+            name: "mail_greeting"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Bonjour,"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Hello,"
+          - label: "Email : Nom"
+            name: "mail_name"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Nom"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Name"
+          - label: "Email : Email"
+            name: "mail_email"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Email"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Email"
+          - label: "Email : Artiste souhaite"
+            name: "mail_artist"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Artiste souhaité"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Preferred artist"
+          - label: "Email : Sans preference"
+            name: "mail_no_pref"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Sans préférence"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "No preference"
+          - label: "Email : Type de demande"
+            name: "mail_subject"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Type de demande"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Request type"
+          - label: "Email : Emplacement / taille"
+            name: "mail_placement"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Emplacement / taille"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Placement / size"
+          - label: "Email : Description du projet"
+            name: "mail_description"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Description du projet :"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Project description:"
+          - label: "Email : Disponibilites"
+            name: "mail_availability"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Disponibilités"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Availability"
+          - label: "Email : formule de politesse"
+            name: "mail_regards"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Cordialement,"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Best regards,"
+          - label: "Bouton flottant : Instagram"
+            name: "fab_instagram"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Instagram"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Instagram"
+          - label: "Bouton flottant : Email"
+            name: "fab_mail"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Envoyer un email"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Send an email"
+          - label: "Bouton flottant : Appeler"
+            name: "fab_phone"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Appeler le shop"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Call the shop"
+          - label: "Bouton flottant : Plan"
+            name: "fab_map"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Voir le plan d'accès"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "View directions"
+          - label: "Bouton flottant : Horaires"
+            name: "fab_hours"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Voir les horaires"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "View opening hours"
+          - label: "Bouton flottant : ouverture"
+            name: "fab_toggle"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Contact rapide"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Quick contact"
+          - label: "Erreur : chargement artistes"
+            name: "err_artists"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Impossible de charger les artistes pour le moment."
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Unable to load the artists right now."
+          - label: "Erreur : chargement shop"
+            name: "err_shop"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Impossible de charger la boutique pour le moment."
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Unable to load the shop right now."
+          - label: "Erreur : chargement FAQ"
+            name: "err_faq"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Impossible de charger la FAQ pour le moment."
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Unable to load the FAQ right now."
+          - label: "Titre d'onglet : Accueil"
+            name: "title_home"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Nuit Noire Tattoo - Genève"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Nuit Noire Tattoo - Geneva"
+          - label: "Titre d'onglet : Artistes"
+            name: "title_artists"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Artistes - Nuit Noire Tattoo"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Artists - Nuit Noire Tattoo"
+          - label: "Titre d'onglet : Shop"
+            name: "title_shop"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Shop - Nuit Noire Tattoo"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Shop - Nuit Noire Tattoo"
+          - label: "Titre d'onglet : FAQ"
+            name: "title_faq"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "FAQ - Nuit Noire Tattoo"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "FAQ - Nuit Noire Tattoo"
+          - label: "Titre d'onglet : Contact"
+            name: "title_contact"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Contact - Nuit Noire Tattoo"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Contact - Nuit Noire Tattoo"
+
