@@ -1561,7 +1561,7 @@ body[data-page="home"] .nav {
   justify-content: space-between;
   align-items: baseline;
   gap: 24px;
-  padding: 26px 0;
+  padding: 15px 0;
 }
 
 .faq-item summary::-webkit-details-marker {
@@ -1726,7 +1726,7 @@ body[data-page="home"] .nav {
   }
 
   .faq-item summary {
-    padding: 20px 0;
+    padding: 12px 0;
     gap: 16px;
   }
 
