@@ -37,6 +37,7 @@
       renderArtists(artists);
 
       initQuickNav();
+      initQuickNavArrows();
       initSectionObserver();
       handleInitialHash();
     } catch (err) {
@@ -180,6 +181,29 @@
         }
       });
     });
+  }
+
+  // Affiche une fleche discrete a gauche / a droite tant qu'il reste des noms
+  // a faire defiler de ce cote (surtout utile sur mobile). Non cliquable.
+  function initQuickNavArrows() {
+    const bar = document.getElementById('artists-quicknav');
+    const inner = document.getElementById('artists-quicknav-inner');
+    if (!bar || !inner) return;
+
+    function update() {
+      const max = inner.scrollWidth - inner.clientWidth;
+      const x = inner.scrollLeft;
+      const EPS = 2; // tolerance pour les arrondis
+      bar.classList.toggle('can-scroll-left', x > EPS);
+      bar.classList.toggle('can-scroll-right', x < max - EPS);
+    }
+
+    inner.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    // Recalcule apres le chargement des polices (la largeur peut changer)
+    window.addEventListener('load', update);
+    setTimeout(update, 300);
+    update();
   }
 
   function initSectionObserver() {
