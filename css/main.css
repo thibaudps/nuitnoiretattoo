@@ -849,16 +849,47 @@ body[data-page="home"] .nav {
   color: var(--fg);
 }
 
-.artists-quicknav-link.is-active::after {
-  content: '';
+/* Indicateurs de scroll (fleches discretes aux bords).
+   Non cliquables : montrent juste qu'il reste des noms a gauche / a droite.
+   Affiches via .can-scroll-left / .can-scroll-right poses en JS. */
+.artists-quicknav::before,
+.artists-quicknav::after {
   position: absolute;
-  bottom: -16px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: var(--fg);
+  top: 0;
+  bottom: 0;
+  width: 34px;
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+  color: var(--fg-muted);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--t-fast);
+  z-index: 2;
+}
+
+.artists-quicknav::before {
+  content: '‹';
+  left: 0;
+  justify-content: flex-start;
+  padding-left: 10px;
+  background: linear-gradient(to right, var(--bg) 40%, transparent);
+}
+
+.artists-quicknav::after {
+  content: '›';
+  right: 0;
+  justify-content: flex-end;
+  padding-right: 10px;
+  background: linear-gradient(to left, var(--bg) 40%, transparent);
+}
+
+.artists-quicknav.can-scroll-left::before {
+  opacity: 1;
+}
+
+.artists-quicknav.can-scroll-right::after {
+  opacity: 1;
 }
 
 /* ============================================
