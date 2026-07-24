@@ -856,28 +856,44 @@ img, svg {
 
 /* ============================================
    ABOUT / A PROPOS
+   Page pleine hauteur : tout visible sans scroller.
+   Hauteur = viewport moins la nav (mesuree en JS -> --about-h).
    ============================================ */
 .about-content {
+  height: var(--about-h, calc(100svh - 76px));
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: 10px var(--padding-x) 100px;
+  padding: 14px var(--padding-x) 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(16px, 3.2vh, 34px);
 }
 
 .about-photo {
-  margin: 0 0 44px;
+  margin: 0;
+  flex: 0 1 auto;
+  min-height: 0;
+  text-align: center;
 }
 
 .about-photo img {
-  width: 100%;
+  max-width: 100%;
+  max-height: 50vh;
+  width: auto;
   height: auto;
-  display: block;
+  margin: 0 auto;
+}
+
+.about-body {
+  flex: 0 0 auto;
 }
 
 .about-body p {
-  font-size: 16px;
-  line-height: 1.9;
+  font-size: clamp(13px, 1.55vh, 16px);
+  line-height: 1.6;
   color: var(--fg-muted);
-  margin-bottom: 22px;
+  margin-bottom: clamp(8px, 1.4vh, 18px);
 }
 
 .about-body p:last-child {
@@ -885,8 +901,19 @@ img, svg {
 }
 
 @media (max-width: 768px) {
-  .about-photo {
-    margin-bottom: 32px;
+  .about-content {
+    height: var(--about-h, calc(100svh - 64px));
+    padding: 10px var(--padding-x-mobile) 16px;
+    gap: clamp(12px, 2vh, 20px);
+  }
+
+  .about-photo img {
+    max-height: 40vh;
+  }
+
+  .about-body p {
+    font-size: clamp(12px, 1.7vh, 15px);
+    line-height: 1.5;
   }
 }
 
