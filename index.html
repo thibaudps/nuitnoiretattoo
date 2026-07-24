@@ -21,7 +21,10 @@
   <section class="hero">
     <div class="hero-video">
       <video
+        id="hero-video"
         src="assets/intromoviedesktop.mp4"
+        data-src-desktop="assets/intromoviedesktop.mp4"
+        data-src-mobile="assets/intromoviemobile.mp4"
         autoplay
         muted
         loop
@@ -67,24 +70,47 @@
   <script src="js/partials.js"></script>
   <script src="js/main.js"></script>
 
-  <!-- Ajuste la hauteur du hero video pour qu'il rentre pile sous la nav -->
+  <!-- Hero video : hauteur exacte sous la nav + source desktop/mobile -->
   <script>
     (function () {
+      // 1) Hauteur du hero = viewport moins la nav
       function setHeroHeight() {
         var nav = document.querySelector('.nav');
         var navH = nav ? nav.getBoundingClientRect().height : 0;
         var h = Math.max(0, window.innerHeight - navH);
         document.documentElement.style.setProperty('--hero-h', h + 'px');
       }
-      window.addEventListener('resize', setHeroHeight);
-      window.addEventListener('load', setHeroHeight);
-      document.addEventListener('DOMContentLoaded', setHeroHeight);
+
+      // 2) Choix de la video selon la largeur d'ecran
+      var video = document.getElementById('hero-video');
+      var mq = window.matchMedia('(max-width: 768px)');
+      function pickSource() {
+        if (!video) return;
+        var want = mq.matches
+          ? video.getAttribute('data-src-mobile')
+          : video.getAttribute('data-src-desktop');
+        if (want && want !== video.getAttribute('src')) {
+          video.setAttribute('src', want);
+          video.load();
+          var p = video.play();
+          if (p && p.catch) p.catch(function () {});
+        }
+      }
+
+      function update() { setHeroHeight(); pickSource(); }
+
+      window.addEventListener('resize', update);
+      window.addEventListener('load', update);
+      document.addEventListener('DOMContentLoaded', update);
+      if (mq.addEventListener) { mq.addEventListener('change', pickSource); }
+      else if (mq.addListener) { mq.addListener(pickSource); }
+
       // La nav est injectee dans #nav-mount de facon asynchrone : on recalcule des qu'elle apparait
       var mount = document.getElementById('nav-mount');
       if (mount && 'MutationObserver' in window) {
         new MutationObserver(setHeroHeight).observe(mount, { childList: true, subtree: true });
       }
-      setHeroHeight();
+      update();
     })();
   </script>
 </body>
