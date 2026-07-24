@@ -3,8 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Nuit Noire Tattoo - Salon de tatouage indépendant à Genève." />
-  <title>Nuit Noire Tattoo - Genève</title>
+
+  <title>Nuit Noire Tattoo - Salon de tatouage à Genève</title>
+  <meta name="description" content="Salon de tatouage indépendant à Genève. Huit artistes, huit univers, des projets personnalisés. Chemin des Coquelicots 7, Vernier. Sur rendez-vous." />
+  <link rel="canonical" href="https://www.nuitnoiretattoo.com/" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+
+  <!-- Open Graph / partages Instagram, WhatsApp, Messenger -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Nuit Noire Tattoo" />
+  <meta property="og:locale" content="fr_CH" />
+  <meta property="og:url" content="https://www.nuitnoiretattoo.com/" />
+  <meta property="og:title" content="Nuit Noire Tattoo - Salon de tatouage à Genève" />
+  <meta property="og:description" content="Salon de tatouage indépendant à Genève. Huit artistes, huit univers, des projets personnalisés." />
+  <meta property="og:image" content="https://www.nuitnoiretattoo.com/assets/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Nuit Noire Tattoo, salon de tatouage à Genève" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <meta name="theme-color" content="#0a120d" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,6 +30,47 @@
 
   <link rel="stylesheet" href="css/main.css" />
   <link rel="icon" type="image/svg+xml" href="assets/logo-mini-cream.svg">
+
+  <!-- Fiche établissement pour Google (bloc Maps, horaires, rich results) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TattooParlor",
+    "@id": "https://www.nuitnoiretattoo.com/#studio",
+    "name": "Nuit Noire Tattoo",
+    "description": "Salon de tatouage indépendant au cœur de Genève, Nuit Noire réunit huit artistes aux univers singuliers. Nous travaillons sur projets personnalisés, dans le respect de chaque démarche.",
+    "url": "https://www.nuitnoiretattoo.com/",
+    "logo": "https://www.nuitnoiretattoo.com/assets/logo-mini-cream.svg",
+    "image": "https://www.nuitnoiretattoo.com/assets/og-image.jpg",
+    "telephone": "+41223411882",
+    "email": "info@nuitnoiretattoo.com",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Chemin des Coquelicots 7",
+      "postalCode": "1214",
+      "addressLocality": "Vernier",
+      "addressRegion": "GE",
+      "addressCountry": "CH"
+    },
+    "hasMap": "https://www.google.com/maps?q=Chemin+des+Coquelicots+7,+1214+Vernier,+Suisse",
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+        "opens": "10:30",
+        "closes": "17:30"
+      }
+    ],
+    "priceRange": "CHF 150 - CHF 200/h",
+    "currenciesAccepted": "CHF",
+    "areaServed": [
+      { "@type": "City", "name": "Genève" },
+      { "@type": "City", "name": "Vernier" }
+    ],
+    "sameAs": ["https://instagram.com/nuitnoiretattoo"],
+    "knowsLanguage": ["fr", "en"]
+  }
+  </script>
 </head>
 <body data-page="home">
 
@@ -19,6 +78,10 @@
 
   <!-- HERO -->
   <section class="hero">
+    <!-- Titre principal de la page : lu par Google et les lecteurs d'écran,
+         invisible à l'écran (classe .sr-only dans main.css). -->
+    <h1 class="sr-only">Nuit Noire Tattoo, salon de tatouage indépendant à Genève</h1>
+
     <div class="hero-video">
       <video
         id="hero-video"
@@ -30,7 +93,7 @@
         loop
         playsinline
         preload="metadata"
-        aria-label="Nuit Noire Tattoo"
+        aria-label="Nuit Noire Tattoo, salon de tatouage à Genève"
       ></video>
 
       <a href="#travaux" class="hero-scroll" aria-label="Voir les derniers travaux">
@@ -44,7 +107,7 @@
   <!-- LATEST WORK -->
   <section class="latest-work" id="travaux">
     <div class="latest-work-header">
-      <h2 id="latest-work-title">Latest work</h2>
+      <h2 id="latest-work-title">Derniers travaux</h2>
       <a href="" target="_blank" rel="noopener" class="latest-work-handle" id="latest-work-handle"></a>
     </div>
 
@@ -53,7 +116,7 @@
     </div>
 
     <div class="latest-work-footer">
-      <a href="artists.html" class="link-underline" data-i18n="home_view_artists">Voir les artistes →</a>
+      <a href="/artists" class="link-underline" data-i18n="home_view_artists">Voir les artistes →</a>
     </div>
   </section>
 
