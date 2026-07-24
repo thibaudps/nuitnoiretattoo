@@ -212,12 +212,14 @@ body[data-page="home"] .nav {
    HERO — carrousel horizontal
    ============================================ */
 .hero {
-  min-height: auto;
+  /* Plein ecran sous la nav (nav = 76px sur desktop) */
+  min-height: calc(100vh - 76px);
+  min-height: calc(100svh - 76px);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
-  padding: 40px 0 10px;
+  padding: 0;
   text-align: center;
   overflow: hidden;
   position: relative;
@@ -278,18 +280,59 @@ body[data-page="home"] .nav {
   transform: translate(-50%, -50%);
 }
 
-/* VIDEO HERO — remplace le carrousel, largeur = conteneur du site */
+/* VIDEO HERO — plein cadre (pleine largeur + pleine hauteur) */
 .hero-video {
+  position: relative;
+  flex: 1 1 auto;
   width: 100%;
-  max-width: var(--max-width);
-  margin: 0 auto;
-  padding: 0 var(--padding-x);
+  max-width: none;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .hero-video video {
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
   display: block;
+}
+
+/* Fleche discrete qui invite au scroll et mene aux derniers travaux */
+.hero-scroll {
+  position: absolute;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  color: var(--fg);
+  background: rgba(10, 18, 13, 0.5);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 0.5px solid var(--border-strong);
+  opacity: 0.75;
+  transition: opacity var(--t-fast), background var(--t-fast);
+  animation: hero-scroll-bounce 2.4s ease-in-out infinite;
+}
+
+.hero-scroll:hover {
+  opacity: 1;
+  background: rgba(10, 18, 13, 0.75);
+}
+
+@keyframes hero-scroll-bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(6px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-scroll { animation: none; }
 }
 
 /* LOGO */
@@ -362,6 +405,7 @@ body[data-page="home"] .nav {
   padding: 40px var(--padding-x) 100px;
   max-width: var(--max-width);
   margin: 0 auto;
+  scroll-margin-top: 90px;
 }
 
 .latest-work-header {
@@ -732,6 +776,12 @@ body[data-page="home"] .nav {
 
   .nav-lang-btn {
     padding: 4px 6px;
+  }
+
+  .hero {
+    /* nav mobile = 64px */
+    min-height: calc(100vh - 64px);
+    min-height: calc(100svh - 64px);
   }
 
   .hero-carousel {
