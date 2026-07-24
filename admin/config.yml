@@ -803,6 +803,31 @@ collections:
                 default: "An independent studio, eight worlds."
 
 
+          - label: "Photo"
+            name: "image"
+            widget: "image"
+            required: false
+            hint: "Photo affichee en haut de la page (l'equipe, le studio...). Format paysage recommande."
+
+
+          - label: "Texte alternatif de la photo"
+            name: "image_alt"
+            widget: "object"
+            required: false
+            hint: "Decrit la photo (accessibilite et referencement)."
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                required: false
+                default: "L'equipe de Nuit Noire devant le studio a Geneve"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                required: false
+                default: "The Nuit Noire team in front of the studio in Geneva"
+
+
           - label: "Texte"
             name: "body"
             widget: "object"
