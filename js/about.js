@@ -42,6 +42,17 @@
       fillText('page-title', T(data.title));
       fillText('page-subtitle', T(data.subtitle));
 
+      // Photo (éditable dans le CMS). Masquée si aucune image.
+      const figure = document.getElementById('about-photo');
+      const img = document.getElementById('about-image');
+      if (figure && img && data.image) {
+        img.src = data.image;
+        img.alt = T(data.image_alt) || 'Nuit Noire Tattoo';
+        figure.hidden = false;
+      } else if (figure) {
+        figure.hidden = true;
+      }
+
       const body = document.getElementById('about-body');
       if (body && data.body) body.innerHTML = renderParagraphs(T(data.body));
     } catch (err) {
