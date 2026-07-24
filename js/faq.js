@@ -2,6 +2,7 @@
    NUIT NOIRE TATTOO - faq.js
    Charge data/faq.json (en-tete + questions/reponses)
    Bilingue : contenu via NN.t({fr,en}), interface via NN.ui(key)
+   + injecte un schema FAQPage (JSON-LD) pour les rich results Google.
    ============================================ */
 
 (function () {
@@ -17,6 +18,7 @@
       const data = await response.json();
       renderHeader(data);
       renderItems(data.items || []);
+      injectFaqSchema(data.items || []);
     } catch (err) {
       console.error('Erreur de chargement de la page FAQ', err);
       const list = document.getElementById('faq-list');
@@ -50,12 +52,61 @@
       `).join('');
   }
 
+  // ============================================
+  // SCHEMA FAQPage
+  // --------------------------------------------
+  // Permet a Google d'afficher les questions directement dans les resultats.
+  // Genere depuis les memes donnees que l'affichage : les reponses balisees
+  // correspondent donc toujours a ce que voit le visiteur, ce que Google exige.
+  // Les reponses sont converties en texte brut (liens markdown -> libelle seul).
+  // ============================================
+  function injectFaqSchema(items) {
+    const entities = items
+      .filter(item => item && T(item.question) && T(item.answer))
+      .map(item => ({
+        '@type': 'Question',
+        name: T(item.question),
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: toPlainText(T(item.answer))
+        }
+      }));
+
+    if (entities.length === 0) return;
+
+    // Un seul bloc FAQPage par page : deux blocs seraient signales en erreur
+    // par Google. Garde-fou au cas ou loadPage serait appele deux fois.
+    const existing = document.querySelector('script[data-nn-schema="faq"]');
+    if (existing) existing.remove();
+
+    const schema = {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: entities
+    };
+
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.setAttribute('data-nn-schema', 'faq');
+    // textContent et non innerHTML : aucune interpretation possible du contenu.
+    script.textContent = JSON.stringify(schema);
+    document.head.appendChild(script);
+  }
+
+  // "[email](contact.html)" -> "email" ; supprime les sauts de ligne doubles.
+  function toPlainText(text) {
+    return String(text || '')
+      .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, '$1')
+      .replace(/\s*\n\s*/g, ' ')
+      .trim();
+  }
+
   // Echappe le HTML, puis convertit les liens [texte](url) et les retours a la ligne.
-  // Seuls les liens http(s), mailto, tel et relatifs (.html, #) sont autorises.
+  // Seuls les liens http(s), mailto, tel, relatifs (.html, #) et absolus (/...) sont autorises.
   function renderAnswer(text) {
     let html = escapeHtml(text);
     html = html.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (match, label, url) => {
-      const safe = /^(https?:\/\/|mailto:|tel:|[a-z0-9-]+\.html|#)/i.test(url);
+      const safe = /^(https?:\/\/|mailto:|tel:|\/[a-z0-9-]*|[a-z0-9-]+\.html|#)/i.test(url);
       if (!safe) return match;
       const external = /^https?:\/\//i.test(url);
       return `<a href="${url}"${external ? ' target="_blank" rel="noopener"' : ''}>${label}</a>`;

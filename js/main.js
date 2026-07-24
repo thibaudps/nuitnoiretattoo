@@ -199,7 +199,7 @@
 
     grid.innerHTML = visible.map(item => `
       <a href="${item.link || '#'}" class="work-item" ${item.link ? 'target="_blank" rel="noopener"' : ''}>
-        <img src="${item.image}" alt="${escapeHtml(T(item.alt) || 'Tatouage Nuit Noire')}" loading="lazy" />
+        <img src="${item.image}" alt="${escapeHtml(T(item.alt) || 'Tatouage réalisé chez Nuit Noire Tattoo, Genève')}" loading="lazy" />
       </a>
     `).join('');
   }

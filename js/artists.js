@@ -98,7 +98,7 @@
         <div class="artist-intro">
           <div class="artist-portrait">
             ${artist.portrait
-              ? `<img src="${artist.portrait}" alt="Portrait de ${escapeHtml(artist.name)}" loading="lazy" onerror="this.style.display='none'; this.parentElement.classList.add('no-image');" />`
+              ? `<img src="${artist.portrait}" alt="${escapeHtml(artist.name)}, tatoueur chez Nuit Noire Tattoo à Genève" loading="lazy" onerror="this.style.display='none'; this.parentElement.classList.add('no-image');" />`
               : ''}
           </div>
           <div class="artist-info">
@@ -158,7 +158,7 @@
         <div class="artist-portfolio-grid">
           ${items.map(img => `
             <div class="work-item">
-              <img src="${img.src || img}" alt="${escapeHtml(T(img.alt) || 'Tatouage')}" loading="lazy" />
+              <img src="${img.src || img}" alt="${escapeHtml(T(img.alt) || ('Tatouage par ' + artist.name + ' - Nuit Noire Tattoo, Genève'))}" loading="lazy" />
             </div>
           `).join('')}
         </div>

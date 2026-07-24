@@ -9,16 +9,16 @@
 
   const NAV_HTML = `
     <nav class="nav">
-      <a href="index.html" class="nav-logo" aria-label="Accueil Nuit Noire Tattoo">
+      <a href="/" class="nav-logo" aria-label="Accueil Nuit Noire Tattoo">
         <img src="assets/logo-mini-cream.svg" alt="NN" />
       </a>
 
       <button type="button" class="nav-burger" id="nav-burger" aria-expanded="false" aria-controls="nav-menu" aria-label="Menu">MENU</button>
 
       <ul class="nav-menu" id="nav-menu">
-        <li><a href="index.html" class="nav-link" data-page="home">Home</a></li>
+        <li><a href="/" class="nav-link" data-page="home">Home</a></li>
         <li class="nav-item-dropdown" id="artists-trigger">
-          <a href="artists.html" class="nav-link" data-page="artists">
+          <a href="/artists" class="nav-link" data-page="artists">
             Artists
             <span class="nav-chevron" aria-hidden="true">▾</span>
           </a>
@@ -26,10 +26,10 @@
             <!-- Remplis dynamiquement depuis _index.json -->
           </ul>
         </li>
-        <li><a href="shop.html" class="nav-link" data-page="shop">Shop</a></li>
-        <li><a href="faq.html" class="nav-link" data-page="faq">FAQ</a></li>
-        <li><a href="about.html" class="nav-link" data-page="about" data-i18n="nav_about">About</a></li>
-        <li><a href="contact.html" class="nav-link" data-page="contact">Contact</a></li>
+        <li><a href="/shop" class="nav-link" data-page="shop">Shop</a></li>
+        <li><a href="/faq" class="nav-link" data-page="faq">FAQ</a></li>
+        <li><a href="/about" class="nav-link" data-page="about" data-i18n="nav_about">About</a></li>
+        <li><a href="/contact" class="nav-link" data-page="contact">Contact</a></li>
         <li class="nav-lang" id="nav-lang">
           <button type="button" class="nav-lang-btn" data-lang="fr" aria-label="Français">FR</button>
           <span class="nav-lang-sep" aria-hidden="true">/</span>
@@ -74,7 +74,7 @@
         <a class="fab-action" id="fab-phone" href="tel:+41223411882" data-i18n-aria="fab_phone" aria-label="Appeler le shop">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a12 12 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"/></svg>
         </a>
-        <a class="fab-action" href="contact.html#map" data-i18n-aria="fab_map" aria-label="Voir le plan d'accès">
+        <a class="fab-action" href="/contact#map" data-i18n-aria="fab_map" aria-label="Voir le plan d'accès">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M12 21s7-6.1 7-11a7 7 0 10-14 0c0 4.9 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
         </a>
         <button type="button" class="fab-action" id="fab-hours-btn" data-i18n-aria="fab_hours" aria-label="Voir les horaires" aria-expanded="false">
@@ -208,11 +208,11 @@
 
     const sorted = artists.sort((a, b) => (a.order || 999) - (b.order || 999));
     const items = sorted.map(a => `
-      <li><a href="artists.html#${a.id}"${a.guest ? ' class="is-guest"' : ''}>${escapeHtml(a.name)}</a></li>
+      <li><a href="/artists#${a.id}"${a.guest ? ' class="is-guest"' : ''}>${escapeHtml(a.name)}</a></li>
     `).join('');
 
     dropdown.innerHTML = items + `
-      <li class="nav-dropdown-separator"><a href="artists.html">${escapeHtml(viewAll)}</a></li>
+      <li class="nav-dropdown-separator"><a href="/artists">${escapeHtml(viewAll)}</a></li>
     `;
 
     // Une fois le dropdown rempli, on active la logique d'ouverture / fermeture
