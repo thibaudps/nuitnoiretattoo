@@ -743,6 +743,80 @@ collections:
 
 
   # -----------------------------------------------------------
+  # 5b. A PROPOS
+  # -----------------------------------------------------------
+  - name: "about"
+    label: "ℹ️ À propos"
+    description: "Textes de la page À propos."
+    delete: false
+    files:
+      - name: "about_page"
+        label: "Page À propos"
+        file: "data/about.json"
+        fields:
+
+          - label: "Etiquette (eyebrow)"
+            name: "eyebrow"
+            widget: "object"
+            required: false
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                required: false
+                default: "Le studio"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                required: false
+                default: "The studio"
+
+
+          - label: "Titre"
+            name: "title"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "À propos"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "About"
+
+
+          - label: "Sous-titre"
+            name: "subtitle"
+            widget: "object"
+            required: false
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                required: false
+                default: "Un salon indépendant, huit univers."
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                required: false
+                default: "An independent studio, eight worlds."
+
+
+          - label: "Texte"
+            name: "body"
+            widget: "object"
+            hint: "Laisse une ligne vide entre deux paragraphes."
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "text"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "text"
+
+
+  # -----------------------------------------------------------
   # 6. REGLAGES GENERAUX
   # -----------------------------------------------------------
   - name: "settings"
@@ -858,6 +932,18 @@ collections:
                 name: "en"
                 widget: "string"
                 default: "→ View all"
+          - label: "Menu : lien À propos"
+            name: "nav_about"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "À propos"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "About"
           - label: "Accueil : lien voir les artistes"
             name: "home_view_artists"
             widget: "object"
@@ -1686,4 +1772,16 @@ collections:
                 name: "en"
                 widget: "string"
                 default: "Contact - Nuit Noire Tattoo"
+          - label: "Titre d'onglet : À propos"
+            name: "title_about"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "À propos - Nuit Noire Tattoo"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "About - Nuit Noire Tattoo"
 
