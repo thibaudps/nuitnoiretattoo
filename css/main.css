@@ -1951,8 +1951,24 @@ img, svg {
   .nav-lang-btn {
     font-size: 9.5px;
   }
+}
 
-   .sr-only {
+/* ============================================
+   ACCESSIBILITE / SEO
+   --------------------------------------------
+   Masque un element visuellement tout en le laissant lisible par Google
+   et par les lecteurs d'ecran. Technique d'accessibilite standard : l'element
+   reste dans le flux du document, il occupe juste 1px invisible.
+
+   Utilise par les h1 de index.html et about.html.
+
+   ATTENTION : cette regle doit rester EN DEHORS de tout bloc @media,
+   sinon les h1 redeviennent visibles aux autres largeurs d'ecran.
+   Ne pas remplacer par display:none ni visibility:hidden : ces deux
+   proprietes retirent reellement le contenu, Google ne le lira pas.
+   ============================================ */
+
+.sr-only {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -1962,5 +1978,4 @@ img, svg {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
-}
 }
