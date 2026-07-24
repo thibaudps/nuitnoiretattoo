@@ -278,6 +278,20 @@ body[data-page="home"] .nav {
   transform: translate(-50%, -50%);
 }
 
+/* VIDEO HERO — remplace le carrousel, largeur = conteneur du site */
+.hero-video {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--padding-x);
+}
+
+.hero-video video {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
 /* LOGO */
 .hero-logo {
   width: 100%;
