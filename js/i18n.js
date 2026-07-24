@@ -40,6 +40,7 @@
   // par data/ui.json une fois récupéré (le CMS écrit dans ce fichier).
   const DEFAULTS = {
     nav_view_all:        { fr: '→ Voir tous',  en: '→ View all' },
+    nav_about:           { fr: 'À propos',     en: 'About' },
     home_view_artists:   { fr: 'Voir les artistes →', en: 'View the artists →' },
 
     shop_filter_all:     { fr: 'Tout',     en: 'All' },
@@ -116,7 +117,8 @@
     title_artists:       { fr: 'Artistes - Nuit Noire Tattoo', en: 'Artists - Nuit Noire Tattoo' },
     title_shop:          { fr: 'Shop - Nuit Noire Tattoo', en: 'Shop - Nuit Noire Tattoo' },
     title_faq:           { fr: 'FAQ - Nuit Noire Tattoo', en: 'FAQ - Nuit Noire Tattoo' },
-    title_contact:       { fr: 'Contact - Nuit Noire Tattoo', en: 'Contact - Nuit Noire Tattoo' }
+    title_contact:       { fr: 'Contact - Nuit Noire Tattoo', en: 'Contact - Nuit Noire Tattoo' },
+    title_about:         { fr: 'À propos - Nuit Noire Tattoo', en: 'About - Nuit Noire Tattoo' }
   };
 
   let UI = DEFAULTS;
