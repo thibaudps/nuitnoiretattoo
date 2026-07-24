@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Interface d'administration Decap : aucun interet pour la recherche.
+Disallow: /admin/
+
+# Important : /data/ et /js/ doivent rester accessibles.
+# Tout le contenu du site est charge depuis ces JSON en JavaScript ;
+# les bloquer empecherait Googlebot de rendre les pages.
+
+Sitemap: https://www.nuitnoiretattoo.com/sitemap.xml
