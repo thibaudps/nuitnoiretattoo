@@ -66,5 +66,26 @@
   <script src="js/i18n.js"></script>
   <script src="js/partials.js"></script>
   <script src="js/main.js"></script>
+
+  <!-- Ajuste la hauteur du hero video pour qu'il rentre pile sous la nav -->
+  <script>
+    (function () {
+      function setHeroHeight() {
+        var nav = document.querySelector('.nav');
+        var navH = nav ? nav.getBoundingClientRect().height : 0;
+        var h = Math.max(0, window.innerHeight - navH);
+        document.documentElement.style.setProperty('--hero-h', h + 'px');
+      }
+      window.addEventListener('resize', setHeroHeight);
+      window.addEventListener('load', setHeroHeight);
+      document.addEventListener('DOMContentLoaded', setHeroHeight);
+      // La nav est injectee dans #nav-mount de facon asynchrone : on recalcule des qu'elle apparait
+      var mount = document.getElementById('nav-mount');
+      if (mount && 'MutationObserver' in window) {
+        new MutationObserver(setHeroHeight).observe(mount, { childList: true, subtree: true });
+      }
+      setHeroHeight();
+    })();
+  </script>
 </body>
 </html>
