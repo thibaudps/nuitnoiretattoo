@@ -38,10 +38,6 @@
       const response = await fetch('data/about.json');
       const data = await response.json();
 
-      fillText('page-eyebrow', T(data.eyebrow));
-      fillText('page-title', T(data.title));
-      fillText('page-subtitle', T(data.subtitle));
-
       // Photo (éditable dans le CMS). Masquée si aucune image.
       const figure = document.getElementById('about-photo');
       const img = document.getElementById('about-image');
@@ -62,9 +58,29 @@
     }
   }
 
+  // Hauteur exacte de la page = viewport moins la nav, pour tout voir sans scroller
+  function setAboutHeight() {
+    const nav = document.querySelector('.nav');
+    const navH = nav ? nav.getBoundingClientRect().height : 0;
+    const h = Math.max(0, window.innerHeight - navH);
+    document.documentElement.style.setProperty('--about-h', h + 'px');
+  }
+
+  function initHeight() {
+    setAboutHeight();
+    window.addEventListener('resize', setAboutHeight);
+    window.addEventListener('load', setAboutHeight);
+    // La nav est injectée dans #nav-mount de façon asynchrone : on recalcule dès qu'elle apparaît
+    const mount = document.getElementById('nav-mount');
+    if (mount && 'MutationObserver' in window) {
+      new MutationObserver(setAboutHeight).observe(mount, { childList: true, subtree: true });
+    }
+  }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', loadAbout);
+    document.addEventListener('DOMContentLoaded', () => { loadAbout(); initHeight(); });
   } else {
     loadAbout();
+    initHeight();
   }
 })();
