@@ -158,6 +158,15 @@
   // Reflète la langue sur <html lang> et le titre d'onglet par page.
   function applyDocumentLang() {
     document.documentElement.lang = lang;
+
+    // IMPORTANT (SEO) : le <title> ecrit dans chaque fichier HTML est la version
+    // francaise de reference, optimisee pour la recherche. On ne l'ecrase JAMAIS
+    // en francais : sinon les valeurs courtes de data/ui.json (title_home, etc.)
+    // reprennent le dessus et Google indexe le titre reduit, puisqu'il utilise
+    // le titre rendu apres execution du JS et non celui du source.
+    // On ne surcharge donc que pour l'anglais.
+    if (lang === DEFAULT_LANG) return;
+
     const page = document.body && document.body.dataset ? document.body.dataset.page : null;
     const titleKey = page ? 'title_' + page : null;
     if (titleKey && (UI[titleKey] || DEFAULTS[titleKey])) {
