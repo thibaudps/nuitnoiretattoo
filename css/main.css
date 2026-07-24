@@ -830,6 +830,10 @@ img, svg {
    PAGE HEADER (commune aux sous-pages)
    ============================================ */
 .page-header {
+  /* Titres de sous-pages masques (Artists, Shop, FAQ, Contact...) :
+     le contenu remonte sous la nav. Les elements restent dans le DOM
+     pour ne pas casser le JS qui ecrit dedans. */
+  display: none;
   padding: 52px var(--padding-x);
   text-align: center;
   max-width: 800px;
