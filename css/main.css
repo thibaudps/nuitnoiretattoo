@@ -76,15 +76,6 @@ img, svg {
   border-bottom: 0.5px solid var(--border);
 }
 
-/* Sur l'accueil, on masque le petit logo de nav (doublon avec le logo du hero) */
-body[data-page="home"] .nav-logo {
-  display: none;
-}
-
-body[data-page="home"] .nav {
-  justify-content: flex-end;
-}
-
 .nav-logo {
   display: flex;
   align-items: center;
