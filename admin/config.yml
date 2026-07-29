@@ -115,24 +115,15 @@ collections:
             default: "@nuitnoiretattoo"
 
 
-          - label: "Photos du carrousel (Latest work)"
+          - label: "Photos de la grille (Latest work)"
             name: "latest_work"
-            widget: "list"
-            summary: "{{fields.alt}}"
-            hint: "Format recommande : 1080x1440 px (portrait). Idealement 6 photos."
-            fields:
-              - label: "Image"
-                name: "image"
-                widget: "image"
-              - label: "Description (texte alternatif)"
-                name: "alt"
-                widget: "string"
-                required: false
-              - label: "Lien externe (optionnel)"
-                name: "link"
-                widget: "string"
-                required: false
-                hint: "Si renseigne, un clic sur la photo ouvre ce lien."
+            widget: "nn-gallery"
+            required: false
+            ratio: "3:4"
+            columns: 3
+            max_visible: 6
+            allow_link: true
+            hint: "Ajoutez plusieurs photos d'un coup (ou deposez-les dans le cadre). Glissez une vignette pour la deplacer, cliquez dessus pour recadrer. Seules les 6 premieres apparaissent sur le site."
 
 
   # -----------------------------------------------------------
@@ -256,9 +247,10 @@ collections:
 
       - label: "Portrait"
         name: "portrait"
-        widget: "image"
+        widget: "nn-photo"
         required: false
-        hint: "Format portrait recommande : 1080x1440 px."
+        ratio: "3:4"
+        hint: "N'importe quel format : la photo se recadre dans le cadre 3:4 du site (glissez-la, zoomez)."
 
       - label: "Compte Instagram"
         name: "instagram"
@@ -268,18 +260,11 @@ collections:
 
       - label: "Portfolio (photos de tatouages)"
         name: "portfolio"
-        widget: "list"
+        widget: "nn-gallery"
         required: false
-        summary: "{{fields.alt}}"
-        hint: "Format recommande : 1080x1440 px (portrait)."
-        fields:
-          - label: "Image"
-            name: "src"
-            widget: "image"
-          - label: "Description"
-            name: "alt"
-            widget: "string"
-            required: false
+        ratio: "3:4"
+        columns: 3
+        hint: "Ajoutez plusieurs photos d'un coup (ou deposez-les dans le cadre). Glissez une vignette pour la deplacer, cliquez dessus pour recadrer."
 
 
   # -----------------------------------------------------------
@@ -409,7 +394,9 @@ collections:
 
       - label: "Image"
         name: "image"
-        widget: "image"
+        widget: "nn-photo"
+        ratio: "3:4"
+        hint: "N'importe quel format : la photo se recadre dans le cadre 3:4 du site (glissez-la, zoomez)."
 
 
       - label: "Description (francais)"
@@ -805,9 +792,10 @@ collections:
 
           - label: "Photo"
             name: "image"
-            widget: "image"
+            widget: "nn-photo"
             required: false
-            hint: "Photo affichee en haut de la page (l'equipe, le studio...). Format paysage recommande."
+            ratio: "auto"
+            hint: "Photo affichee en haut de la page (l'equipe, le studio...). Elle s'affiche en entier : pas de recadrage."
 
 
           - label: "Texte alternatif de la photo"
