@@ -44,16 +44,14 @@
     home_view_artists:   { fr: 'Voir les artistes →', en: 'View the artists →' },
 
     shop_filter_all:     { fr: 'Tout',     en: 'All' },
-    shop_filter_flash:   { fr: 'Flashs',   en: 'Flashes' },
-    shop_filter_print:   { fr: 'Tirages',  en: 'Prints' },
+    shop_filter_print:   { fr: 'Prints',   en: 'Prints' },
     shop_filter_merch:   { fr: 'Merch',    en: 'Merch' },
     shop_empty:          { fr: 'Aucun produit dans cette catégorie pour le moment.', en: 'No products in this category yet.' },
     shop_by:             { fr: 'par',      en: 'by' },
     shop_reserved:       { fr: 'Réservé',  en: 'Reserved' },
     shop_order_heading:  { fr: 'Commander', en: 'Order' },
     shop_contact_us:     { fr: 'Nous contacter →', en: 'Contact us →' },
-    cat_flash:           { fr: 'Flash',    en: 'Flash' },
-    cat_print:           { fr: 'Tirage',   en: 'Print' },
+    cat_print:           { fr: 'Print',    en: 'Print' },
     cat_merch:           { fr: 'Merch',    en: 'Merch' },
 
     role_fondateur:      { fr: 'Fondateur',  en: 'Founder' },
