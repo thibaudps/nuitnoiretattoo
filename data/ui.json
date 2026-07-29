@@ -1,5 +1,8 @@
 {
   "nav_view_all":        { "fr": "→ Voir tous", "en": "→ View all" },
+  "nav_home":            { "fr": "Accueil", "en": "Home" },
+  "nav_artists":         { "fr": "Artistes", "en": "Artists" },
+  "nav_shop":            { "fr": "Boutique", "en": "Shop" },
   "home_view_artists":   { "fr": "Voir les artistes →", "en": "View the artists →" },
 
   "shop_filter_all":     { "fr": "Tout", "en": "All" },
