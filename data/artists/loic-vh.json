@@ -1,7 +1,31 @@
 {
   "bio_en": "Loic is one of the pillars of the shop. Kind, funny, and always with a brush in hand. Over time he's leaned into Japanese Traditional. He adapts to everyone, from first-timers to the trickiest projects, always with a smile.",
   "bio": "Loic, c'est un pilier du shop. De la gentillesse, de l'humour, et toujours un pinceau à la main. Avec le temps il s'est tourné vers le traditionnel japonais. Il s'adapte à tout le monde, des débutants aux projets les plus pointus, toujours avec le sourire.",
-  "portfolio": [],
+  "portfolio": [
+    {
+      "src": "/assets/uploads/lolo3.webp"
+    },
+    {
+      "src": "/assets/uploads/lolo4.webp"
+    },
+    {
+      "src": "/assets/uploads/lolo5.webp"
+    },
+    {
+      "src": "/assets/uploads/lolo6.webp",
+      "focus": {
+        "x": 50,
+        "y": 85,
+        "zoom": 1.11
+      }
+    },
+    {
+      "src": "/assets/uploads/lolo1.webp"
+    },
+    {
+      "src": "/assets/uploads/lolo2.webp"
+    }
+  ],
   "name": "Loic VH",
   "order": 4,
   "instagram": "loic_vh",
