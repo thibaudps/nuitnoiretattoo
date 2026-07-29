@@ -3,9 +3,6 @@
   "bio": "La Pythie est la petite dernière de l'équipe, mais elle a déjà une vraie patte. Nourrie de peinture classique et de gravure, elle fait des pièces fines et contrastées, sobres mais qui tiennent la route, techniquement comme dans le temps. Petite par la taille, vite repérable par sa bonne humeur et son côté malicieux.",
   "portfolio": [
     {
-      "src": "/assets/uploads/pythie6.webp"
-    },
-    {
       "src": "/assets/uploads/pythie1.webp"
     },
     {
@@ -13,6 +10,9 @@
     },
     {
       "src": "/assets/uploads/pythie3.webp"
+    },
+    {
+      "src": "/assets/uploads/pythie6.webp"
     },
     {
       "src": "/assets/uploads/pythie4.webp"
