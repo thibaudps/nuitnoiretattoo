@@ -1,7 +1,26 @@
 {
   "bio_en": "Cléa has been here since day one. Back from three years in Indonesia, she found her thing in ornamental work, mixing Asian, North African and Finnish influences (a nod to her roots). Small fine pieces or big projects, she often draws straight onto the skin and works closely with each client. Always smiling.",
   "bio": "Cléa est là depuis le tout premier jour. De retour de trois ans en Indonésie, elle a trouvé sa voie dans l'ornemental, avec un mélange d'influences asiatiques, nord-africaines et finlandaises (clin d'oeil à ses origines). Petites pièces fines ou grands projets, elle dessine souvent direct sur la peau et bosse au plus proche de ses clients. Et toujours le sourire.",
-  "portfolio": [],
+  "portfolio": [
+    {
+      "src": "/assets/uploads/clea5.webp"
+    },
+    {
+      "src": "/assets/uploads/clea6.webp"
+    },
+    {
+      "src": "/assets/uploads/clea1.webp"
+    },
+    {
+      "src": "/assets/uploads/clea2.webp"
+    },
+    {
+      "src": "/assets/uploads/clea3.webp"
+    },
+    {
+      "src": "/assets/uploads/clea4.webp"
+    }
+  ],
   "name": "Clea Ferlay",
   "order": 2,
   "instagram": "cleaferlaytattoos",
