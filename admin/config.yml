@@ -1,11 +1,19 @@
 # =============================================================
 # Nuit Noire Tattoo - Configuration Decap CMS (bilingue FR / EN)
 # =============================================================
-# Pour modifier le contenu du site, va sur : /admin/
+# Interface d'administration : /admin/
+#
+# Le menu de gauche compte quatre entrees :
+#   📄 Pages      les textes de chaque page (accueil, artistes, shop,
+#                 a propos, FAQ, contact) + les photos de l'accueil
+#   🎨 Artistes   une fiche par artiste
+#   🛍 Produits   une fiche par produit du shop
+#   ⚙️ Reglages   coordonnees, horaires, textes des boutons
+#
 # Chaque texte traduisible a deux champs : Francais et English.
-# Les textes d'interface (boutons, libelles du formulaire...) sont
-# dans la collection "Textes d'interface" tout en bas - la plupart
-# du temps tu n'auras pas besoin d'y toucher.
+# Les photos utilisent les widgets maison "nn-gallery" et "nn-photo"
+# (voir admin/nn-photos.js) : ajout groupe, reorganisation, recadrage.
+# L'apercu a droite du formulaire vient de admin/nn-preview.js.
 # =============================================================
 
 backend:
@@ -37,30 +45,24 @@ local_backend: true
 media_folder: "assets/uploads"
 public_folder: "/assets/uploads"
 
-site_url: https://nuitnoiretattoo.pages.dev
-display_url: https://nuitnoiretattoo.pages.dev
-logo_url: https://decapbridge.com/decapcms-with-bridge.svg
+site_url: https://www.nuitnoiretattoo.com
+display_url: https://www.nuitnoiretattoo.com
 locale: fr
 
 editor:
-  preview: false
-
+  preview: true
 collections:
 
 
-  # -----------------------------------------------------------
-  # 1. ACCUEIL
-  # -----------------------------------------------------------
-  - name: "home"
-    label: "🏠 Accueil"
-    label_singular: "Accueil"
-    description: "Contenu de la page d'accueil : phrases d'animation, presentation, photos."
+
+  - name: pages
+    label: 📄 Pages
+    label_singular: Page
+    description: Les textes de chaque page du site. Les photos de l'accueil sont ici aussi.
     delete: false
-    editor:
-      preview: false
     files:
       - name: "homepage"
-        label: "Page d'accueil"
+        label: "Accueil"
         file: "data/home.json"
         fields:
           - label: "Phrases qui defilent dans l'animation"
@@ -126,16 +128,8 @@ collections:
             hint: "Ajoutez plusieurs photos d'un coup (ou deposez-les dans le cadre). Glissez une vignette pour la deplacer, cliquez dessus pour recadrer. Seules les 6 premieres apparaissent sur le site."
 
 
-  # -----------------------------------------------------------
-  # 2. ARTISTES
-  # -----------------------------------------------------------
-  - name: "artists_settings"
-    label: "🎨 Artistes - Reglages"
-    description: "En-tete de la page artistes."
-    delete: false
-    files:
       - name: "artists_page"
-        label: "En-tete de la page Artistes"
+        label: "Artistes - titre de la page"
         file: "data/artists-page.json"
         fields:
 
@@ -181,102 +175,9 @@ collections:
                 default: "Eight worlds, one roof."
 
 
-  - name: "artists"
-    label: "🎨 Artistes - Liste"
-    label_singular: "Artiste"
-    description: "Chaque artiste : bio (FR/EN), portrait, portfolio, Instagram."
-    folder: "data/artists"
-    extension: "json"
-    format: "json"
-    create: true
-    delete: true
-    slug: "{{id}}"
-    identifier_field: "name"
-    summary: "{{name}} - {{role}}"
-    sortable_fields: ['order', 'name']
-    view_groups:
-      - label: Role
-        field: role
-    fields:
-      - label: "Ordre d'affichage"
-        name: "order"
-        widget: "number"
-        default: 1
-        value_type: "int"
-        min: 1
-        hint: "Ordre des artistes sur la page (1 = en premier)."
-
-      - label: "Nom complet"
-        name: "name"
-        widget: "string"
-
-      - label: "Identifiant (slug)"
-        name: "id"
-        widget: "string"
-        hint: "Nom de fichier et ancre URL. Minuscules, chiffres, tirets. Ne pas modifier apres creation."
-        pattern: ['^[a-z0-9-]+$', "Que des minuscules, chiffres et tirets"]
-
-      - label: "Role"
-        name: "role"
-        widget: "select"
-        options: ["Fondateur", "Fondatrice", "Résident", "Résidente", "Invité", "Invitée"]
-        default: "Résident"
-        hint: "La traduction anglaise est automatique (Founder / Resident / Guest)."
-
-      - label: "Page Guests"
-        name: "guest"
-        widget: "boolean"
-        default: false
-        required: false
-        hint: "Coche pour la page guests : nom en italique, layout simplifie."
-
-
-      - label: "Bio (francais)"
-        name: "bio"
-        widget: "text"
-        required: false
-        hint: "Petit texte de presentation (2-3 phrases). Optionnel pour les guests."
-
-
-      - label: "Bio (English)"
-        name: "bio_en"
-        widget: "text"
-        required: false
-        hint: "Traduction anglaise. Laisser vide = la version francaise s'affiche aussi en anglais."
-
-
-      - label: "Portrait"
-        name: "portrait"
-        widget: "nn-photo"
-        required: false
-        ratio: "3:4"
-        hint: "N'importe quel format : la photo se recadre dans le cadre 3:4 du site (glissez-la, zoomez)."
-
-      - label: "Compte Instagram"
-        name: "instagram"
-        widget: "string"
-        required: false
-        hint: "Sans le @ devant. Ex. : 'vincepages_tattoo'"
-
-      - label: "Portfolio (photos de tatouages)"
-        name: "portfolio"
-        widget: "nn-gallery"
-        required: false
-        ratio: "3:4"
-        columns: 3
-        hint: "Ajoutez plusieurs photos d'un coup (ou deposez-les dans le cadre). Glissez une vignette pour la deplacer, cliquez dessus pour recadrer."
-
-
-  # -----------------------------------------------------------
-  # 3. SHOP
-  # -----------------------------------------------------------
-  - name: "shop_settings"
-    label: "🛍 Shop - Reglages"
-    description: "En-tete et textes de la page Shop."
-    delete: false
-    files:
+        preview_path: artists
       - name: "shop_page"
-        label: "En-tete + textes de la page Shop"
+        label: "Shop - titres et textes"
         file: "data/shop-page.json"
         fields:
 
@@ -336,84 +237,182 @@ collections:
                 default: "To get a print or a shop item, contact us directly by email or via Instagram."
 
 
-  - name: "products"
-    label: "🛍 Shop - Produits"
-    label_singular: "Produit"
-    description: "Prints et merch du shop."
-    folder: "data/products"
-    extension: "json"
-    format: "json"
-    create: true
-    delete: true
-    slug: "{{slug}}"
-    identifier_field: "name"
-    summary: "{{name}} - {{price}}"
-    sortable_fields: ['name', 'category', 'available']
-    view_groups:
-      - label: Categorie
-        field: category
-      - label: Disponibilite
-        field: available
-    fields:
-      - label: "Nom du produit"
-        name: "name"
-        widget: "string"
+        preview_path: shop
+      - name: "about_page"
+        label: "À propos"
+        file: "data/about.json"
+        fields:
 
-      - label: "Categorie"
-        name: "category"
-        widget: "select"
-        options:
-          - { label: "Print", value: "print" }
-          - { label: "Merch (textile, accessoires)", value: "merch" }
-        default: "print"
-
-      - label: "Artiste"
-        name: "artist"
-        widget: "string"
-        hint: "Nom de l'artiste auteur du produit (ou 'Nuit Noire')."
-
-      - label: "Prix"
-        name: "price"
-        widget: "string"
-        hint: "Ex. : '350 CHF', '40 EUR'"
-
-      - label: "Image"
-        name: "image"
-        widget: "nn-photo"
-        ratio: "3:4"
-        hint: "N'importe quel format : la photo se recadre dans le cadre 3:4 du site (glissez-la, zoomez)."
+          - label: "Etiquette (eyebrow)"
+            name: "eyebrow"
+            widget: "object"
+            required: false
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                required: false
+                default: "Le studio"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                required: false
+                default: "The studio"
 
 
-      - label: "Description (francais)"
-        name: "description"
-        widget: "text"
-        required: false
+          - label: "Titre"
+            name: "title"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "À propos"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "About"
 
 
-      - label: "Description (English)"
-        name: "description_en"
-        widget: "text"
-        required: false
-        hint: "Traduction anglaise. Laisser vide = la version francaise s'affiche aussi en anglais."
+          - label: "Sous-titre"
+            name: "subtitle"
+            widget: "object"
+            required: false
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                required: false
+                default: "Un salon indépendant, huit univers."
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                required: false
+                default: "An independent studio, eight worlds."
 
 
-      - label: "Disponible"
-        name: "available"
-        widget: "boolean"
-        default: true
-        hint: "Decoche si le produit est reserve ou epuise."
+          - label: "Photo"
+            name: "image"
+            widget: "nn-photo"
+            required: false
+            ratio: "auto"
+            hint: "Photo affichee en haut de la page (l'equipe, le studio...). Elle s'affiche en entier : pas de recadrage."
 
 
-  # -----------------------------------------------------------
-  # 4. CONTACT
-  # -----------------------------------------------------------
-  - name: "contact"
-    label: "✉️ Contact"
-    description: "Infos du shop et textes de la page contact."
-    delete: false
-    files:
+          - label: "Texte alternatif de la photo"
+            name: "image_alt"
+            widget: "object"
+            required: false
+            hint: "Decrit la photo (accessibilite et referencement)."
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                required: false
+                default: "L'equipe de Nuit Noire devant le studio a Geneve"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                required: false
+                default: "The Nuit Noire team in front of the studio in Geneva"
+
+
+          - label: "Texte"
+            name: "body"
+            widget: "object"
+            hint: "Laisse une ligne vide entre deux paragraphes."
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "text"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "text"
+
+
+        preview_path: about
+      - name: "faq_page"
+        label: "FAQ"
+        file: "data/faq.json"
+        fields:
+
+          - label: "Etiquette (eyebrow)"
+            name: "eyebrow"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Questions frequentes"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Frequently asked"
+
+
+          - label: "Titre"
+            name: "title"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "FAQ"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "FAQ"
+
+
+          - label: "Sous-titre"
+            name: "subtitle"
+            widget: "object"
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "string"
+                default: "Reponses aux questions frequentes."
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "string"
+                default: "Answers to common questions."
+
+
+          - label: "Questions"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.question.fr}}"
+            hint: "Ajoute, supprime et reorganise les questions par glisser-deposer."
+            fields:
+
+              - label: "Question"
+                name: "question"
+                widget: "object"
+                fields:
+                  - label: "🇫🇷 Francais"
+                    name: "fr"
+                    widget: "string"
+                  - label: "🇬🇧 English"
+                    name: "en"
+                    widget: "string"
+
+
+              - label: "Reponse"
+                name: "answer"
+                widget: "object"
+                hint: "Lien : [texte affiche](adresse). Ex. [email](contact.html)."
+                fields:
+                  - label: "🇫🇷 Francais"
+                    name: "fr"
+                    widget: "text"
+                  - label: "🇬🇧 English"
+                    name: "en"
+                    widget: "text"
+
+
+        preview_path: faq
       - name: "contact_page"
-        label: "Page Contact"
+        label: "Contact"
         file: "data/contact.json"
         fields:
 
@@ -627,203 +626,174 @@ collections:
                 default: "You can attach reference photos and/or photos of the desired placement to your email, up to 4 photos."
 
 
-  # -----------------------------------------------------------
-  # 5. FAQ
-  # -----------------------------------------------------------
-  - name: "faq"
-    label: "❓ FAQ"
-    description: "Questions frequentes."
+        preview_path: contact
+  - name: "artists"
+    label: "🎨 Artistes"
+    label_singular: "Artiste"
+    description: "Une fiche par artiste : bio, portrait, portfolio, Instagram."
+    folder: "data/artists"
+    extension: "json"
+    format: "json"
+    create: true
+    delete: true
+    slug: "{{id}}"
+    identifier_field: "name"
+    summary: "{{name}} - {{role}}"
+    sortable_fields: ['order', 'name']
+    view_groups:
+      - label: Role
+        field: role
+    fields:
+      - label: "Ordre d'affichage"
+        name: "order"
+        widget: "number"
+        default: 1
+        value_type: "int"
+        min: 1
+        hint: "Ordre des artistes sur la page (1 = en premier)."
+
+      - label: "Nom complet"
+        name: "name"
+        widget: "string"
+
+      - label: "Identifiant (slug)"
+        name: "id"
+        widget: "string"
+        hint: "Nom de fichier et ancre URL. Minuscules, chiffres, tirets. Ne pas modifier apres creation."
+        pattern: ['^[a-z0-9-]+$', "Que des minuscules, chiffres et tirets"]
+
+      - label: "Role"
+        name: "role"
+        widget: "select"
+        options: ["Fondateur", "Fondatrice", "Résident", "Résidente", "Invité", "Invitée"]
+        default: "Résident"
+        hint: "La traduction anglaise est automatique (Founder / Resident / Guest)."
+
+      - label: "Page Guests"
+        name: "guest"
+        widget: "boolean"
+        default: false
+        required: false
+        hint: "Coche pour la page guests : nom en italique, layout simplifie."
+
+
+      - label: "Bio (francais)"
+        name: "bio"
+        widget: "text"
+        required: false
+        hint: "Petit texte de presentation (2-3 phrases). Optionnel pour les guests."
+
+
+      - label: "Bio (English)"
+        name: "bio_en"
+        widget: "text"
+        required: false
+        hint: "Traduction anglaise. Laisser vide = la version francaise s'affiche aussi en anglais."
+
+
+      - label: "Portrait"
+        name: "portrait"
+        widget: "nn-photo"
+        required: false
+        ratio: "3:4"
+        hint: "N'importe quel format : la photo se recadre dans le cadre 3:4 du site (glissez-la, zoomez)."
+
+      - label: "Compte Instagram"
+        name: "instagram"
+        widget: "string"
+        required: false
+        hint: "Sans le @ devant. Ex. : 'vincepages_tattoo'"
+
+      - label: "Portfolio (photos de tatouages)"
+        name: "portfolio"
+        widget: "nn-gallery"
+        required: false
+        ratio: "3:4"
+        columns: 3
+        hint: "Ajoutez plusieurs photos d'un coup (ou deposez-les dans le cadre). Glissez une vignette pour la deplacer, cliquez dessus pour recadrer."
+
+
+    preview_path: artists#{{id}}
+  - name: "products"
+    label: "🛍 Produits"
+    label_singular: "Produit"
+    description: "Une fiche par produit du shop."
+    folder: "data/products"
+    extension: "json"
+    format: "json"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    identifier_field: "name"
+    summary: "{{name}} - {{price}}"
+    sortable_fields: ['name', 'category', 'available']
+    view_groups:
+      - label: Categorie
+        field: category
+      - label: Disponibilite
+        field: available
+    fields:
+      - label: "Nom du produit"
+        name: "name"
+        widget: "string"
+
+      - label: "Categorie"
+        name: "category"
+        widget: "select"
+        options:
+          - {label: "Print", value: "print"}
+          - {label: "Merch (textile, accessoires)", value: "merch"}
+        default: "print"
+
+      - label: "Artiste"
+        name: "artist"
+        widget: "string"
+        hint: "Nom de l'artiste auteur du produit (ou 'Nuit Noire')."
+
+      - label: "Prix"
+        name: "price"
+        widget: "string"
+        hint: "Ex. : '350 CHF', '40 EUR'"
+
+      - label: "Image"
+        name: "image"
+        widget: "nn-photo"
+        ratio: "3:4"
+        hint: "N'importe quel format : la photo se recadre dans le cadre 3:4 du site (glissez-la, zoomez)."
+
+
+      - label: "Description (francais)"
+        name: "description"
+        widget: "text"
+        required: false
+
+
+      - label: "Description (English)"
+        name: "description_en"
+        widget: "text"
+        required: false
+        hint: "Traduction anglaise. Laisser vide = la version francaise s'affiche aussi en anglais."
+
+
+      - label: "Disponible"
+        name: "available"
+        widget: "boolean"
+        default: true
+        hint: "Decoche si le produit est reserve ou epuise."
+
+
+    preview_path: shop
+
+  - name: settings
+    label: ⚙️ Réglages
+    label_singular: Réglage
+    description: Coordonnees, horaires, et les petits textes de l'interface.
     delete: false
-    files:
-      - name: "faq_page"
-        label: "Page FAQ"
-        file: "data/faq.json"
-        fields:
-
-          - label: "Etiquette (eyebrow)"
-            name: "eyebrow"
-            widget: "object"
-            fields:
-              - label: "🇫🇷 Francais"
-                name: "fr"
-                widget: "string"
-                default: "Questions frequentes"
-              - label: "🇬🇧 English"
-                name: "en"
-                widget: "string"
-                default: "Frequently asked"
-
-
-          - label: "Titre"
-            name: "title"
-            widget: "object"
-            fields:
-              - label: "🇫🇷 Francais"
-                name: "fr"
-                widget: "string"
-                default: "FAQ"
-              - label: "🇬🇧 English"
-                name: "en"
-                widget: "string"
-                default: "FAQ"
-
-
-          - label: "Sous-titre"
-            name: "subtitle"
-            widget: "object"
-            fields:
-              - label: "🇫🇷 Francais"
-                name: "fr"
-                widget: "string"
-                default: "Reponses aux questions frequentes."
-              - label: "🇬🇧 English"
-                name: "en"
-                widget: "string"
-                default: "Answers to common questions."
-
-
-          - label: "Questions"
-            name: "items"
-            widget: "list"
-            summary: "{{fields.question.fr}}"
-            hint: "Ajoute, supprime et reorganise les questions par glisser-deposer."
-            fields:
-
-              - label: "Question"
-                name: "question"
-                widget: "object"
-                fields:
-                  - label: "🇫🇷 Francais"
-                    name: "fr"
-                    widget: "string"
-                  - label: "🇬🇧 English"
-                    name: "en"
-                    widget: "string"
-
-
-              - label: "Reponse"
-                name: "answer"
-                widget: "object"
-                hint: "Lien : [texte affiche](adresse). Ex. [email](contact.html)."
-                fields:
-                  - label: "🇫🇷 Francais"
-                    name: "fr"
-                    widget: "text"
-                  - label: "🇬🇧 English"
-                    name: "en"
-                    widget: "text"
-
-
-  # -----------------------------------------------------------
-  # 5b. A PROPOS
-  # -----------------------------------------------------------
-  - name: "about"
-    label: "ℹ️ À propos"
-    description: "Textes de la page À propos."
-    delete: false
-    files:
-      - name: "about_page"
-        label: "Page À propos"
-        file: "data/about.json"
-        fields:
-
-          - label: "Etiquette (eyebrow)"
-            name: "eyebrow"
-            widget: "object"
-            required: false
-            fields:
-              - label: "🇫🇷 Francais"
-                name: "fr"
-                widget: "string"
-                required: false
-                default: "Le studio"
-              - label: "🇬🇧 English"
-                name: "en"
-                widget: "string"
-                required: false
-                default: "The studio"
-
-
-          - label: "Titre"
-            name: "title"
-            widget: "object"
-            fields:
-              - label: "🇫🇷 Francais"
-                name: "fr"
-                widget: "string"
-                default: "À propos"
-              - label: "🇬🇧 English"
-                name: "en"
-                widget: "string"
-                default: "About"
-
-
-          - label: "Sous-titre"
-            name: "subtitle"
-            widget: "object"
-            required: false
-            fields:
-              - label: "🇫🇷 Francais"
-                name: "fr"
-                widget: "string"
-                required: false
-                default: "Un salon indépendant, huit univers."
-              - label: "🇬🇧 English"
-                name: "en"
-                widget: "string"
-                required: false
-                default: "An independent studio, eight worlds."
-
-
-          - label: "Photo"
-            name: "image"
-            widget: "nn-photo"
-            required: false
-            ratio: "auto"
-            hint: "Photo affichee en haut de la page (l'equipe, le studio...). Elle s'affiche en entier : pas de recadrage."
-
-
-          - label: "Texte alternatif de la photo"
-            name: "image_alt"
-            widget: "object"
-            required: false
-            hint: "Decrit la photo (accessibilite et referencement)."
-            fields:
-              - label: "🇫🇷 Francais"
-                name: "fr"
-                widget: "string"
-                required: false
-                default: "L'equipe de Nuit Noire devant le studio a Geneve"
-              - label: "🇬🇧 English"
-                name: "en"
-                widget: "string"
-                required: false
-                default: "The Nuit Noire team in front of the studio in Geneva"
-
-
-          - label: "Texte"
-            name: "body"
-            widget: "object"
-            hint: "Laisse une ligne vide entre deux paragraphes."
-            fields:
-              - label: "🇫🇷 Francais"
-                name: "fr"
-                widget: "text"
-              - label: "🇬🇧 English"
-                name: "en"
-                widget: "text"
-
-
-  # -----------------------------------------------------------
-  # 6. REGLAGES GENERAUX
-  # -----------------------------------------------------------
-  - name: "settings"
-    label: "⚙️ Reglages generaux"
-    description: "Infos de la barre de navigation et du pied de page."
-    delete: false
+    editor:
+      preview: false
     files:
       - name: "footer"
-        label: "Pied de page + bouton contact"
+        label: "Infos du shop (pied de page, horaires, contact)"
         file: "data/settings.json"
         fields:
           - label: "Telephone"
@@ -879,13 +849,13 @@ collections:
             widget: "select"
             multiple: true
             options:
-              - { label: "Lundi", value: "1" }
-              - { label: "Mardi", value: "2" }
-              - { label: "Mercredi", value: "3" }
-              - { label: "Jeudi", value: "4" }
-              - { label: "Vendredi", value: "5" }
-              - { label: "Samedi", value: "6" }
-              - { label: "Dimanche", value: "0" }
+              - {label: "Lundi", value: "1"}
+              - {label: "Mardi", value: "2"}
+              - {label: "Mercredi", value: "3"}
+              - {label: "Jeudi", value: "4"}
+              - {label: "Vendredi", value: "5"}
+              - {label: "Samedi", value: "6"}
+              - {label: "Dimanche", value: "0"}
             default: ["1", "2", "3", "4", "5", "6"]
             hint: "Jours ou le badge peut afficher Open."
           - label: "Email"
@@ -903,18 +873,8 @@ collections:
             default: "https://instagram.com/nuitnoiretattoo"
 
 
-  # -----------------------------------------------------------
-  # 7. TEXTES D'INTERFACE (boutons, libelles, emails...)
-  # -----------------------------------------------------------
-  # La plupart du temps tu n'as PAS besoin d'y toucher : ce sont
-  # les petits textes de l'interface. Chacun a sa version FR et EN.
-  - name: "ui_strings"
-    label: "🔤 Textes d'interface"
-    description: "Boutons, libelles du formulaire, textes du bouton flottant, emails. FR / EN."
-    delete: false
-    files:
       - name: "ui"
-        label: "Textes d'interface (FR / EN)"
+        label: "Textes d'interface (boutons, libelles)"
         file: "data/ui.json"
         fields:
 
@@ -1795,3 +1755,7 @@ collections:
                 widget: "string"
                 default: "About - Nuit Noire Tattoo"
 
+logo:
+  src: /assets/logo.svg
+  show_in_header: true
+show_preview_links: true

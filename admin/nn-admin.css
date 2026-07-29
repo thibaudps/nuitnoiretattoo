@@ -1,0 +1,169 @@
+/* =============================================================
+ * Nuit Noire Tattoo - habillage de l'interface Decap CMS
+ * -------------------------------------------------------------
+ * ATTENTION : Decap n'expose aucune API de theme. Ce fichier vise
+ * les classes internes generees par Decap (emotion), reperables a
+ * leur suffixe lisible : css-1a2b3c-SidebarNavLink. Les selecteurs
+ * [class*="-SidebarNavLink"] restent donc valables tant que Decap
+ * ne renomme pas ses composants.
+ *
+ * Si l'admin a l'air casse apres une mise a jour de Decap, c'est
+ * probablement ici. Supprimer la ligne qui charge ce fichier dans
+ * admin/index.html suffit a revenir a l'apparence d'origine, sans
+ * rien perdre du contenu.
+ *
+ * La version de Decap est figee dans admin/index.html justement
+ * pour eviter ces surprises.
+ * ============================================================= */
+
+:root {
+  --nn-bg: #0a120d;         /* vert-noir du site */
+  --nn-bg-soft: #12211a;
+  --nn-cream: #e8e2d4;
+  --nn-accent: #12211a;
+  --nn-accent-hover: #1d3527;
+  --nn-line: #e2e0da;
+  --nn-font: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --nn-font-title: 'Cormorant Garamond', Georgia, serif;
+}
+
+/* ---------- Typographie generale ---------- */
+
+#nc-root,
+#nc-root input,
+#nc-root textarea,
+#nc-root select,
+#nc-root button {
+  font-family: var(--nn-font);
+}
+
+/* Titres de collection et d'entree : la serif du site */
+#nc-root h1,
+#nc-root h2 {
+  font-family: var(--nn-font-title);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+/* ---------- Barre du haut ---------- */
+
+#nc-root [class*="-AppHeader"] {
+  background-color: var(--nn-bg);
+  box-shadow: none;
+  border-bottom: 1px solid rgba(232, 226, 212, 0.12);
+}
+
+/* Le logo Nuit Noire est noir : sur la barre sombre on l'inverse en creme. */
+#nc-root [class*="-AppHeader"] img {
+  max-height: 30px;
+  width: auto;
+  filter: invert(1) sepia(0.15) saturate(0.4) brightness(1.05);
+}
+
+#nc-root [class*="-AppHeaderNavLink"],
+#nc-root [class*="-AppHeaderButton"],
+#nc-root [class*="-AppHeaderLink"] {
+  color: var(--nn-cream);
+  opacity: 0.75;
+}
+
+#nc-root [class*="-AppHeaderButton"]:hover,
+#nc-root [class*="-AppHeaderLink"]:hover,
+#nc-root [class*="-AppHeaderNavLink"]:hover {
+  color: #fff;
+  opacity: 1;
+}
+
+/* ---------- Menu de gauche ---------- */
+
+#nc-root [class*="-SidebarNavLink"] {
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  padding: 11px 14px;
+  margin-bottom: 2px;
+  border-radius: 6px;
+  border-left: 0;
+  color: #3d454f;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+#nc-root [class*="-SidebarNavLink"]:hover {
+  background-color: #f0efec;
+  color: var(--nn-bg);
+}
+
+#nc-root [class*="sidebarNavLinkActive"] {
+  background-color: var(--nn-bg);
+  color: var(--nn-cream);
+  border-left: 0;
+}
+
+#nc-root [class*="sidebarNavLinkActive"]:hover {
+  background-color: var(--nn-bg-soft);
+  color: #fff;
+}
+
+/* ---------- Boutons ---------- */
+
+#nc-root [class*="-button"]:not([class*="badge"]) {
+  border-radius: 5px;
+  letter-spacing: 0.02em;
+}
+
+/* Bouton principal (Enregistrer, Publier, Nouveau) : vert-noir du site */
+#nc-root [class*="-ActionButton"],
+#nc-root [class*="-AppHeaderQuickNewButton"],
+#nc-root button[class*="-button"][class*="-default"] {
+  background-color: var(--nn-accent);
+  color: var(--nn-cream);
+}
+
+#nc-root [class*="-ActionButton"]:hover,
+#nc-root [class*="-AppHeaderQuickNewButton"]:hover {
+  background-color: var(--nn-accent-hover);
+}
+
+/* ---------- Champs du formulaire ---------- */
+
+/* Un peu d'air entre les champs : les formulaires bilingues sont longs. */
+#nc-root [class*="-EditorControl"] {
+  margin-bottom: 22px;
+}
+
+#nc-root [class*="-fieldLabel"] {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: #6b7280;
+}
+
+#nc-root [class*="-fieldLabel"][class*="active"] {
+  color: var(--nn-bg);
+}
+
+/* Les indications sous les champs, plus lisibles */
+#nc-root [class*="-ControlHint"],
+#nc-root p[class*="-hint"] {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #6b7280;
+}
+
+/* ---------- Cartes de la liste d'entrees ---------- */
+
+#nc-root [class*="-card"] {
+  border-radius: 8px;
+  border-color: var(--nn-line);
+}
+
+#nc-root [class*="-cardTopHeading"] {
+  font-family: var(--nn-font-title);
+  font-size: 19px;
+}
+
+/* ---------- Page de connexion ---------- */
+
+/* Le credit DecapBridge en bas de la page de login : discret. */
+#nc-root section > [class*="Icon"]:last-child {
+  opacity: 0.25;
+}

@@ -48,8 +48,10 @@
 
   /* Aperçus locaux des fichiers tout juste envoyés (pas encore commités) :
      chemin public → blob URL. Sinon la vignette afficherait un 404 tant que
-     l'entrée n'est pas enregistrée. */
-  var BLOBS = {};
+     l'entrée n'est pas enregistrée.
+     Exposé pour que le volet d'aperçu (nn-preview.js) affiche lui aussi les
+     photos qui viennent d'être ajoutées. */
+  var BLOBS = window.NNPhotoBlobs || (window.NNPhotoBlobs = {});
 
   /* ---------------------------------------------------------------
    * Petits utilitaires
@@ -274,8 +276,8 @@
   var CSS = [
     '.nnp{font-family:inherit}',
     '.nnp-bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:10px}',
-    '.nnp-btn{border:0;border-radius:4px;padding:7px 13px;font-size:13px;font-weight:600;cursor:pointer;background:#3a69c7;color:#fff;line-height:1.2}',
-    '.nnp-btn:hover{background:#2f57a6}',
+    '.nnp-btn{border:0;border-radius:4px;padding:7px 13px;font-size:13px;font-weight:600;cursor:pointer;background:var(--nn-accent,#3a69c7);color:var(--nn-cream,#fff);line-height:1.2}',
+    '.nnp-btn:hover{background:var(--nn-accent-hover,#2f57a6)}',
     '.nnp-btn.is-ghost{background:#eceef2;color:#3d454f}',
     '.nnp-btn.is-ghost:hover{background:#dfe3ea}',
     '.nnp-btn.is-danger{background:#fbeaea;color:#c0392b}',
@@ -288,17 +290,17 @@
     '.nnp-tile img{width:100%;height:100%;object-fit:cover;display:block}',
     '.nnp-tile.is-auto img{height:auto;object-fit:contain}',
     '.nnp-tile.is-dragging{opacity:.35}',
-    '.nnp-tile.is-over{outline:2px solid #3a69c7;outline-offset:-2px}',
+    '.nnp-tile.is-over{outline:2px solid var(--nn-accent,#3a69c7);outline-offset:-2px}',
     '.nnp-tile.is-hidden{opacity:.35}',
     '.nnp-tile.is-hidden::after{content:"non affichée";position:absolute;left:0;right:0;bottom:0;background:rgba(0,0,0,.72);color:#fff;font-size:10px;text-align:center;padding:2px}',
     '.nnp-idx{position:absolute;top:4px;left:4px;background:rgba(0,0,0,.6);color:#fff;font-size:10px;line-height:1;padding:3px 5px;border-radius:3px;pointer-events:none}',
     '.nnp-acts{position:absolute;top:4px;right:4px;display:flex;gap:3px;opacity:0;transition:opacity .15s}',
     '.nnp-tile:hover .nnp-acts,.nnp-tile.is-active .nnp-acts{opacity:1}',
     '.nnp-act{border:0;border-radius:3px;background:rgba(0,0,0,.65);color:#fff;font-size:11px;line-height:1;padding:5px 6px;cursor:pointer}',
-    '.nnp-act:hover{background:#3a69c7}',
+    '.nnp-act:hover{background:var(--nn-accent,#3a69c7)}',
     '.nnp-act.is-del:hover{background:#c0392b}',
-    '.nnp-tile.is-active{outline:2px solid #3a69c7;outline-offset:-2px}',
-    '.nnp-drop{outline:2px dashed #3a69c7;outline-offset:-4px}',
+    '.nnp-tile.is-active{outline:2px solid var(--nn-accent,#3a69c7);outline-offset:-2px}',
+    '.nnp-drop{outline:2px dashed var(--nn-accent,#3a69c7);outline-offset:-4px}',
     '.nnp-edit{margin-top:10px;border:1px solid #d9dde3;border-radius:6px;padding:12px;display:flex;gap:16px;flex-wrap:wrap;background:#f7f8fa}',
     '.nnp-stage{position:relative;overflow:hidden;background:#141414;width:210px;flex:0 0 auto;cursor:grab;touch-action:none;user-select:none}',
     '.nnp-stage.is-grabbing{cursor:grabbing}',
@@ -311,7 +313,7 @@
     '.nnp-hint{font-size:12px;color:#7a828c;margin:0;line-height:1.45}',
     '.nnp-row{display:flex;gap:8px;flex-wrap:wrap}',
     '.nnp-file{display:none}',
-    '.nnp-progress{font-size:12px;color:#3a69c7}'
+    '.nnp-progress{font-size:12px;color:var(--nn-accent,#3a69c7)}'
   ].join('\n');
 
   function injectStyles() {

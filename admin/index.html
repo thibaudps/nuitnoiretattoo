@@ -4,13 +4,30 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nuit Noire — Administration</title>
-  <link rel="icon" type="image/svg+xml" href="../assets/logo-mini-cream.svg">
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+  <!-- Polices du site, reprises dans l'interface d'admin -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Habillage Nuit Noire de l'interface. Supprimable sans rien casser. -->
+  <link rel="stylesheet" href="nn-admin.css">
 </head>
 <body>
-  <!-- Inclure le script Decap CMS -->
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <!--
+    Version de Decap FIGEE volontairement.
+    Avec "^3.0.0" le CMS chargeait la derniere 3.x publiee, donc une mise a
+    jour surprise pouvait casser les widgets maison et l'habillage du jour au
+    lendemain. Pour mettre a jour : changer le numero ci-dessous, puis verifier
+    /admin/ (ajout de photos, recadrage, apercu) avant de pousser.
+  -->
+  <script src="https://unpkg.com/decap-cms@3.15.1/dist/decap-cms.js"></script>
 
   <!-- Widgets photos maison (galerie + recadrage). Doit rester APRES decap-cms.js. -->
   <script src="nn-photos.js"></script>
+
+  <!-- Apercu en direct : le rendu du site a cote du formulaire. -->
+  <script src="nn-preview.js"></script>
 </body>
 </html>
