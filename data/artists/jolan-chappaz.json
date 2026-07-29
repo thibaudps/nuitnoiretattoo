@@ -1,7 +1,46 @@
 {
   "bio_en": "Jolan does things his own way: no machine, just a needle in hand. He pulls from traditional tattooing, the early-20th-century French school, folk art and his Swiss mountains. Quiet at first, but there's a serious imagination behind it. Timeless pieces, made with patience and poetry.",
   "bio": "Jolan fait les choses à sa façon: pas de machine, juste une aiguille à la main. Il puise dans le tatouage traditionnel, l'école française du début du XXe, l'art folklorique et ses montagnes suisses. Plutôt calme au premier abord, mais une sacrée imagination derrière. Des pièces intemporelles, faites avec patience et poésie.",
-  "portfolio": [],
+  "portfolio": [
+    {
+      "src": "/assets/uploads/jolan1.webp",
+      "focus": {
+        "x": 36,
+        "y": 31,
+        "zoom": 1.16
+      }
+    },
+    {
+      "src": "/assets/uploads/jolan2.webp"
+    },
+    {
+      "src": "/assets/uploads/jolan3.webp"
+    },
+    {
+      "src": "/assets/uploads/jolan4.webp",
+      "focus": {
+        "x": 56,
+        "y": 80,
+        "zoom": 1.35
+      }
+    },
+    {
+      "src": "/assets/uploads/jolan5.webp",
+      "focus": {
+        "x": 49,
+        "y": 67,
+        "zoom": 1.59
+      }
+    },
+    {
+      "src": "/assets/uploads/jolan6.webp",
+      "focus": {
+        "x": 56,
+        "y": 100,
+        "zoom": 1.08
+      }
+    }
+  ],
   "name": "Jolan Chappaz",
   "order": 7,
   "instagram": "jolan_chappaz",
