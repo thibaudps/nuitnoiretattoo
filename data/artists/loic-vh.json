@@ -3,10 +3,20 @@
   "bio": "Loic, c'est un pilier du shop. De la gentillesse, de l'humour, et toujours un pinceau à la main. Avec le temps il s'est tourné vers le traditionnel japonais. Il s'adapte à tout le monde, des débutants aux projets les plus pointus, toujours avec le sourire.",
   "portfolio": [
     {
-      "src": "/assets/uploads/lolo3.webp"
+      "src": "/assets/uploads/lolo3.webp",
+      "focus": {
+        "x": 40,
+        "y": 100,
+        "zoom": 1.12
+      }
     },
     {
-      "src": "/assets/uploads/lolo4.webp"
+      "src": "/assets/uploads/lolo4.webp",
+      "focus": {
+        "x": 40,
+        "y": 53,
+        "zoom": 1.09
+      }
     },
     {
       "src": "/assets/uploads/lolo5.webp"
