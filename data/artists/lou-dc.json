@@ -1,7 +1,26 @@
 {
   "bio_en": "Lou has been part of the team for years. She starts from American Traditional and adds a colourful, folk twist: tattoos that are soft and bold at once. She takes her time with everyone, and her pieces are made to age well.",
   "bio": "Lou fait partie de l'équipe depuis des années. Elle part du traditionnel américain et y glisse une touche folk et colorée: des tattoos à la fois doux et affirmés. Elle prend le temps avec chacun, et ses pièces sont pensées pour bien vieillir.",
-  "portfolio": [],
+  "portfolio": [
+    {
+      "src": "/assets/uploads/lou5.webp"
+    },
+    {
+      "src": "/assets/uploads/lou6.webp"
+    },
+    {
+      "src": "/assets/uploads/lou1.webp"
+    },
+    {
+      "src": "/assets/uploads/lou2.webp"
+    },
+    {
+      "src": "/assets/uploads/lou3.webp"
+    },
+    {
+      "src": "/assets/uploads/lou4.webp"
+    }
+  ],
   "name": "Lou DC",
   "order": 3,
   "instagram": "lou_dctattoos",
