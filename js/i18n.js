@@ -40,6 +40,9 @@
   // par data/ui.json une fois récupéré (le CMS écrit dans ce fichier).
   const DEFAULTS = {
     nav_view_all:        { fr: '→ Voir tous',  en: '→ View all' },
+    nav_home:            { fr: 'Accueil',      en: 'Home' },
+    nav_artists:         { fr: 'Artistes',     en: 'Artists' },
+    nav_shop:            { fr: 'Boutique',     en: 'Shop' },
     nav_about:           { fr: 'À propos',     en: 'About' },
     home_view_artists:   { fr: 'Voir les artistes →', en: 'View the artists →' },
 

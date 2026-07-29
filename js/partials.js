@@ -16,17 +16,17 @@
       <button type="button" class="nav-burger" id="nav-burger" aria-expanded="false" aria-controls="nav-menu" aria-label="Menu">MENU</button>
 
       <ul class="nav-menu" id="nav-menu">
-        <li><a href="/" class="nav-link" data-page="home">Home</a></li>
+        <li><a href="/" class="nav-link" data-page="home" data-i18n="nav_home">Accueil</a></li>
         <li class="nav-item-dropdown" id="artists-trigger">
           <a href="/artists" class="nav-link" data-page="artists">
-            Artists
+            <span data-i18n="nav_artists">Artistes</span>
             <span class="nav-chevron" aria-hidden="true">▾</span>
           </a>
           <ul class="nav-dropdown" id="artists-dropdown">
             <!-- Remplis dynamiquement depuis _index.json -->
           </ul>
         </li>
-        <li><a href="/shop" class="nav-link" data-page="shop">Shop</a></li>
+        <li><a href="/shop" class="nav-link" data-page="shop" data-i18n="nav_shop">Boutique</a></li>
         <li><a href="/faq" class="nav-link" data-page="faq">FAQ</a></li>
         <li><a href="/about" class="nav-link" data-page="about" data-i18n="nav_about">About</a></li>
         <li><a href="/contact" class="nav-link" data-page="contact">Contact</a></li>
