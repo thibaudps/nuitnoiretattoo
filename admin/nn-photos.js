@@ -346,8 +346,30 @@
         this.renderItems();
       },
 
+      /* IMPORTANT : Decap ne redessine un widget que si sa VALEUR a change
+         (voir Widget.shouldComponentUpdate dans decap-cms-core). Or une
+         insertion depuis la mediatheque ne modifie que `mediaPaths` : sans
+         cette methode, componentDidUpdate ne serait jamais appele et le
+         bouton "Mediatheque" resterait sans effet. Les widgets image/file
+         d'origine font exactement pareil. */
+      shouldComponentUpdate: function (nextProps) {
+        if (!this.mediaControlID) return true;
+        if (this.props.value !== nextProps.value) return true;
+        if (this.props.classNameWrapper !== nextProps.classNameWrapper) return true;
+
+        function pathFor(props, id) {
+          return props.mediaPaths && props.mediaPaths.get ? props.mediaPaths.get(id) : null;
+        }
+        var after = pathFor(nextProps, this.mediaControlID);
+        return !!after && after !== pathFor(this.props, this.mediaControlID);
+      },
+
       componentDidUpdate: function () {
-        this.consumeMediaLibrary();
+        // Si on vient d'inserer depuis la mediatheque, la grille est deja a
+        // jour et `props.value` porte encore l'ancienne valeur (React ne l'a
+        // pas encore repropagee) : resynchroniser ici effacerait l'ajout.
+        if (this.consumeMediaLibrary()) return;
+
         // Valeur modifiée ailleurs (chargement, annulation…) : on resynchronise.
         if (this.props.value !== this.lastEmitted) {
           var incoming = multiple
@@ -851,19 +873,21 @@
         });
       },
 
+      /* Renvoie true si des photos viennent d'etre inserees depuis la mediatheque. */
       consumeMediaLibrary: function () {
         var paths = this.props.mediaPaths && this.props.mediaPaths.get
           ? this.props.mediaPaths.get(this.mediaControlID)
           : null;
-        if (!paths) return;
+        if (!paths) return false;
         var list = toPlain(paths);
         if (!Array.isArray(list)) list = [list];
         list = list.filter(Boolean);
         this.props.onRemoveInsertedMedia(this.mediaControlID);
-        if (!list.length) return;
+        if (!list.length) return false;
         var replaceIndex = this.pendingReplace;
         this.pendingReplace = -1;
         this.appendSources(list, replaceIndex >= 0 ? replaceIndex : undefined);
+        return true;
       },
 
       /* -------- rendu React : un simple conteneur -------- */
