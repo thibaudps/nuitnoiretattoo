@@ -49,13 +49,11 @@
     const title = document.getElementById('page-title');
     const subtitle = document.getElementById('page-subtitle');
     const orderInfo = document.getElementById('order-info');
-    const flashInfo = document.getElementById('flash-info');
 
     if (eyebrow) eyebrow.textContent = T(page.eyebrow) || '';
     if (title) title.textContent = T(page.title) || 'Shop';
     if (subtitle) subtitle.textContent = T(page.subtitle) || '';
     if (orderInfo) orderInfo.textContent = T(page.order_info) || '';
-    if (flashInfo) flashInfo.textContent = T(page.flash_info) || '';
   }
 
   function renderProducts(products) {
@@ -78,8 +76,8 @@
     return `
       <article class="product-card ${soldOut ? 'is-sold-out' : ''}">
         <div class="product-image">
-          ${p.image
-            ? `<img src="${p.image}" alt="${escapeHtml(p.name)}" loading="lazy" onerror="this.style.display='none'; this.parentElement.classList.add('no-image');" />`
+          ${window.NNMedia.src(p.image)
+            ? `<img src="${window.NNMedia.src(p.image)}"${window.NNMedia.styleAttr(p.image)} alt="${escapeHtml(p.name)}" loading="lazy" onerror="this.style.display='none'; this.parentElement.classList.add('no-image');" />`
             : ''}
           ${soldOut ? `<span class="product-badge">${escapeHtml(UI('shop_reserved'))}</span>` : ''}
         </div>
@@ -95,7 +93,7 @@
   }
 
   function labelCategory(c) {
-    const keys = { flash: 'cat_flash', print: 'cat_print', merch: 'cat_merch' };
+    const keys = { print: 'cat_print', merch: 'cat_merch' };
     const key = keys[c];
     return key ? escapeHtml(UI(key) || c) : escapeHtml(c || '');
   }

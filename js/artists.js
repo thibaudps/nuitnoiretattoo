@@ -97,8 +97,8 @@
       <section class="artist-section ${isReversed ? 'is-reversed' : ''}" id="${artist.id}">
         <div class="artist-intro">
           <div class="artist-portrait">
-            ${artist.portrait
-              ? `<img src="${artist.portrait}" alt="${escapeHtml(artist.name)}, tatoueur chez Nuit Noire Tattoo à Genève" loading="lazy" onerror="this.style.display='none'; this.parentElement.classList.add('no-image');" />`
+            ${window.NNMedia.src(artist.portrait)
+              ? `<img src="${window.NNMedia.src(artist.portrait)}"${window.NNMedia.styleAttr(artist.portrait)} alt="${escapeHtml(artist.name)}, tatoueur chez Nuit Noire Tattoo à Genève" loading="lazy" onerror="this.style.display='none'; this.parentElement.classList.add('no-image');" />`
               : ''}
           </div>
           <div class="artist-info">
@@ -122,8 +122,8 @@
       <section class="artist-section guest-section" id="${artist.id}">
         <h2 class="artist-name guest-name">${escapeHtml(artist.name)}</h2>
         <div class="guest-image">
-          ${artist.portrait
-            ? `<img src="${artist.portrait}" alt="${escapeHtml(artist.name)}" loading="lazy" onerror="this.style.display='none'; this.parentElement.classList.add('no-image');" />`
+          ${window.NNMedia.src(artist.portrait)
+            ? `<img src="${window.NNMedia.src(artist.portrait)}" alt="${escapeHtml(artist.name)}" loading="lazy" onerror="this.style.display='none'; this.parentElement.classList.add('no-image');" />`
             : ''}
         </div>
         ${pick(artist.bio, artist.bio_en) ? `<p class="guest-text">${escapeHtml(pick(artist.bio, artist.bio_en))}</p>` : ''}
@@ -137,7 +137,8 @@
   }
 
   function renderPortfolio(artist) {
-    const items = artist.portfolio || [];
+    const M = window.NNMedia;
+    const items = (artist.portfolio || []).filter(item => M.src(item));
 
     if (items.length === 0) {
       return `
@@ -158,7 +159,7 @@
         <div class="artist-portfolio-grid">
           ${items.map(img => `
             <div class="work-item">
-              <img src="${img.src || img}" alt="${escapeHtml(T(img.alt) || ('Tatouage par ' + artist.name + ' - Nuit Noire Tattoo, Genève'))}" loading="lazy" />
+              <img src="${M.src(img)}"${M.styleAttr(img)} alt="${escapeHtml(T(img.alt) || ('Tatouage par ' + artist.name + ' - Nuit Noire Tattoo, Genève'))}" loading="lazy" />
             </div>
           `).join('')}
         </div>

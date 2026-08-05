@@ -190,16 +190,18 @@
     const grid = document.getElementById('latest-work-grid');
     if (!grid) return;
 
-    const visible = items.slice(0, 6);
+    const visible = items.filter(item => window.NNMedia.src(item)).slice(0, 6);
 
     if (visible.length === 0) {
       renderPlaceholders(grid, 6);
       return;
     }
 
+    const M = window.NNMedia;
+
     grid.innerHTML = visible.map(item => `
       <a href="${item.link || '#'}" class="work-item" ${item.link ? 'target="_blank" rel="noopener"' : ''}>
-        <img src="${item.image}" alt="${escapeHtml(T(item.alt) || 'Tatouage réalisé chez Nuit Noire Tattoo, Genève')}" loading="lazy" />
+        <img src="${M.src(item)}"${M.styleAttr(item)} alt="${escapeHtml(T(item.alt) || 'Tatouage réalisé chez Nuit Noire Tattoo, Genève')}" loading="lazy" />
       </a>
     `).join('');
   }

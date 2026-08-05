@@ -41,8 +41,9 @@
       // Photo (éditable dans le CMS). Masquée si aucune image.
       const figure = document.getElementById('about-photo');
       const img = document.getElementById('about-image');
-      if (figure && img && data.image) {
-        img.src = data.image;
+      if (figure && img && window.NNMedia.src(data.image)) {
+        img.src = window.NNMedia.src(data.image);
+        window.NNMedia.apply(img, data.image);
         img.alt = T(data.image_alt) || 'Nuit Noire Tattoo';
         figure.hidden = false;
       } else if (figure) {
