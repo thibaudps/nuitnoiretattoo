@@ -199,11 +199,15 @@
 
     const M = window.NNMedia;
 
-    grid.innerHTML = visible.map(item => `
-      <a href="${item.link || '#'}" class="work-item" ${item.link ? 'target="_blank" rel="noopener"' : ''}>
-        <img src="${M.src(item)}"${M.styleAttr(item)} alt="${escapeHtml(T(item.alt) || 'Tatouage réalisé chez Nuit Noire Tattoo, Genève')}" loading="lazy" />
-      </a>
-    `).join('');
+    // Sans lien renseigne dans le CMS, la photo n'est pas cliquable : un
+    // <a href="#"> renverrait en haut de la page au moindre clic.
+    grid.innerHTML = visible.map(item => {
+      const img = `<img src="${M.src(item)}"${M.styleAttr(item)} alt="${escapeHtml(T(item.alt) || 'Tatouage réalisé chez Nuit Noire Tattoo, Genève')}" loading="lazy" />`;
+      const link = M.link(item);
+      return link
+        ? `<a href="${escapeHtml(link)}" class="work-item" target="_blank" rel="noopener">${img}</a>`
+        : `<div class="work-item">${img}</div>`;
+    }).join('');
   }
 
   function renderPlaceholders(grid, count) {

@@ -157,11 +157,15 @@
     return `
       <div class="artist-portfolio">
         <div class="artist-portfolio-grid">
-          ${items.map(img => `
-            <div class="work-item">
-              <img src="${M.src(img)}"${M.styleAttr(img)} alt="${escapeHtml(T(img.alt) || ('Tatouage par ' + artist.name + ' - Nuit Noire Tattoo, Genève'))}" loading="lazy" />
-            </div>
-          `).join('')}
+          ${items.map(item => {
+            const img = `<img src="${M.src(item)}"${M.styleAttr(item)} alt="${escapeHtml(T(item.alt) || ('Tatouage par ' + artist.name + ' - Nuit Noire Tattoo, Genève'))}" loading="lazy" />`;
+            // Sans lien renseigne dans le CMS : une simple div, pas un <a href="#">
+            // qui renverrait en haut de la page au moindre clic.
+            const link = M.link(item);
+            return link
+              ? `<a href="${escapeHtml(link)}" class="work-item" target="_blank" rel="noopener">${img}</a>`
+              : `<div class="work-item">${img}</div>`;
+          }).join('')}
         </div>
       </div>
     `;

@@ -50,6 +50,16 @@
     return s ? ' style="' + s + '"' : '';
   }
 
+  /* Lien au clic d'une photo, vide si absent ou douteux.
+     N'accepte qu'une adresse web, un mail ou un chemin interne : une faute de
+     frappe dans le CMS ne produit pas un lien cassé. Sans lien, l'appelant doit
+     utiliser une <div> et non un <a href="#">, qui renverrait en haut de page. */
+  function link(item) {
+    if (!item || typeof item === 'string' || !item.link) return '';
+    var clean = String(item.link).trim();
+    return /^(https?:\/\/|mailto:|\/|#)/i.test(clean) ? clean : '';
+  }
+
   /* Applique le cadrage sur une <img> existante */
   function apply(img, item) {
     if (!img) return;
@@ -58,5 +68,5 @@
     else img.removeAttribute('style');
   }
 
-  window.NNMedia = { src: src, style: style, styleAttr: styleAttr, apply: apply };
+  window.NNMedia = { src: src, style: style, styleAttr: styleAttr, apply: apply, link: link };
 })();
