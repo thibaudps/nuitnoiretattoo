@@ -446,12 +446,15 @@ img, svg {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  /* --nn-zoom / --nn-origin : cadrage choisi dans le CMS (voir js/media.js) */
+  transform-origin: var(--nn-origin, 50% 50%);
+  transform: scale(var(--nn-zoom, 1));
   transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), filter 0.4s ease;
   filter: grayscale(0%);
 }
 
 .work-item:hover img {
-  transform: scale(1.04);
+  transform: scale(calc(var(--nn-zoom, 1) * 1.04));
 }
 
 /* Placeholder pour items sans image */
@@ -1062,6 +1065,9 @@ img, svg {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  /* Cadrage choisi dans le CMS (voir js/media.js) */
+  transform-origin: var(--nn-origin, 50% 50%);
+  transform: scale(var(--nn-zoom, 1));
 }
 
 .artist-portrait.no-image::after {
@@ -1523,7 +1529,7 @@ img, svg {
 }
 
 .product-card:hover .product-image img {
-  transform: scale(1.04);
+  transform: scale(calc(var(--nn-zoom, 1) * 1.04));
 }
 
 .product-image {
@@ -1538,6 +1544,9 @@ img, svg {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  /* Cadrage choisi dans le CMS (voir js/media.js) */
+  transform-origin: var(--nn-origin, 50% 50%);
+  transform: scale(var(--nn-zoom, 1));
   transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
