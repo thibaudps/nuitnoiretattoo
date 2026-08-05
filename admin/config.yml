@@ -710,7 +710,8 @@ collections:
         required: false
         ratio: "3:4"
         columns: 3
-        hint: "Ajoutez plusieurs photos d'un coup (ou deposez-les dans le cadre). Glissez une vignette pour la deplacer, cliquez dessus pour recadrer."
+        allow_link: true
+        hint: "Ajoutez plusieurs photos d'un coup (ou deposez-les dans le cadre). Glissez une vignette pour la deplacer, cliquez dessus pour la recadrer ou lui donner un lien."
 
 
     preview_path: artists#{{id}}
