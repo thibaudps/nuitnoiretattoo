@@ -439,6 +439,10 @@ img, svg {
   background: var(--bg-elevated);
   position: relative;
   overflow: hidden;
+}
+
+/* Curseur main uniquement quand la photo mene quelque part */
+a.work-item {
   cursor: pointer;
 }
 
