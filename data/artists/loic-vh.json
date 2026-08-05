@@ -3,12 +3,10 @@
   "bio": "Loic, c'est un pilier du shop. De la gentillesse, de l'humour, et toujours un pinceau à la main. Avec le temps il s'est tourné vers le traditionnel japonais. Il s'adapte à tout le monde, des débutants aux projets les plus pointus, toujours avec le sourire.",
   "portfolio": [
     {
-      "src": "/assets/uploads/lolo3.webp",
-      "focus": {
-        "x": 40,
-        "y": 100,
-        "zoom": 1.12
-      }
+      "src": "/assets/uploads/lolo7.webp"
+    },
+    {
+      "src": "/assets/uploads/lolo2.webp"
     },
     {
       "src": "/assets/uploads/lolo4.webp",
@@ -19,21 +17,18 @@
       }
     },
     {
-      "src": "/assets/uploads/lolo5.webp"
+      "src": "/assets/uploads/lolo1.webp"
     },
     {
       "src": "/assets/uploads/lolo6.webp",
       "focus": {
-        "x": 50,
-        "y": 85,
-        "zoom": 1.11
+        "x": 48,
+        "y": 91,
+        "zoom": 1.33
       }
     },
     {
-      "src": "/assets/uploads/lolo1.webp"
-    },
-    {
-      "src": "/assets/uploads/lolo2.webp"
+      "src": "/assets/uploads/lolo8.webp"
     }
   ],
   "name": "Loic VH",
