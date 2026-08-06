@@ -1,7 +1,7 @@
 {
-  "enabled": false,
+  "enabled": true,
   "text": {
-    "fr": "",
-    "en": ""
+    "fr": "Nouveau site web !",
+    "en": "New website !"
   }
 }
