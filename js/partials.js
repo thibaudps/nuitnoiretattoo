@@ -1,7 +1,9 @@
 /* ============================================
    NUIT NOIRE TATTOO - partials.js
-   Injecte nav (+ pastille langue) + footer + bouton contact (FAB) sur toutes les pages.
+   Injecte nav (+ pastille langue) + bandeau d'annonce + footer
+   + bouton contact (FAB) sur toutes les pages.
    Footer et FAB sont ensuite enrichis avec settings.json (bilingue via NN.t).
+   Le bandeau vient de data/banner.json (switch ON/OFF depuis le CMS).
    ============================================ */
 
 (function () {
@@ -37,6 +39,19 @@
         </li>
       </ul>
     </nav>
+  `;
+
+  // Bandeau d'annonce : glisse de sous la nav peu apres l'ouverture.
+  // Reste masque tant que data/banner.json n'est pas charge (evite tout flash).
+  const BANNER_HTML = `
+    <div class="nn-banner" id="nn-banner" role="region" aria-label="Annonce" hidden>
+      <div class="nn-banner-inner">
+        <p class="nn-banner-text" id="nn-banner-text"></p>
+        <button type="button" class="nn-banner-close" id="nn-banner-close" aria-label="Fermer l'annonce">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+    </div>
   `;
 
   const FOOTER_HTML = `
@@ -83,7 +98,7 @@
       </div>
 
       <button type="button" class="fab-toggle" id="fab-toggle" data-i18n-aria="fab_toggle" aria-expanded="false" aria-label="Contact rapide">
-        <svg class="fab-icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="M3 7l9 6 9-6"/></svg>
+        <svg class="fab-icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"/></svg>
         <svg class="fab-icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
       </button>
     </div>
@@ -92,6 +107,13 @@
   function injectPartials() {
     const navMount = document.getElementById('nav-mount');
     if (navMount) navMount.outerHTML = NAV_HTML;
+
+    // Bandeau juste apres la nav (il est en position fixed, mais on garde
+    // l'ordre du DOM coherent pour les lecteurs d'ecran).
+    const nav = document.querySelector('.nav');
+    if (nav) nav.insertAdjacentHTML('afterend', BANNER_HTML);
+    else document.body.insertAdjacentHTML('afterbegin', BANNER_HTML);
+    initBanner();
 
     const footerMount = document.getElementById('footer-mount');
     if (footerMount) footerMount.outerHTML = FOOTER_HTML;
@@ -115,6 +137,147 @@
 
     // Charger les artistes pour le dropdown + les réglages
     loadDynamicData();
+  }
+
+  // ============================================
+  // BANDEAU D'ANNONCE
+  // --------------------------------------------
+  // Pilote depuis le CMS (data/banner.json) :
+  //   enabled : true / false  -> switch ON / OFF
+  //   text    : { fr, en }    -> contenu, liens markdown [texte](url) acceptes
+  // Le bandeau glisse de sous la nav apres un court delai, et le visiteur
+  // peut le fermer. Un nouveau message le fait reapparaitre (signature du texte).
+  // ============================================
+  const BANNER_DELAY = 1200;              // ms avant l'apparition
+  const BANNER_STORAGE_KEY = 'nn-banner-closed';
+
+  function initBanner() {
+    syncBannerOffset();
+    window.addEventListener('resize', syncBannerOffset);
+    window.addEventListener('load', syncBannerOffset);
+
+    const nav = document.querySelector('.nav');
+    if (nav && 'ResizeObserver' in window) {
+      new ResizeObserver(syncBannerOffset).observe(nav);
+    }
+
+    const closeBtn = document.getElementById('nn-banner-close');
+    if (closeBtn) closeBtn.addEventListener('click', closeBanner);
+
+    // Une fois le glissement termine, on refige les hauteurs (hero, quicknav).
+    const el = document.getElementById('nn-banner');
+    if (el) el.addEventListener('transitionend', (e) => {
+      if (e.propertyName === 'max-height') syncBannerOffset();
+    });
+
+    loadBanner();
+  }
+
+  // Hauteur reelle de la nav -> position collante du bandeau (la nav est
+  // plus petite en mobile). On mesure aussi la hauteur du bandeau lui-meme
+  // pour que l'animation d'ouverture soit calee sur le contenu reel.
+  function syncBannerOffset() {
+    const nav = document.querySelector('.nav');
+    const navH = nav ? Math.round(nav.getBoundingClientRect().height) : 0;
+    document.documentElement.style.setProperty('--nn-nav-h', navH + 'px');
+
+    const el = document.getElementById('nn-banner');
+    const inner = document.querySelector('.nn-banner-inner');
+    if (inner) {
+      const h = Math.round(inner.getBoundingClientRect().height);
+      if (h > 0) document.documentElement.style.setProperty('--nn-banner-h', h + 'px');
+    }
+
+    // Hauteur occupee quand le bandeau est ouvert. Le bandeau passe
+    // par-dessus le contenu, mais les barres collantes du site (quicknav
+    // des artistes) doivent se garer juste en dessous plutot que derriere.
+    const openH = (el && !el.hidden && el.classList.contains('is-visible') && inner)
+      ? Math.round(inner.getBoundingClientRect().height)
+      : 0;
+    document.documentElement.style.setProperty('--nn-banner-open-h', openH + 'px');
+  }
+
+  async function loadBanner() {
+    const el = document.getElementById('nn-banner');
+    const textEl = document.getElementById('nn-banner-text');
+    if (!el || !textEl) return;
+
+    let cfg;
+    try {
+      const response = await fetch('data/banner.json', { cache: 'no-cache' });
+      cfg = await response.json();
+    } catch (err) {
+      return; // pas de bandeau, le site continue normalement
+    }
+
+    if (!cfg || cfg.enabled !== true) return;
+
+    const T = (window.NN && window.NN.t) ? window.NN.t : (v => v);
+    const raw = String(T(cfg.text) || '').trim();
+    if (!raw) return;
+
+    // Deja ferme par le visiteur pour CE message precis ?
+    const sig = signature(raw);
+    try {
+      if (localStorage.getItem(BANNER_STORAGE_KEY) === sig) return;
+    } catch (e) { /* localStorage indispo, on affiche */ }
+
+    el.dataset.sig = sig;
+    textEl.innerHTML = renderBannerText(raw);
+
+    el.hidden = false;
+    syncBannerOffset();
+    // Double rAF : garantit que le navigateur peint l'etat ferme avant d'animer.
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      setTimeout(() => {
+        el.classList.add('is-visible');
+        syncBannerOffset();
+      }, BANNER_DELAY);
+    }));
+  }
+
+  function closeBanner() {
+    const el = document.getElementById('nn-banner');
+    if (!el) return;
+    el.classList.remove('is-visible');
+    try { localStorage.setItem(BANNER_STORAGE_KEY, el.dataset.sig || '1'); } catch (e) { /* ignore */ }
+    setTimeout(() => {
+      el.hidden = true;
+      syncBannerOffset();
+    }, 600);
+  }
+
+  // Texte du CMS -> HTML sur, avec liens [libelle](url) et gras **mot**.
+  function renderBannerText(raw) {
+    let out = escapeHtml(raw);
+
+    out = out.replace(/\[([^\]\n]+)\]\(([^)\s]+)\)/g, function (match, label, url) {
+      const href = safeUrl(url);
+      if (!href) return label;
+      const external = /^https?:/i.test(href) ? ' target="_blank" rel="noopener"' : '';
+      return '<a href="' + href + '"' + external + '>' + label + '</a>';
+    });
+
+    out = out.replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>');
+    return out;
+  }
+
+  // N'autorise que les schemas inoffensifs (pas de javascript:).
+  function safeUrl(url) {
+    const s = String(url).trim();
+    if (/^(https?:|mailto:|tel:)/i.test(s)) return s;
+    if (/^[/#]/.test(s)) return s;
+    return null;
+  }
+
+  // Petite empreinte du texte : si le message change, le bandeau
+  // reapparait meme chez les visiteurs qui avaient ferme l'ancien.
+  function signature(str) {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      hash = ((hash << 5) - hash + str.charCodeAt(i)) | 0;
+    }
+    return String(hash);
   }
 
   // ============================================
