@@ -86,10 +86,14 @@ img, svg {
    ============================================ */
 .nn-banner {
   position: fixed;
-  top: var(--nn-nav-h, 76px);
+  /* Colle sous la derniere barre fixe : la nav, ou la sous-nav des artistes
+     quand elle existe (--nn-stack-h). Le -1px garantit qu'aucun filet de
+     page ne passe entre les deux, quel que soit le zoom du navigateur :
+     ce pixel de recouvrement disparait derriere la barre du dessus. */
+  top: calc(var(--nn-nav-h, 76px) + var(--nn-stack-h, 0px) - 1px);
   left: 0;
   right: 0;
-  z-index: 90;
+  z-index: 45; /* au-dessus du contenu, sous la nav (100) et la sous-nav (50) */
   overflow: hidden;
   max-height: 0;
   pointer-events: none;
@@ -1051,8 +1055,7 @@ a.work-item {
    ============================================ */
 .artists-quicknav {
   position: sticky;
-  /* hauteur de la nav principale, + le bandeau d'annonce s'il est ouvert */
-  top: calc(76px + var(--nn-banner-open-h, 0px));
+  top: 76px; /* hauteur de la nav principale */
   z-index: 50;
   background: rgba(10, 18, 13, 0.85);
   backdrop-filter: blur(20px);
@@ -1917,7 +1920,7 @@ a.work-item {
   }
 
   .artists-quicknav {
-    top: calc(64px + var(--nn-banner-open-h, 0px)); /* nav mobile plus petite */
+    top: 64px; /* nav mobile plus petite */
   }
 
   .artists-quicknav-inner {
