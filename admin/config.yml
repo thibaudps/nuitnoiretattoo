@@ -793,6 +793,40 @@ collections:
     editor:
       preview: false
     files:
+      - name: "banner"
+        label: "📣 Bandeau d'annonce (sous le menu)"
+        file: "data/banner.json"
+        description: >-
+          Petite barre qui glisse sous le menu a l'ouverture du site, sur toutes
+          les pages. Pour les infos ponctuelles : fermeture exceptionnelle,
+          guest, evenement. Le visiteur peut la fermer ; si vous changez le
+          texte, elle reapparait pour tout le monde.
+        fields:
+          - label: "Afficher le bandeau"
+            name: "enabled"
+            widget: "boolean"
+            default: false
+            hint: "ON = le bandeau s'affiche sur tout le site. OFF = il disparait."
+
+          - label: "Texte du bandeau"
+            name: "text"
+            widget: "object"
+            hint: >-
+              Une phrase courte. Mettre un mot en gras : **le mot**.
+              Ajouter un lien : [texte du lien](https://exemple.com) — un lien
+              interne s'ecrit [nos artistes](/artists).
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "text"
+                required: false
+                default: ""
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "text"
+                required: false
+                default: ""
+
       - name: "footer"
         label: "Infos du shop (pied de page, horaires, contact)"
         file: "data/settings.json"
