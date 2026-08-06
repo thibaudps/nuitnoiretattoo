@@ -76,6 +76,111 @@ img, svg {
   border-bottom: 0.5px solid var(--border);
 }
 
+/* ============================================
+   BANDEAU D'ANNONCE
+   Glisse de sous la nav peu apres l'ouverture, PAR-DESSUS le contenu
+   (position fixed) : la page ne bouge pas d'un pixel.
+   Le conteneur est en overflow:hidden, la barre interieure remonte
+   derriere la nav : effet de tiroir. Fond legerement transparent + flou,
+   comme la nav, pour laisser deviner ce qui passe dessous.
+   ============================================ */
+.nn-banner {
+  position: fixed;
+  top: var(--nn-nav-h, 76px);
+  left: 0;
+  right: 0;
+  z-index: 90;
+  overflow: hidden;
+  max-height: 0;
+  pointer-events: none;
+  transition: max-height 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nn-banner.is-visible {
+  pointer-events: auto;
+  /* La hauteur exacte est posee par JS (--nn-banner-h) pour que
+     l'animation dure vraiment le temps prevu. */
+  max-height: var(--nn-banner-h, 200px);
+}
+
+.nn-banner-inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 10px calc(var(--padding-x) + 28px);
+  background: rgba(10, 18, 13, 0.62);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 0.5px solid var(--border);
+  transform: translateY(-100%);
+  transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nn-banner.is-visible .nn-banner-inner {
+  transform: none;
+}
+
+.nn-banner-text {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  line-height: 1.5;
+  text-align: center;
+  color: var(--fg);
+}
+
+.nn-banner-text strong {
+  font-weight: 500;
+}
+
+.nn-banner-text a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 0.5px;
+  text-decoration-color: var(--border-strong);
+  transition: text-decoration-color var(--t-fast), opacity var(--t-fast);
+}
+
+.nn-banner-text a:hover {
+  text-decoration-color: var(--fg);
+}
+
+.nn-banner-close {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  background: none;
+  border: none;
+  color: var(--fg-dim);
+  cursor: pointer;
+  transition: color var(--t-fast);
+}
+
+.nn-banner-close:hover {
+  color: var(--fg);
+}
+
+.nn-banner-close svg {
+  width: 13px;
+  height: 13px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nn-banner,
+  .nn-banner-inner {
+    transition: none;
+  }
+}
+
 .nav-logo {
   display: flex;
   align-items: center;
@@ -711,6 +816,19 @@ a.work-item {
   }
 
   /* Le panneau s'ouvre comme un petit cadre sous le bouton MENU, aligné à droite */
+  .nn-banner-inner {
+    padding: 9px 40px;
+  }
+
+  .nn-banner-text {
+    font-size: 11px;
+    letter-spacing: 0.06em;
+  }
+
+  .nn-banner-close {
+    right: 10px;
+  }
+
   .nav-menu {
     position: absolute;
     top: calc(100% + 8px);
@@ -933,7 +1051,8 @@ a.work-item {
    ============================================ */
 .artists-quicknav {
   position: sticky;
-  top: 76px; /* hauteur de la nav principale */
+  /* hauteur de la nav principale, + le bandeau d'annonce s'il est ouvert */
+  top: calc(76px + var(--nn-banner-open-h, 0px));
   z-index: 50;
   background: rgba(10, 18, 13, 0.85);
   backdrop-filter: blur(20px);
@@ -1798,7 +1917,7 @@ a.work-item {
   }
 
   .artists-quicknav {
-    top: 64px; /* nav mobile plus petite */
+    top: calc(64px + var(--nn-banner-open-h, 0px)); /* nav mobile plus petite */
   }
 
   .artists-quicknav-inner {
