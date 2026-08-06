@@ -1,7 +1,7 @@
 {
   "hours_note": {
-    "fr": "Sur rendez-vous",
-    "en": "By appointment"
+    "fr": "",
+    "en": ""
   },
   "map_query": "Chemin des Coquelicots 7, 1214 Vernier, Suisse",
   "access_cff": {
@@ -36,7 +36,7 @@
   },
   "subtitle": {
     "fr": "Écrivez-nous, ou passez nous voir au shop.",
-    "en": "Write to us, or drop by the shop."
+    "en": "Write us, or drop by the shop."
   },
   "title": {
     "fr": "Contact",
