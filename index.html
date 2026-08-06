@@ -147,7 +147,9 @@
   <!-- Hero video : hauteur exacte sous la nav + source desktop/mobile -->
   <script>
     (function () {
-      // 1) Hauteur du hero = viewport moins la nav
+      // 1) Hauteur du hero = viewport moins la nav.
+      //    Le bandeau d'annonce passe par-dessus la video : il n'entre pas
+      //    dans le calcul, sinon la page se decalerait a son apparition.
       function setHeroHeight() {
         var nav = document.querySelector('.nav');
         var navH = nav ? nav.getBoundingClientRect().height : 0;
