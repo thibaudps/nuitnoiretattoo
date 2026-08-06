@@ -156,9 +156,19 @@
     window.addEventListener('resize', syncBannerOffset);
     window.addEventListener('load', syncBannerOffset);
 
-    const nav = document.querySelector('.nav');
-    if (nav && 'ResizeObserver' in window) {
-      new ResizeObserver(syncBannerOffset).observe(nav);
+    // La nav et la sous-nav des artistes changent de hauteur (mobile, et la
+    // barre des prenoms est remplie par JS apres coup) : on resuit chaque fois.
+    if ('ResizeObserver' in window) {
+      const ro = new ResizeObserver(syncBannerOffset);
+      const nav = document.querySelector('.nav');
+      const quicknav = document.querySelector('.artists-quicknav');
+      if (nav) ro.observe(nav);
+      if (quicknav) ro.observe(quicknav);
+    }
+
+    // Les polices Google modifient la hauteur des barres en arrivant.
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(syncBannerOffset).catch(() => {});
     }
 
     const closeBtn = document.getElementById('nn-banner-close');
@@ -173,28 +183,30 @@
     loadBanner();
   }
 
-  // Hauteur reelle de la nav -> position collante du bandeau (la nav est
-  // plus petite en mobile). On mesure aussi la hauteur du bandeau lui-meme
-  // pour que l'animation d'ouverture soit calee sur le contenu reel.
+  // Position du bandeau : juste sous la derniere barre fixe en haut de page.
+  //   --nn-nav-h   hauteur reelle de la nav (plus petite en mobile)
+  //   --nn-stack-h hauteur de la sous-nav des artistes, 0 sur les autres pages
+  //   --nn-banner-h hauteur du bandeau, pour caler la duree d'ouverture
+  // Les hauteurs sont gardees en decimales : arrondir laisserait passer un
+  // filet d'un demi-pixel entre les barres selon le zoom.
   function syncBannerOffset() {
-    const nav = document.querySelector('.nav');
-    const navH = nav ? Math.round(nav.getBoundingClientRect().height) : 0;
-    document.documentElement.style.setProperty('--nn-nav-h', navH + 'px');
+    const root = document.documentElement.style;
 
-    const el = document.getElementById('nn-banner');
+    const nav = document.querySelector('.nav');
+    const navH = nav ? nav.getBoundingClientRect().height : 0;
+    if (navH > 0) root.setProperty('--nn-nav-h', navH.toFixed(2) + 'px');
+
+    // Sur la page artistes, le bandeau se place sous la barre des prenoms.
+    const quicknav = document.querySelector('.artists-quicknav');
+    const stackH = quicknav ? quicknav.getBoundingClientRect().height : 0;
+    root.setProperty('--nn-stack-h', stackH.toFixed(2) + 'px');
+
     const inner = document.querySelector('.nn-banner-inner');
     if (inner) {
-      const h = Math.round(inner.getBoundingClientRect().height);
-      if (h > 0) document.documentElement.style.setProperty('--nn-banner-h', h + 'px');
+      const h = inner.getBoundingClientRect().height;
+      // +1px : compense le pixel de recouvrement sous la barre du dessus.
+      if (h > 0) root.setProperty('--nn-banner-h', (h + 1).toFixed(2) + 'px');
     }
-
-    // Hauteur occupee quand le bandeau est ouvert. Le bandeau passe
-    // par-dessus le contenu, mais les barres collantes du site (quicknav
-    // des artistes) doivent se garer juste en dessous plutot que derriere.
-    const openH = (el && !el.hidden && el.classList.contains('is-visible') && inner)
-      ? Math.round(inner.getBoundingClientRect().height)
-      : 0;
-    document.documentElement.style.setProperty('--nn-banner-open-h', openH + 'px');
   }
 
   async function loadBanner() {
