@@ -1,0 +1,33 @@
+{
+  "artist": "Nuit Noire",
+  "price": 35,
+  "available": true,
+  "name": "T-Shirt NN",
+  "sellable": true,
+  "description_en": "Anniversary Tee",
+  "variants": [
+    {
+      "stock": 5,
+      "size": "XS"
+    },
+    {
+      "stock": 8,
+      "size": "S"
+    },
+    {
+      "stock": 10,
+      "size": "M"
+    }
+  ],
+  "stock": 0,
+  "image": {
+    "src": "/assets/uploads/teedos.webp",
+    "focus": {
+      "x": 50,
+      "y": 50,
+      "zoom": 1.09
+    }
+  },
+  "description": "Tee NN anniversaire",
+  "category": "merch"
+}
