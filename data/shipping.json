@@ -1,0 +1,83 @@
+{
+  "currency": "CHF",
+  "zones": [
+    {
+      "id": "ch",
+      "label": {
+        "fr": "Suisse et Liechtenstein",
+        "en": "Switzerland and Liechtenstein"
+      },
+      "countries": ["CH", "LI"],
+      "base": 5,
+      "extra_item": 1,
+      "free_from": null,
+      "delivery_min": 2,
+      "delivery_max": 4
+    },
+    {
+      "id": "eu",
+      "label": {
+        "fr": "Union européenne",
+        "en": "European Union"
+      },
+      "countries": [
+        "AT", "BE", "BG", "CY", "CZ", "DE", "DK", "EE", "ES", "FI", "FR", "GR",
+        "HR", "HU", "IE", "IT", "LT", "LU", "LV", "MT", "NL", "PL", "PT", "RO",
+        "SE", "SI", "SK"
+      ],
+      "base": 12,
+      "extra_item": 2,
+      "free_from": null,
+      "delivery_min": 4,
+      "delivery_max": 8
+    },
+    {
+      "id": "uk",
+      "label": {
+        "fr": "Royaume-Uni",
+        "en": "United Kingdom"
+      },
+      "countries": ["GB"],
+      "base": 15,
+      "extra_item": 2,
+      "free_from": null,
+      "delivery_min": 5,
+      "delivery_max": 10
+    },
+    {
+      "id": "us",
+      "label": {
+        "fr": "États-Unis et Canada",
+        "en": "United States and Canada"
+      },
+      "countries": ["US", "CA"],
+      "base": 22,
+      "extra_item": 3,
+      "free_from": null,
+      "delivery_min": 7,
+      "delivery_max": 14
+    },
+    {
+      "id": "world",
+      "label": {
+        "fr": "Reste du monde",
+        "en": "Rest of the world"
+      },
+      "countries": [
+        "AD", "AE", "AL", "AR", "AU", "BA", "BR", "CL", "DZ", "EG", "FO", "GI",
+        "GL", "HK", "ID", "IL", "IN", "IS", "JP", "KR", "MA", "MC", "MD", "ME",
+        "MK", "MX", "MY", "NO", "NZ", "PH", "RS", "SG", "SM", "TH", "TN", "TR",
+        "TW", "UA", "VA", "VN", "ZA"
+      ],
+      "base": 28,
+      "extra_item": 4,
+      "free_from": null,
+      "delivery_min": 10,
+      "delivery_max": 21
+    }
+  ],
+  "customs_notice": {
+    "fr": "Expédition depuis la Suisse. Pour toute livraison hors de Suisse, la TVA à l'import et les éventuels frais de douane sont à la charge du destinataire.",
+    "en": "Shipped from Switzerland. For deliveries outside Switzerland, import VAT and any customs fees are payable by the recipient."
+  }
+}
