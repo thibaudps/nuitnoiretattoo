@@ -15,6 +15,14 @@
         <img src="assets/logo-mini-cream.svg" alt="NN" />
       </a>
 
+      <!-- Panier mobile : hors de la liste repliable, sinon il disparaitrait
+           derriere le bouton MENU. Sur desktop c'est l'exemplaire situe dans
+           la liste qui s'affiche, et celui-ci est masque. -->
+      <a href="/panier" class="nav-cart nav-cart-mobile" data-i18n-aria="cart_title" aria-label="Panier">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 7h12l-1 12H7L6 7z"/><path d="M9.5 7V5.5a2.5 2.5 0 0 1 5 0V7"/></svg>
+        <span class="nav-cart-count" hidden>0</span>
+      </a>
+
       <button type="button" class="nav-burger" id="nav-burger" aria-expanded="false" aria-controls="nav-menu" aria-label="Menu">MENU</button>
 
       <ul class="nav-menu" id="nav-menu">
@@ -32,6 +40,12 @@
         <li><a href="/faq" class="nav-link" data-page="faq">FAQ</a></li>
         <li><a href="/about" class="nav-link" data-page="about" data-i18n="nav_about">About</a></li>
         <li><a href="/contact" class="nav-link" data-page="contact">Contact</a></li>
+        <li class="nav-cart-item">
+          <a href="/panier" class="nav-cart" id="nav-cart" data-page="cart" data-i18n-aria="cart_title" aria-label="Panier">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 7h12l-1 12H7L6 7z"/><path d="M9.5 7V5.5a2.5 2.5 0 0 1 5 0V7"/></svg>
+            <span class="nav-cart-count" hidden>0</span>
+          </a>
+        </li>
         <li class="nav-lang" id="nav-lang">
           <button type="button" class="nav-lang-btn" data-lang="fr" aria-label="Français">FR</button>
           <span class="nav-lang-sep" aria-hidden="true">/</span>
@@ -124,6 +138,13 @@
 
     // Pastille langue
     initLangToggle();
+
+    // Pastille du panier : cart.js s'execute avant que la nav soit injectee,
+    // le compteur doit donc etre relu une fois le lien present dans le DOM.
+    if (window.NNCart) {
+      window.NNCart.refreshBadge();
+      window.NNCart.onChange(window.NNCart.refreshBadge);
+    }
 
     // Menu mobile (bouton MENU)
     initBurger();

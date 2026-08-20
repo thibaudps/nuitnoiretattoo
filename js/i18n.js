@@ -57,6 +57,47 @@
     cat_print:           { fr: 'Print',    en: 'Print' },
     cat_merch:           { fr: 'Merch',    en: 'Merch' },
 
+    /* --- Boutique en ligne : fiche produit --- */
+    shop_size:           { fr: 'Taille', en: 'Size' },
+    shop_add_to_cart:    { fr: 'Ajouter au panier', en: 'Add to cart' },
+    shop_added:          { fr: 'Ajouté ✓', en: 'Added ✓' },
+    shop_cart_full:      { fr: 'Panier plein', en: 'Cart full' },
+    shop_sold_out:       { fr: 'Épuisé', en: 'Sold out' },
+    shop_sold_out_note:  { fr: 'Épuisé pour le moment.', en: 'Currently sold out.' },
+    shop_low_stock:      { fr: 'Plus que {n} en stock', en: 'Only {n} left' },
+
+    /* --- Boutique en ligne : panier --- */
+    cart_eyebrow:        { fr: 'Boutique', en: 'Shop' },
+    cart_title:          { fr: 'Panier', en: 'Cart' },
+    cart_empty:          { fr: 'Votre panier est vide.', en: 'Your cart is empty.' },
+    cart_back_to_shop:   { fr: 'Retour à la boutique →', en: 'Back to the shop →' },
+    cart_remove:         { fr: 'Retirer cet article', en: 'Remove this item' },
+    cart_country:        { fr: 'Pays de livraison', en: 'Shipping country' },
+    cart_choose_country: { fr: '— Choisir un pays —', en: '— Choose a country —' },
+    cart_subtotal:       { fr: 'Sous-total', en: 'Subtotal' },
+    cart_shipping:       { fr: 'Frais de port', en: 'Shipping' },
+    cart_shipping_pending: { fr: 'à calculer', en: 'to be calculated' },
+    cart_shipping_free:  { fr: 'Offerts', en: 'Free' },
+    cart_total:          { fr: 'Total', en: 'Total' },
+    cart_delivery_estimate: { fr: 'Livraison estimée sous {min} à {max} jours ouvrés.', en: 'Estimated delivery in {min} to {max} business days.' },
+    cart_pay:            { fr: 'Passer au paiement', en: 'Proceed to payment' },
+    cart_pay_hint:       { fr: 'Choisissez un pays de livraison pour continuer.', en: 'Choose a shipping country to continue.' },
+    cart_redirecting:    { fr: 'Redirection…', en: 'Redirecting…' },
+    cart_secure:         { fr: 'Paiement sécurisé par Stripe. Aucune inscription nécessaire, aucune donnée bancaire ne transite par notre site.', en: 'Secure payment by Stripe. No account needed, no card details pass through our site.' },
+    cart_load_error:     { fr: 'Impossible de charger le panier pour le moment.', en: 'Unable to load the cart right now.' },
+    cart_error_stock:    { fr: "Un article de votre panier vient de partir. Le panier a été mis à jour, vérifiez-le avant de continuer.", en: 'An item in your cart has just sold out. The cart has been updated, please check it before continuing.' },
+    cart_error_generic:  { fr: 'Le paiement n\'a pas pu être ouvert. Réessayez dans un instant.', en: 'Checkout could not be opened. Please try again in a moment.' },
+    cart_error_network:  { fr: 'Connexion impossible. Vérifiez votre réseau et réessayez.', en: 'Connection failed. Check your network and try again.' },
+    cart_notice_removed: { fr: '{item} n\'est plus disponible et a été retiré de votre panier.', en: '{item} is no longer available and was removed from your cart.' },
+    cart_notice_reduced: { fr: 'Il ne reste que {n} exemplaire(s) de {item} : la quantité a été ajustée.', en: 'Only {n} left of {item}: the quantity was adjusted.' },
+
+    /* --- Boutique en ligne : confirmation --- */
+    thanks_eyebrow:      { fr: 'Commande confirmée', en: 'Order confirmed' },
+    thanks_title:        { fr: 'Merci', en: 'Thank you' },
+    thanks_body:         { fr: "Votre paiement a bien été reçu. Un reçu vous a été envoyé par email. Nous préparons votre colis et vous écrivons dès qu'il part du shop.", en: 'Your payment went through. A receipt has been emailed to you. We are preparing your parcel and will write as soon as it leaves the shop.' },
+    thanks_ref:          { fr: 'Référence', en: 'Reference' },
+    thanks_back:         { fr: 'Retour à la boutique', en: 'Back to the shop' },
+
     role_fondateur:      { fr: 'Fondateur',  en: 'Founder' },
     role_fondatrice:     { fr: 'Fondatrice', en: 'Founder' },
     role_resident:       { fr: 'Résident',   en: 'Resident' },
@@ -119,7 +160,9 @@
     title_shop:          { fr: 'Shop - Nuit Noire Tattoo', en: 'Shop - Nuit Noire Tattoo' },
     title_faq:           { fr: 'FAQ - Nuit Noire Tattoo', en: 'FAQ - Nuit Noire Tattoo' },
     title_contact:       { fr: 'Contact - Nuit Noire Tattoo', en: 'Contact - Nuit Noire Tattoo' },
-    title_about:         { fr: 'À propos - Nuit Noire Tattoo', en: 'About - Nuit Noire Tattoo' }
+    title_about:         { fr: 'À propos - Nuit Noire Tattoo', en: 'About - Nuit Noire Tattoo' },
+    title_cart:          { fr: 'Panier - Nuit Noire Tattoo', en: 'Cart - Nuit Noire Tattoo' },
+    title_thanks:        { fr: 'Merci - Nuit Noire Tattoo', en: 'Thank you - Nuit Noire Tattoo' }
   };
 
   let UI = DEFAULTS;
