@@ -40,7 +40,15 @@ function buildIndex(folderName, sortBy = null) {
   const items = files.map(file => {
     const filePath = path.join(folderPath, file);
     const content = fs.readFileSync(filePath, 'utf-8');
-    return JSON.parse(content);
+    const item = JSON.parse(content);
+
+    // Le slug est le nom du fichier, c'est-a-dire l'identifiant que Decap
+    // utilise pour cette fiche. Il n'est pas ecrit DANS le JSON, on l'injecte
+    // donc ici. La boutique s'en sert comme cle : le navigateur l'envoie a
+    // /api/checkout, qui relit data/products/<slug>.json pour verifier le
+    // prix et le stock a la source.
+    item.slug = path.basename(file, '.json');
+    return item;
   });
 
   // Tri si demandé
