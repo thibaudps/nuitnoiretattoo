@@ -7,7 +7,8 @@
 #   📄 Pages      les textes de chaque page (accueil, artistes, shop,
 #                 a propos, FAQ, contact) + les photos de l'accueil
 #   🎨 Artistes   une fiche par artiste
-#   🛍 Produits   une fiche par produit du shop
+#   🛍 Produits   une fiche par produit du shop (prix, tailles, stock)
+#   🚚 Livraison  les frais de port par zone de la boutique en ligne
 #   ⚙️ Reglages   coordonnees, horaires, textes des boutons
 #
 # Chaque texte traduisible a deux champs : Francais et English.
@@ -726,7 +727,7 @@ collections:
     delete: true
     slug: "{{slug}}"
     identifier_field: "name"
-    summary: "{{name}} - {{price}}"
+    summary: "{{name}} - {{price}} CHF"
     sortable_fields: ['name', 'category', 'available']
     view_groups:
       - label: Categorie
@@ -751,10 +752,13 @@ collections:
         widget: "string"
         hint: "Nom de l'artiste auteur du produit (ou 'Nuit Noire')."
 
-      - label: "Prix"
+      - label: "Prix (CHF)"
         name: "price"
-        widget: "string"
-        hint: "Ex. : '350 CHF', '40 EUR'"
+        widget: "number"
+        value_type: "float"
+        min: 0
+        step: 0.05
+        hint: "Chiffres uniquement, en francs suisses. Ex. : 45 ou 39.90. Le '.-' est ajoute automatiquement a l'affichage."
 
       - label: "Image"
         name: "image"
@@ -776,14 +780,410 @@ collections:
         hint: "Traduction anglaise. Laisser vide = la version francaise s'affiche aussi en anglais."
 
 
-      - label: "Disponible"
+      - label: "Visible sur le site"
         name: "available"
         widget: "boolean"
         default: true
-        hint: "Decoche si le produit est reserve ou epuise."
+        hint: "Decoche pour retirer completement le produit de la boutique, sans supprimer la fiche."
+
+      - label: "Vendable en ligne"
+        name: "sellable"
+        widget: "boolean"
+        default: true
+        hint: "Decoche pour un produit vitrine : il reste affiche avec son prix, mais sans bouton d'achat. Le visiteur passe alors par le bloc 'Commander' en bas de la page shop."
+
+
+      # --- STOCK -------------------------------------------------
+      # Deux cas, jamais les deux a la fois :
+      #   - le produit a des tailles  -> on remplit la liste ci-dessous
+      #   - le produit n'en a pas     -> on laisse la liste vide et on
+      #                                  renseigne "Stock" plus bas
+      # Ces quantites baissent toutes seules a chaque paiement encaisse.
+      - label: "Tailles et stock par taille"
+        name: "variants"
+        widget: "list"
+        required: false
+        summary: "{{fields.size}} - {{fields.stock}} en stock"
+        label_singular: "Taille"
+        hint: "Uniquement pour les produits declines en tailles (tee-shirts...). Laissez VIDE pour un produit sans taille : c'est le champ 'Stock' juste en dessous qui compte alors. Ces quantites diminuent automatiquement a chaque vente."
+        fields:
+          - label: "Taille"
+            name: "size"
+            widget: "string"
+            hint: "Ex. : XS, S, M, L, XL. Pour un print : A3, 50x70..."
+          - label: "Quantite en stock"
+            name: "stock"
+            widget: "number"
+            value_type: "int"
+            min: 0
+            default: 0
+
+      - label: "Stock (produit sans taille)"
+        name: "stock"
+        widget: "number"
+        value_type: "int"
+        min: 0
+        default: 0
+        required: false
+        hint: "Quantite disponible pour un produit sans taille (casquette, print, accessoire). IGNORE si la liste des tailles ci-dessus est remplie. Baisse automatiquement a chaque vente."
 
 
     preview_path: shop
+
+  # -----------------------------------------------------------
+  # LIVRAISON
+  # -----------------------------------------------------------
+  # La grille des frais de port de la boutique en ligne.
+  # Formule appliquee a chaque commande :
+  #     port = tarif de base + supplement x (nombre d'articles - 1)
+  # Exemple : 3 tee-shirts vers la France, base 12 et supplement 2
+  #     -> 12 + 2 x 2 = 16 CHF
+  # Un pays ne doit apparaitre que dans UNE seule zone. Un pays absent de
+  # toutes les zones n'est pas propose au client : c'est ainsi qu'on
+  # decide ou l'on expedie.
+  # -----------------------------------------------------------
+  - name: "shipping"
+    label: "🚚 Livraison"
+    label_singular: "Livraison"
+    description: "Frais de port par zone, et avertissement douane."
+    delete: false
+    editor:
+      preview: false
+    files:
+      - name: "shipping_zones"
+        label: "Zones et frais de port"
+        file: "data/shipping.json"
+        fields:
+
+          - label: "Devise de la boutique"
+            name: "currency"
+            widget: "select"
+            options:
+              - { label: "Franc suisse (CHF)", value: "CHF" }
+              - { label: "Euro (EUR)", value: "EUR" }
+            default: "CHF"
+            hint: "Une seule devise pour toute la boutique. Changer ce reglage ne convertit PAS les prix des produits : il faut les ressaisir."
+
+          - label: "Zones de livraison"
+            name: "zones"
+            widget: "list"
+            label_singular: "Zone"
+            summary: "{{fields.label.fr}} - base {{fields.base}} + {{fields.extra_item}}/article"
+            hint: "Glissez pour reordonner : c'est l'ordre du menu deroulant sur la page panier."
+            fields:
+
+              - label: "Identifiant technique"
+                name: "id"
+                widget: "string"
+                pattern: ['^[a-z0-9-]+$', "Minuscules, chiffres et tirets uniquement"]
+                hint: "Ne pas modifier apres creation. Ex. : ch, eu, uk, us, world"
+
+              - label: "Nom de la zone"
+                name: "label"
+                widget: "object"
+                fields:
+                  - label: "🇫🇷 Francais"
+                    name: "fr"
+                    widget: "string"
+                  - label: "🇬🇧 English"
+                    name: "en"
+                    widget: "string"
+
+              - label: "Tarif de base"
+                name: "base"
+                widget: "number"
+                value_type: "float"
+                min: 0
+                step: 0.05
+                hint: "Prix pour le premier article, dans la devise de la boutique."
+
+              - label: "Supplement par article en plus"
+                name: "extra_item"
+                widget: "number"
+                value_type: "float"
+                min: 0
+                step: 0.05
+                default: 1
+                hint: "Ajoute pour chaque article au-dela du premier. Mettre 0 pour un forfait unique quel que soit le nombre d'articles."
+
+              - label: "Port offert a partir de"
+                name: "free_from"
+                widget: "number"
+                value_type: "float"
+                min: 0
+                required: false
+                hint: "Laisser VIDE pour ne jamais offrir le port. Sinon, montant du panier (hors port) a partir duquel la livraison est gratuite dans cette zone."
+
+              - label: "Delai minimum (jours ouvres)"
+                name: "delivery_min"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                required: false
+                hint: "Affiche au client sur la page panier et sur la page de paiement. Laisser vide pour ne rien annoncer."
+
+              - label: "Delai maximum (jours ouvres)"
+                name: "delivery_max"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                required: false
+
+              - label: "Pays de cette zone"
+                name: "countries"
+                widget: "select"
+                multiple: true
+                hint: "Tous les pays qui paient ce tarif. Un pays ne doit figurer que dans une seule zone. Un pays qui n'est dans aucune zone n'est pas livrable."
+                options:
+                  - { label: "Afghanistan", value: "AF" }
+                  - { label: "Afrique du Sud", value: "ZA" }
+                  - { label: "Albanie", value: "AL" }
+                  - { label: "Algérie", value: "DZ" }
+                  - { label: "Allemagne", value: "DE" }
+                  - { label: "Andorre", value: "AD" }
+                  - { label: "Angola", value: "AO" }
+                  - { label: "Anguilla", value: "AI" }
+                  - { label: "Antarctique", value: "AQ" }
+                  - { label: "Antigua-et-Barbuda", value: "AG" }
+                  - { label: "Arabie saoudite", value: "SA" }
+                  - { label: "Argentine", value: "AR" }
+                  - { label: "Arménie", value: "AM" }
+                  - { label: "Aruba", value: "AW" }
+                  - { label: "Australie", value: "AU" }
+                  - { label: "Autriche", value: "AT" }
+                  - { label: "Azerbaïdjan", value: "AZ" }
+                  - { label: "Bahamas", value: "BS" }
+                  - { label: "Bahreïn", value: "BH" }
+                  - { label: "Bangladesh", value: "BD" }
+                  - { label: "Barbade", value: "BB" }
+                  - { label: "Belgique", value: "BE" }
+                  - { label: "Belize", value: "BZ" }
+                  - { label: "Bénin", value: "BJ" }
+                  - { label: "Bermudes", value: "BM" }
+                  - { label: "Bhoutan", value: "BT" }
+                  - { label: "Biélorussie", value: "BY" }
+                  - { label: "Bolivie", value: "BO" }
+                  - { label: "Bosnie-Herzégovine", value: "BA" }
+                  - { label: "Botswana", value: "BW" }
+                  - { label: "Brésil", value: "BR" }
+                  - { label: "Brunei", value: "BN" }
+                  - { label: "Bulgarie", value: "BG" }
+                  - { label: "Burkina Faso", value: "BF" }
+                  - { label: "Burundi", value: "BI" }
+                  - { label: "Cambodge", value: "KH" }
+                  - { label: "Cameroun", value: "CM" }
+                  - { label: "Canada", value: "CA" }
+                  - { label: "Cap-Vert", value: "CV" }
+                  - { label: "Chili", value: "CL" }
+                  - { label: "Chine", value: "CN" }
+                  - { label: "Chypre", value: "CY" }
+                  - { label: "Colombie", value: "CO" }
+                  - { label: "Comores", value: "KM" }
+                  - { label: "Congo-Brazzaville", value: "CG" }
+                  - { label: "Congo-Kinshasa", value: "CD" }
+                  - { label: "Corée du Sud", value: "KR" }
+                  - { label: "Costa Rica", value: "CR" }
+                  - { label: "Côte d’Ivoire", value: "CI" }
+                  - { label: "Croatie", value: "HR" }
+                  - { label: "Curaçao", value: "CW" }
+                  - { label: "Danemark", value: "DK" }
+                  - { label: "Djibouti", value: "DJ" }
+                  - { label: "Dominique", value: "DM" }
+                  - { label: "Égypte", value: "EG" }
+                  - { label: "Émirats arabes unis", value: "AE" }
+                  - { label: "Équateur", value: "EC" }
+                  - { label: "Érythrée", value: "ER" }
+                  - { label: "Espagne", value: "ES" }
+                  - { label: "Estonie", value: "EE" }
+                  - { label: "Eswatini", value: "SZ" }
+                  - { label: "État de la Cité du Vatican", value: "VA" }
+                  - { label: "États-Unis", value: "US" }
+                  - { label: "Éthiopie", value: "ET" }
+                  - { label: "Fidji", value: "FJ" }
+                  - { label: "Finlande", value: "FI" }
+                  - { label: "France", value: "FR" }
+                  - { label: "Gabon", value: "GA" }
+                  - { label: "Gambie", value: "GM" }
+                  - { label: "Géorgie", value: "GE" }
+                  - { label: "Géorgie du Sud-et-les Îles Sandwich du Sud", value: "GS" }
+                  - { label: "Ghana", value: "GH" }
+                  - { label: "Gibraltar", value: "GI" }
+                  - { label: "Grèce", value: "GR" }
+                  - { label: "Grenade", value: "GD" }
+                  - { label: "Groenland", value: "GL" }
+                  - { label: "Guadeloupe", value: "GP" }
+                  - { label: "Guam", value: "GU" }
+                  - { label: "Guatemala", value: "GT" }
+                  - { label: "Guernesey", value: "GG" }
+                  - { label: "Guinée", value: "GN" }
+                  - { label: "Guinée équatoriale", value: "GQ" }
+                  - { label: "Guinée-Bissau", value: "GW" }
+                  - { label: "Guyana", value: "GY" }
+                  - { label: "Guyane française", value: "GF" }
+                  - { label: "Haïti", value: "HT" }
+                  - { label: "Honduras", value: "HN" }
+                  - { label: "Hongrie", value: "HU" }
+                  - { label: "Île Bouvet", value: "BV" }
+                  - { label: "Île de l’Ascension", value: "AC" }
+                  - { label: "Île de Man", value: "IM" }
+                  - { label: "Îles Åland", value: "AX" }
+                  - { label: "Îles Caïmans", value: "KY" }
+                  - { label: "Îles Cook", value: "CK" }
+                  - { label: "Îles Féroé", value: "FO" }
+                  - { label: "Îles Malouines", value: "FK" }
+                  - { label: "Îles Pitcairn", value: "PN" }
+                  - { label: "Îles Salomon", value: "SB" }
+                  - { label: "Îles Turques-et-Caïques", value: "TC" }
+                  - { label: "Îles Vierges britanniques", value: "VG" }
+                  - { label: "Inde", value: "IN" }
+                  - { label: "Indonésie", value: "ID" }
+                  - { label: "Irak", value: "IQ" }
+                  - { label: "Irlande", value: "IE" }
+                  - { label: "Islande", value: "IS" }
+                  - { label: "Israël", value: "IL" }
+                  - { label: "Italie", value: "IT" }
+                  - { label: "Jamaïque", value: "JM" }
+                  - { label: "Japon", value: "JP" }
+                  - { label: "Jersey", value: "JE" }
+                  - { label: "Jordanie", value: "JO" }
+                  - { label: "Kazakhstan", value: "KZ" }
+                  - { label: "Kenya", value: "KE" }
+                  - { label: "Kirghizstan", value: "KG" }
+                  - { label: "Kiribati", value: "KI" }
+                  - { label: "Kosovo", value: "XK" }
+                  - { label: "Koweït", value: "KW" }
+                  - { label: "La Réunion", value: "RE" }
+                  - { label: "Laos", value: "LA" }
+                  - { label: "Lesotho", value: "LS" }
+                  - { label: "Lettonie", value: "LV" }
+                  - { label: "Liban", value: "LB" }
+                  - { label: "Liberia", value: "LR" }
+                  - { label: "Libye", value: "LY" }
+                  - { label: "Liechtenstein", value: "LI" }
+                  - { label: "Lituanie", value: "LT" }
+                  - { label: "Luxembourg", value: "LU" }
+                  - { label: "Macédoine du Nord", value: "MK" }
+                  - { label: "Madagascar", value: "MG" }
+                  - { label: "Malaisie", value: "MY" }
+                  - { label: "Malawi", value: "MW" }
+                  - { label: "Maldives", value: "MV" }
+                  - { label: "Mali", value: "ML" }
+                  - { label: "Malte", value: "MT" }
+                  - { label: "Maroc", value: "MA" }
+                  - { label: "Martinique", value: "MQ" }
+                  - { label: "Maurice", value: "MU" }
+                  - { label: "Mauritanie", value: "MR" }
+                  - { label: "Mayotte", value: "YT" }
+                  - { label: "Mexique", value: "MX" }
+                  - { label: "Moldavie", value: "MD" }
+                  - { label: "Monaco", value: "MC" }
+                  - { label: "Mongolie", value: "MN" }
+                  - { label: "Monténégro", value: "ME" }
+                  - { label: "Montserrat", value: "MS" }
+                  - { label: "Mozambique", value: "MZ" }
+                  - { label: "Myanmar (Birmanie)", value: "MM" }
+                  - { label: "Namibie", value: "NA" }
+                  - { label: "Nauru", value: "NR" }
+                  - { label: "Népal", value: "NP" }
+                  - { label: "Nicaragua", value: "NI" }
+                  - { label: "Niger", value: "NE" }
+                  - { label: "Nigeria", value: "NG" }
+                  - { label: "Niue", value: "NU" }
+                  - { label: "Norvège", value: "NO" }
+                  - { label: "Nouvelle-Calédonie", value: "NC" }
+                  - { label: "Nouvelle-Zélande", value: "NZ" }
+                  - { label: "Oman", value: "OM" }
+                  - { label: "Ouganda", value: "UG" }
+                  - { label: "Ouzbékistan", value: "UZ" }
+                  - { label: "Pakistan", value: "PK" }
+                  - { label: "Panama", value: "PA" }
+                  - { label: "Papouasie-Nouvelle-Guinée", value: "PG" }
+                  - { label: "Paraguay", value: "PY" }
+                  - { label: "Pays-Bas", value: "NL" }
+                  - { label: "Pays-Bas caribéens", value: "BQ" }
+                  - { label: "Pérou", value: "PE" }
+                  - { label: "Philippines", value: "PH" }
+                  - { label: "Pologne", value: "PL" }
+                  - { label: "Polynésie française", value: "PF" }
+                  - { label: "Porto Rico", value: "PR" }
+                  - { label: "Portugal", value: "PT" }
+                  - { label: "Qatar", value: "QA" }
+                  - { label: "R.A.S. chinoise de Hong Kong", value: "HK" }
+                  - { label: "R.A.S. chinoise de Macao", value: "MO" }
+                  - { label: "République centrafricaine", value: "CF" }
+                  - { label: "République dominicaine", value: "DO" }
+                  - { label: "Roumanie", value: "RO" }
+                  - { label: "Royaume-Uni", value: "GB" }
+                  - { label: "Russie", value: "RU" }
+                  - { label: "Rwanda", value: "RW" }
+                  - { label: "Sahara occidental", value: "EH" }
+                  - { label: "Saint-Barthélemy", value: "BL" }
+                  - { label: "Saint-Christophe-et-Niévès", value: "KN" }
+                  - { label: "Saint-Marin", value: "SM" }
+                  - { label: "Saint-Martin", value: "MF" }
+                  - { label: "Saint-Martin (partie néerlandaise)", value: "SX" }
+                  - { label: "Saint-Pierre-et-Miquelon", value: "PM" }
+                  - { label: "Saint-Vincent-et-les Grenadines", value: "VC" }
+                  - { label: "Sainte-Hélène", value: "SH" }
+                  - { label: "Sainte-Lucie", value: "LC" }
+                  - { label: "Salvador", value: "SV" }
+                  - { label: "Samoa", value: "WS" }
+                  - { label: "Sao Tomé-et-Principe", value: "ST" }
+                  - { label: "Sénégal", value: "SN" }
+                  - { label: "Serbie", value: "RS" }
+                  - { label: "Seychelles", value: "SC" }
+                  - { label: "Sierra Leone", value: "SL" }
+                  - { label: "Singapour", value: "SG" }
+                  - { label: "Slovaquie", value: "SK" }
+                  - { label: "Slovénie", value: "SI" }
+                  - { label: "Somalie", value: "SO" }
+                  - { label: "Soudan du Sud", value: "SS" }
+                  - { label: "Sri Lanka", value: "LK" }
+                  - { label: "Suède", value: "SE" }
+                  - { label: "Suisse", value: "CH" }
+                  - { label: "Suriname", value: "SR" }
+                  - { label: "Svalbard et Jan Mayen", value: "SJ" }
+                  - { label: "Tadjikistan", value: "TJ" }
+                  - { label: "Taïwan", value: "TW" }
+                  - { label: "Tanzanie", value: "TZ" }
+                  - { label: "Tchad", value: "TD" }
+                  - { label: "Tchéquie", value: "CZ" }
+                  - { label: "Terres australes françaises", value: "TF" }
+                  - { label: "Territoire britannique de l’océan Indien", value: "IO" }
+                  - { label: "Territoires palestiniens", value: "PS" }
+                  - { label: "Thaïlande", value: "TH" }
+                  - { label: "Timor oriental", value: "TL" }
+                  - { label: "Togo", value: "TG" }
+                  - { label: "Tokelau", value: "TK" }
+                  - { label: "Tonga", value: "TO" }
+                  - { label: "Trinité-et-Tobago", value: "TT" }
+                  - { label: "Tristan da Cunha", value: "TA" }
+                  - { label: "Tunisie", value: "TN" }
+                  - { label: "Turkménistan", value: "TM" }
+                  - { label: "Turquie", value: "TR" }
+                  - { label: "Tuvalu", value: "TV" }
+                  - { label: "Ukraine", value: "UA" }
+                  - { label: "Uruguay", value: "UY" }
+                  - { label: "Vanuatu", value: "VU" }
+                  - { label: "Venezuela", value: "VE" }
+                  - { label: "Viêt Nam", value: "VN" }
+                  - { label: "Wallis-et-Futuna", value: "WF" }
+                  - { label: "Yémen", value: "YE" }
+                  - { label: "Zambie", value: "ZM" }
+                  - { label: "Zimbabwe", value: "ZW" }
+
+          - label: "Avertissement douane"
+            name: "customs_notice"
+            widget: "object"
+            hint: "Affiche sur la page panier des que le pays choisi est hors de Suisse. Important pour eviter les litiges : le client paie la TVA a l'import a la reception."
+            fields:
+              - label: "🇫🇷 Francais"
+                name: "fr"
+                widget: "text"
+              - label: "🇬🇧 English"
+                name: "en"
+                widget: "text"
+
 
   - name: settings
     label: ⚙️ Réglages
