@@ -2114,3 +2114,539 @@ a.work-item {
   white-space: nowrap;
   border: 0;
 }
+
+/* ============================================
+   BOUTIQUE EN LIGNE
+   Panier, achat depuis la fiche produit, page de confirmation.
+   Reprend les tokens du haut du fichier : pas de nouvelle couleur,
+   pas de nouvelle police, bordures a 0.5px et libelles capitales
+   espacees, comme le reste du site.
+   ============================================ */
+
+/* Plusieurs blocs du panier sont masques via l'attribut HTML [hidden] et
+   portent aussi un display:flex ou display:grid. Un selecteur de classe
+   l'emporte sur la regle [hidden] du navigateur : sans cette ligne, les
+   totaux et l'etat "panier vide" resteraient visibles. */
+[hidden] {
+  display: none !important;
+}
+
+/* --------------------------------------------
+   PASTILLE PANIER DANS LA NAV
+   -------------------------------------------- */
+.nav-cart-item {
+  display: flex;
+  align-items: center;
+}
+
+/* Exemplaire mobile : masque tant que la barre de menu est deployee.
+   Double classe volontaire : sans elle, la regle .nav-cart plus bas
+   (display: inline-flex) l'emporterait par simple ordre de declaration. */
+.nav-cart.nav-cart-mobile {
+  display: none;
+}
+
+.nav-cart {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  color: var(--fg-muted);
+  transition: color var(--t-fast);
+}
+
+.nav-cart:hover,
+.nav-cart.has-items {
+  color: var(--fg);
+}
+
+.nav-cart svg {
+  width: 19px;
+  height: 19px;
+}
+
+.nav-cart-count {
+  position: absolute;
+  top: -2px;
+  right: -4px;
+  min-width: 15px;
+  height: 15px;
+  padding: 0 4px;
+  border-radius: 8px;
+  background: var(--fg);
+  color: var(--bg);
+  font-size: 9px;
+  font-weight: 500;
+  line-height: 15px;
+  text-align: center;
+  letter-spacing: 0;
+}
+
+/* --------------------------------------------
+   ACHAT DEPUIS LA FICHE PRODUIT
+   -------------------------------------------- */
+.product-buy {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.product-size {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.product-size-label {
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  white-space: nowrap;
+}
+
+.product-size-select {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-bottom: 0.5px solid var(--border-strong);
+  padding: 6px 22px 6px 0;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--fg);
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%23e8e2d4' opacity='0.5' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 2px center;
+  transition: border-color var(--t-fast);
+}
+
+.product-size-select:focus {
+  border-bottom-color: var(--fg);
+}
+
+.product-size-select option {
+  background: var(--bg);
+  color: var(--fg);
+}
+
+.product-add {
+  width: 100%;
+  background: transparent;
+  color: var(--fg);
+  border: 0.5px solid var(--border-strong);
+  padding: 12px 18px;
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background var(--t-fast), color var(--t-fast), border-color var(--t-fast);
+}
+
+.product-add:hover {
+  background: var(--fg);
+  color: var(--bg);
+  border-color: var(--fg);
+}
+
+.product-add.is-added {
+  background: var(--fg);
+  color: var(--bg);
+  border-color: var(--fg);
+}
+
+.product-stock-note {
+  font-size: 11px;
+  font-style: italic;
+  font-family: var(--font-display);
+  color: var(--fg-muted);
+}
+
+.product-soldout-note {
+  margin-top: 14px;
+  font-size: 11px;
+  font-style: italic;
+  font-family: var(--font-display);
+  color: var(--fg-dim);
+}
+
+/* --------------------------------------------
+   PAGE PANIER
+   -------------------------------------------- */
+.cart-wrapper {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 var(--padding-x) 100px;
+}
+
+.cart-notices {
+  border: 0.5px solid var(--border-strong);
+  padding: 16px 20px;
+  margin-bottom: 34px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--fg-muted);
+}
+
+.cart-notices p + p {
+  margin-top: 6px;
+}
+
+.cart-empty {
+  text-align: center;
+  padding: 60px 0 100px;
+  color: var(--fg-muted);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 17px;
+}
+
+.cart-empty a {
+  display: inline-block;
+  margin-top: 22px;
+  font-family: var(--font-body);
+  font-style: normal;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg);
+  border-bottom: 0.5px solid var(--border-strong);
+  padding-bottom: 3px;
+}
+
+.cart-content {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 60px;
+  align-items: start;
+}
+
+/* --- Lignes du panier --- */
+.cart-lines {
+  list-style: none;
+  border-top: 0.5px solid var(--border);
+}
+
+.cart-line {
+  display: grid;
+  grid-template-columns: 72px 1fr auto auto 24px;
+  gap: 20px;
+  align-items: center;
+  padding: 20px 0;
+  border-bottom: 0.5px solid var(--border);
+}
+
+.cart-line-media {
+  width: 72px;
+  aspect-ratio: 3 / 4;
+  background: var(--bg-elevated);
+  overflow: hidden;
+}
+
+.cart-line-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform-origin: var(--nn-origin, 50% 50%);
+  transform: scale(var(--nn-zoom, 1));
+}
+
+.cart-line-name {
+  font-family: var(--font-display);
+  font-size: 18px;
+  line-height: 1.25;
+  color: var(--fg);
+}
+
+.cart-line-size {
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  margin-top: 5px;
+}
+
+.cart-line-unit {
+  font-size: 12px;
+  color: var(--fg-muted);
+  margin-top: 5px;
+}
+
+.cart-line-qty {
+  display: inline-flex;
+  align-items: center;
+  border: 0.5px solid var(--border-strong);
+}
+
+.cart-qty-btn {
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border: none;
+  color: var(--fg-muted);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  transition: color var(--t-fast), background var(--t-fast);
+}
+
+.cart-qty-btn:hover:not(:disabled) {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+.cart-qty-btn:disabled {
+  color: var(--fg-dim);
+  cursor: not-allowed;
+}
+
+.cart-qty-value {
+  min-width: 30px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--fg);
+}
+
+.cart-line-total {
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  color: var(--fg);
+  white-space: nowrap;
+}
+
+.cart-line-remove {
+  width: 24px;
+  height: 24px;
+  background: transparent;
+  border: none;
+  color: var(--fg-dim);
+  cursor: pointer;
+  transition: color var(--t-fast);
+}
+
+.cart-line-remove:hover {
+  color: var(--fg);
+}
+
+.cart-line-remove svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* --- Colonne de droite : totaux et paiement --- */
+.cart-summary {
+  border: 0.5px solid var(--border);
+  padding: 28px 26px;
+  position: sticky;
+  top: 100px;
+}
+
+.cart-country-field {
+  margin-bottom: 26px;
+}
+
+.cart-totals {
+  border-top: 0.5px solid var(--border);
+  padding-top: 20px;
+}
+
+.cart-total-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  font-size: 13px;
+  color: var(--fg-muted);
+  padding: 7px 0;
+}
+
+.cart-total-line dt {
+  letter-spacing: 0.05em;
+}
+
+.cart-total-line.is-pending dd {
+  font-style: italic;
+  font-family: var(--font-display);
+  color: var(--fg-dim);
+}
+
+.cart-total-final {
+  margin-top: 10px;
+  padding-top: 16px;
+  border-top: 0.5px solid var(--border);
+  font-family: var(--font-display);
+  font-size: 20px;
+  color: var(--fg);
+}
+
+.cart-total-final dt {
+  letter-spacing: 0.02em;
+}
+
+.cart-delay,
+.cart-customs,
+.cart-pay-hint,
+.cart-secure {
+  font-size: 11px;
+  line-height: 1.65;
+  color: var(--fg-dim);
+  font-family: var(--font-display);
+  font-style: italic;
+}
+
+.cart-delay {
+  margin-top: 16px;
+}
+
+.cart-customs {
+  margin-top: 10px;
+  padding-top: 12px;
+  border-top: 0.5px solid var(--border);
+}
+
+.cart-error {
+  margin-top: 18px;
+  padding: 12px 14px;
+  border: 0.5px solid var(--border-strong);
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--fg);
+}
+
+.cart-pay {
+  width: 100%;
+  justify-content: center;
+  margin-top: 22px;
+}
+
+.cart-pay:disabled {
+  border-color: var(--border);
+  color: var(--fg-dim);
+  cursor: not-allowed;
+}
+
+.cart-pay:disabled:hover {
+  background: transparent;
+  color: var(--fg-dim);
+}
+
+.cart-pay.is-loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.cart-pay-hint {
+  margin-top: 12px;
+  text-align: center;
+}
+
+.cart-secure {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 0.5px solid var(--border);
+}
+
+/* --------------------------------------------
+   PAGE DE CONFIRMATION
+   -------------------------------------------- */
+.thanks {
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 40px var(--padding-x) 140px;
+  text-align: center;
+}
+
+.thanks-text {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--fg-muted);
+  margin-top: 24px;
+}
+
+.thanks-ref {
+  margin-top: 20px;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+}
+
+.thanks-actions {
+  margin-top: 40px;
+}
+
+/* --------------------------------------------
+   RESPONSIVE
+   -------------------------------------------- */
+@media (max-width: 900px) {
+  .cart-content {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .cart-summary {
+    position: static;
+  }
+}
+
+@media (max-width: 768px) {
+  .cart-wrapper {
+    padding: 0 var(--padding-x-mobile) 70px;
+  }
+
+  /* Sur petit ecran, la ligne passe sur deux rangees : visuel + infos en
+     haut, quantite et total en bas, pour ne pas comprimer les libelles. */
+  /* Troisieme colonne en "auto" et non en 24px : elle accueille la croix de
+     suppression sur la premiere rangee, mais aussi le prix total de la ligne
+     sur la seconde, qui est bien plus large. */
+  .cart-line {
+    grid-template-columns: 64px minmax(0, 1fr) auto;
+    grid-template-areas:
+      "media info remove"
+      "media qty  total";
+    gap: 8px 14px;
+    align-items: start;
+  }
+
+  .cart-line-media { grid-area: media; width: 64px; }
+  .cart-line-info  { grid-area: info; }
+  .cart-line-qty   { grid-area: qty; margin-top: 10px; }
+  .cart-line-total { grid-area: total; align-self: center; text-align: right; margin-top: 10px; }
+  .cart-line-remove{ grid-area: remove; justify-self: end; }
+
+  .cart-line-name { font-size: 16px; }
+
+  /* Le panier sort du menu repliable et se pose a gauche du bouton MENU :
+     le client doit voir son panier sans avoir a ouvrir le menu. */
+  .nav-cart-item {
+    display: none;
+  }
+
+  .nav-cart.nav-cart-mobile {
+    display: inline-flex;
+    margin-left: auto;
+    margin-right: 18px;
+  }
+
+  .nav-cart {
+    width: 26px;
+    height: 26px;
+  }
+
+  .nav-cart svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .thanks {
+    padding: 20px var(--padding-x-mobile) 90px;
+  }
+}
