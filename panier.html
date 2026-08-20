@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Panier - Nuit Noire Tattoo Genève</title>
+  <meta name="description" content="Votre panier Nuit Noire Tattoo. Paiement sécurisé, expédition depuis Genève." />
+  <link rel="canonical" href="https://www.nuitnoiretattoo.com/panier" />
+  <meta name="robots" content="noindex, follow" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Nuit Noire Tattoo" />
+  <meta property="og:locale" content="fr_CH" />
+  <meta property="og:title" content="Panier - Nuit Noire Tattoo" />
+
+  <meta name="theme-color" content="#0a120d" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+</head>
+<body data-page="cart">
+
+  <div id="nav-mount"></div>
+
+  <header class="page-header">
+    <p class="page-eyebrow" data-i18n="cart_eyebrow">Boutique</p>
+    <h1 class="page-title" data-i18n="cart_title">Panier</h1>
+  </header>
+
+  <main class="cart-wrapper">
+
+    <!-- Messages d'ajustement automatique (produit retire, quantite reduite) -->
+    <div class="cart-notices" id="cart-notices" role="status" hidden></div>
+
+    <div class="cart-empty" id="cart-empty" hidden>
+      <p data-i18n="cart_empty">Votre panier est vide.</p>
+      <a href="/shop" class="link-underline" data-i18n="cart_back_to_shop">Retour à la boutique →</a>
+    </div>
+
+    <div class="cart-content" id="cart-content" hidden>
+      <ul class="cart-lines" id="cart-lines"></ul>
+
+      <aside class="cart-summary">
+        <div class="form-field cart-country-field">
+          <label for="cart-country" data-i18n="cart_country">Pays de livraison</label>
+          <select id="cart-country"></select>
+        </div>
+
+        <dl class="cart-totals">
+          <div class="cart-total-line">
+            <dt data-i18n="cart_subtotal">Sous-total</dt>
+            <dd id="cart-subtotal">—</dd>
+          </div>
+          <div class="cart-total-line is-pending" id="cart-shipping-row">
+            <dt data-i18n="cart_shipping">Frais de port</dt>
+            <dd id="cart-shipping">—</dd>
+          </div>
+          <div class="cart-total-line cart-total-final" id="cart-total-row" hidden>
+            <dt data-i18n="cart_total">Total</dt>
+            <dd id="cart-total">—</dd>
+          </div>
+        </dl>
+
+        <p class="cart-delay" id="cart-delay" hidden></p>
+        <p class="cart-customs" id="cart-customs" hidden></p>
+
+        <p class="cart-error" id="cart-error" role="alert" hidden></p>
+
+        <button type="button" class="form-submit cart-pay" id="cart-pay" disabled>
+          <span class="cart-pay-label" data-i18n="cart_pay">Passer au paiement</span>
+          <span class="form-submit-arrow" aria-hidden="true">→</span>
+        </button>
+
+        <p class="cart-pay-hint" id="cart-pay-hint" data-i18n="cart_pay_hint">Choisissez un pays de livraison pour continuer.</p>
+
+        <p class="cart-secure" data-i18n="cart_secure">Paiement sécurisé par Stripe. Aucune inscription nécessaire, aucune donnée bancaire ne transite par notre site.</p>
+      </aside>
+    </div>
+
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script src="js/media.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/countries.js"></script>
+  <script src="js/partials.js"></script>
+  <script src="js/panier.js"></script>
+</body>
+</html>

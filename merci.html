@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Merci - Nuit Noire Tattoo Genève</title>
+  <meta name="description" content="Merci pour votre commande chez Nuit Noire Tattoo." />
+  <link rel="canonical" href="https://www.nuitnoiretattoo.com/merci" />
+  <meta name="robots" content="noindex, nofollow" />
+
+  <meta name="theme-color" content="#0a120d" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+</head>
+<body data-page="thanks">
+
+  <div id="nav-mount"></div>
+
+  <main class="thanks">
+    <p class="page-eyebrow" data-i18n="thanks_eyebrow">Commande confirmée</p>
+    <h1 class="page-title" data-i18n="thanks_title">Merci</h1>
+
+    <p class="thanks-text" data-i18n="thanks_body">Votre paiement a bien été reçu. Un reçu vous a été envoyé par email. Nous préparons votre colis et vous écrivons dès qu'il part du shop.</p>
+
+    <p class="thanks-ref" id="thanks-ref" hidden></p>
+
+    <div class="thanks-actions">
+      <a href="/shop" class="form-submit" data-i18n="thanks_back">Retour à la boutique</a>
+    </div>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script src="js/media.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/partials.js"></script>
+  <script>
+    /* Le panier n'est vide QUE sur cette page : si le client abandonne sur
+       la page Stripe et revient en arriere, il retrouve ses articles. */
+    (function () {
+      'use strict';
+      if (window.NNCart) window.NNCart.clear();
+
+      // Reference courte, utile si le client nous ecrit au sujet de sa commande.
+      var id = new URLSearchParams(window.location.search).get('session_id');
+      var el = document.getElementById('thanks-ref');
+      if (id && el) {
+        var short = id.slice(-8).toUpperCase();
+        var label = (window.NN && window.NN.ui('thanks_ref')) || 'Référence';
+        el.textContent = label + ' ' + short;
+        el.hidden = false;
+      }
+    })();
+  </script>
+</body>
+</html>
