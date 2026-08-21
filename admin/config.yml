@@ -760,11 +760,14 @@ collections:
         step: 0.05
         hint: "Chiffres uniquement, en francs suisses. Ex. : 45 ou 39.90. Le '.-' est ajoute automatiquement a l'affichage."
 
-      - label: "Image"
-        name: "image"
-        widget: "nn-photo"
+      - label: "Photos"
+        name: "images"
+        widget: "nn-gallery"
+        required: false
         ratio: "3:4"
-        hint: "N'importe quel format : la photo se recadre dans le cadre 3:4 du site (glissez-la, zoomez)."
+        columns: 3
+        max_visible: 3
+        hint: "Jusqu'a 3 photos. La premiere est celle qui apparait dans la grille du shop ; les suivantes se feuillettent avec les fleches, et un clic sur la photo l'ouvre en grand. Au-dela de 3, les vignettes sont grisees et ignorees par le site. Cliquez sur une vignette pour la recadrer dans le cadre 3:4."
 
 
       - label: "Description (francais)"
