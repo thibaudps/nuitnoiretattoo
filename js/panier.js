@@ -120,6 +120,15 @@
   // ============================================
   // PAYS ET FRAIS DE PORT
   // ============================================
+  // Destinations les plus frequentes, epinglees en tete de liste. Un pays qui
+  // n'est dans aucune zone de livraison n'apparait pas, meme s'il figure ici.
+  const PINNED = ['CH', 'FR', 'DE', 'IT', 'GB', 'US'];
+  const SEPARATOR = '\u2500'.repeat(18);
+
+  // Liste plate, sans <optgroup>. Les navigateurs imposent leur propre style
+  // aux libelles d'optgroup (gris pale sur fond clair) : impossible a rendre
+  // lisible sur un site sombre. Une liste plate reste entierement stylable
+  // via .form-field select option, et garde le selecteur natif du telephone.
   function buildCountrySelect() {
     const select = document.getElementById('cart-country');
     if (!select || !shipping || !Array.isArray(shipping.zones)) return;
@@ -127,19 +136,31 @@
     const names = window.NNCountries || {};
     const lang = (window.NN && window.NN.lang) === 'en' ? 'en' : 'fr';
 
-    const groups = shipping.zones.map(zone => {
-      const options = (zone.countries || [])
-        .filter(code => names[code])
-        .map(code => ({ code: code, label: names[code][lang] || names[code].fr }))
-        .sort((a, b) => a.label.localeCompare(b.label, lang));
+    // Union de toutes les zones : la liste des pays reellement livrables.
+    const shippable = [];
+    const seen = new Set();
+    shipping.zones.forEach(zone => {
+      (zone.countries || []).forEach(code => {
+        if (!seen.has(code) && names[code]) { seen.add(code); shippable.push(code); }
+      });
+    });
 
-      if (!options.length) return '';
-      return `<optgroup label="${escapeHtml(T(zone.label))}">`
-        + options.map(o => `<option value="${o.code}">${escapeHtml(o.label)}</option>`).join('')
-        + `</optgroup>`;
-    }).join('');
+    const labelOf = code => names[code][lang] || names[code].fr;
+    const option = code => `<option value="${code}">${escapeHtml(labelOf(code))}</option>`;
 
-    select.innerHTML = `<option value="">${escapeHtml(UI('cart_choose_country'))}</option>` + groups;
+    const pinned = PINNED.filter(code => seen.has(code));
+    const rest = shippable
+      .filter(code => pinned.indexOf(code) === -1)
+      .sort((a, b) => labelOf(a).localeCompare(labelOf(b), lang));
+
+    let html = `<option value="">${escapeHtml(UI('cart_choose_country'))}</option>`;
+    html += pinned.map(option).join('');
+    if (pinned.length && rest.length) {
+      html += `<option value="" disabled>${SEPARATOR}</option>`;
+    }
+    html += rest.map(option).join('');
+
+    select.innerHTML = html;
 
     // On se souvient du dernier pays choisi, c'est presque toujours le meme.
     let saved = null;

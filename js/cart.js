@@ -171,6 +171,51 @@
 
   NNCart.refreshBadge = function () { updateBadge(null); };
 
+  // ============================================
+  // MESSAGE FLOTTANT (TOAST)
+  // --------------------------------------------
+  // Retour d'action apres un ajout au panier. Volontairement discret et
+  // court : il apparait en bas de l'ecran, reste deux secondes, s'efface.
+  // Un seul element pour toute la page, cree au premier usage.
+  //
+  // aria-live="polite" : les lecteurs d'ecran annoncent le message sans
+  // interrompre ce que la personne est en train de faire.
+  // ============================================
+  let toastEl = null;
+  let toastTimer = null;
+
+  function showToast(message, tone) {
+    if (!message) return;
+
+    if (!toastEl) {
+      toastEl = document.createElement('div');
+      toastEl.className = 'nn-toast';
+      toastEl.setAttribute('role', 'status');
+      toastEl.setAttribute('aria-live', 'polite');
+      toastEl.hidden = true;
+      document.body.appendChild(toastEl);
+    }
+
+    toastEl.textContent = message;
+    toastEl.classList.toggle('is-warn', tone === 'warn');
+    toastEl.hidden = false;
+
+    // On relance l'animation meme si un message est deja affiche : retirer
+    // la classe, forcer un reflow, la remettre.
+    toastEl.classList.remove('is-visible');
+    void toastEl.offsetWidth;
+    toastEl.classList.add('is-visible');
+
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      toastEl.classList.remove('is-visible');
+      // On attend la fin du fondu avant de retirer l'element du flux.
+      toastTimer = setTimeout(() => { if (toastEl) toastEl.hidden = true; }, 400);
+    }, 2000);
+  }
+
+  window.NNToast = { show: showToast };
+
   // Un autre onglet a modifie le panier : on se resynchronise.
   window.addEventListener('storage', function (e) {
     if (e.key === STORAGE_KEY) notify(read());

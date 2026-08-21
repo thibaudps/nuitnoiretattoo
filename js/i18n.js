@@ -63,6 +63,15 @@
     shop_added:          { fr: 'Ajouté ✓', en: 'Added ✓' },
     shop_cart_full:      { fr: 'Panier plein', en: 'Cart full' },
     shop_sold_out:       { fr: 'Épuisé', en: 'Sold out' },
+    /* Bandeau en diagonale sur la photo. Volontairement identique en FR et
+       EN, comme le badge Open/Closed du bouton contact : c'est un marqueur
+       de marque, pas une phrase. */
+    shop_sold_out_badge: { fr: 'Sold out', en: 'Sold out' },
+    shop_zoom:           { fr: 'Agrandir la photo', en: 'Enlarge photo' },
+    shop_prev_photo:     { fr: 'Photo précédente', en: 'Previous photo' },
+    shop_next_photo:     { fr: 'Photo suivante', en: 'Next photo' },
+    close:               { fr: 'Fermer', en: 'Close' },
+    toast_added:         { fr: '{item} ajouté au panier', en: '{item} added to cart' },
     shop_sold_out_note:  { fr: 'Épuisé pour le moment.', en: 'Currently sold out.' },
     shop_low_stock:      { fr: 'Plus que {n} en stock', en: 'Only {n} left' },
 
@@ -73,7 +82,7 @@
     cart_back_to_shop:   { fr: 'Retour à la boutique →', en: 'Back to the shop →' },
     cart_remove:         { fr: 'Retirer cet article', en: 'Remove this item' },
     cart_country:        { fr: 'Pays de livraison', en: 'Shipping country' },
-    cart_choose_country: { fr: '— Choisir un pays —', en: '— Choose a country —' },
+    cart_choose_country: { fr: 'Choisir un pays…', en: 'Choose a country…' },
     cart_subtotal:       { fr: 'Sous-total', en: 'Subtotal' },
     cart_shipping:       { fr: 'Frais de port', en: 'Shipping' },
     cart_shipping_pending: { fr: 'à calculer', en: 'to be calculated' },
