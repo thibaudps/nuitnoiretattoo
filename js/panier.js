@@ -109,6 +109,16 @@
       .replace(/^-+|-+$/g, '');
   }
 
+  // Vignette de la ligne : la PREMIERE photo de la fiche. Le champ "images"
+  // (jusqu'a 3 photos) a remplace l'ancien champ "image" a photo unique, que
+  // l'on continue de lire pour les fiches creees avant ce changement.
+  // Meme logique que photosOf() dans js/shop.js.
+  function firstPhoto(product) {
+    const list = Array.isArray(product.images) ? product.images.filter(Boolean) : [];
+    if (list.length) return list[0];
+    return product.image || null;
+  }
+
   function stockFor(product, size) {
     if (Array.isArray(product.variants) && product.variants.some(v => v && v.size)) {
       const v = product.variants.find(x => x && x.size === size);
@@ -267,13 +277,14 @@
     const p = findProduct(line.slug);
     if (!p) return '';
     const max = stockFor(p, line.size);
-    const media = window.NNMedia && window.NNMedia.src(p.image);
+    const photo = firstPhoto(p);
+    const media = photo && window.NNMedia ? window.NNMedia.src(photo) : '';
     const key = escapeHtml(line.slug) + '|' + escapeHtml(line.size || '');
 
     return `
       <li class="cart-line">
         <div class="cart-line-media">
-          ${media ? `<img src="${media}"${window.NNMedia.styleAttr(p.image)} alt="" loading="lazy" />` : ''}
+          ${media ? `<img src="${escapeHtml(media)}"${window.NNMedia.styleAttr(photo)} alt="" loading="lazy" />` : ''}
         </div>
 
         <div class="cart-line-info">
