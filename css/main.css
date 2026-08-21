@@ -1700,9 +1700,8 @@ a.work-item {
   border: 0.5px solid var(--border-strong);
 }
 
-.product-card.is-sold-out .product-image {
-  opacity: 0.5;
-}
+/* Remplacee plus bas : l'attenuation porte desormais sur la piste photo,
+   pour que le bandeau "sold out" reste pleinement lisible. */
 
 .product-info {
   display: flex;
@@ -2648,5 +2647,344 @@ a.work-item {
 
   .thanks {
     padding: 20px var(--padding-x-mobile) 90px;
+  }
+}
+
+/* ============================================
+   BOUTIQUE — GALERIE PRODUIT, ZOOM, MESSAGE FLOTTANT
+   Ajout du carrousel (jusqu'a 3 photos par article), de la vue plein
+   ecran, du bandeau "sold out" et du retour d'action apres un ajout.
+   ============================================ */
+
+/* --------------------------------------------
+   CARROUSEL DE LA CARTE
+   Les photos sont posees cote a cote dans une piste que l'on translate.
+   La translation porte sur la piste et jamais sur les <img>, qui gardent
+   leur propre recadrage (--nn-zoom / --nn-origin) pose par le CMS.
+   -------------------------------------------- */
+.product-track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.product-slide {
+  flex: 1 1 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Zone cliquable pour le zoom : couvre toute la photo, sous les fleches.
+   Un bouton plutot qu'un div, pour rester atteignable au clavier. */
+.product-zoom {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: zoom-in;
+}
+
+.product-zoom:focus-visible {
+  outline: 1px solid var(--fg);
+  outline-offset: -3px;
+}
+
+/* --- Fleches de navigation --- */
+.product-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0.5px solid var(--border);
+  background: rgba(10, 18, 13, 0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--fg);
+  cursor: pointer;
+  opacity: 0.62;
+  transition: opacity var(--t-fast), background var(--t-fast);
+}
+
+.product-arrow svg {
+  width: 16px;
+  height: 16px;
+}
+
+.product-arrow:hover:not(:disabled) {
+  opacity: 1;
+  background: rgba(10, 18, 13, 0.8);
+}
+
+.product-arrow:disabled {
+  opacity: 0.15;
+  cursor: default;
+}
+
+.product-arrow-prev { left: 10px; }
+.product-arrow-next { right: 10px; }
+
+/* --- Points indicateurs --- */
+.product-dots {
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;   /* le clic doit atteindre le bouton de zoom dessous */
+  bottom: 12px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+.product-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--fg);
+  opacity: 0.3;
+  transition: opacity var(--t-fast);
+}
+
+.product-dot.is-active {
+  opacity: 0.95;
+}
+
+/* --------------------------------------------
+   BANDEAU "SOLD OUT"
+   Bande en diagonale dans le coin, rognee par l'overflow du cadre photo.
+   Les deux variables permettent de passer au rouge sans toucher au reste :
+   il suffit de les redefinir dans le :root en haut du fichier.
+   -------------------------------------------- */
+.product-ribbon {
+  position: absolute;
+  z-index: 3;
+  top: 22px;
+  right: -56px;
+  width: 185px;
+  padding: 8px 0;
+  transform: rotate(45deg);
+  background: var(--nn-ribbon-bg, var(--fg));
+  color: var(--nn-ribbon-fg, var(--bg));
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.3em;
+  text-indent: 0.3em;   /* compense l'espacement sur la derniere lettre */
+  text-transform: uppercase;
+  text-align: center;
+  pointer-events: none;
+}
+
+/* L'attenuation porte sur la piste et non sur le cadre : sinon le bandeau
+   serait attenue lui aussi, alors qu'il doit rester bien lisible. */
+.product-card.is-sold-out .product-image {
+  opacity: 1;
+}
+
+.product-card.is-sold-out .product-track {
+  opacity: 0.42;
+}
+
+.product-card.is-sold-out .product-zoom {
+  cursor: zoom-in;
+}
+
+/* --------------------------------------------
+   VUE PLEIN ECRAN
+   La photo y est affichee ENTIERE (object-fit: contain) et sans le
+   recadrage du CMS : c'est tout l'interet du zoom.
+   -------------------------------------------- */
+.nn-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 24px;
+  background: rgba(10, 18, 13, 0.965);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  opacity: 0;
+  transition: opacity 0.24s ease;
+}
+
+.nn-lightbox.is-open {
+  opacity: 1;
+}
+
+.nn-lightbox-frame {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin: 0;
+  max-width: min(1100px, 88vw);
+}
+
+.nn-lightbox-img {
+  max-width: 100%;
+  max-height: 80vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.nn-lightbox-caption {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-style: italic;
+  color: var(--fg-muted);
+  text-align: center;
+}
+
+.nn-lightbox-arrow,
+.nn-lightbox-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  flex: 0 0 auto;
+  border: 0.5px solid var(--border);
+  background: transparent;
+  color: var(--fg);
+  cursor: pointer;
+  transition: background var(--t-fast), color var(--t-fast), opacity var(--t-fast);
+}
+
+.nn-lightbox-arrow svg { width: 20px; height: 20px; }
+.nn-lightbox-close svg { width: 18px; height: 18px; }
+
+.nn-lightbox-arrow:hover:not(:disabled),
+.nn-lightbox-close:hover {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+.nn-lightbox-arrow:disabled {
+  opacity: 0.18;
+  cursor: default;
+}
+
+.nn-lightbox-close {
+  position: absolute;
+  top: 22px;
+  right: 22px;
+  z-index: 2;
+}
+
+/* Une seule photo : les fleches n'ont plus de raison d'etre. */
+.nn-lightbox.is-single .nn-lightbox-arrow {
+  display: none;
+}
+
+/* Empeche la page de defiler derriere la vue plein ecran. */
+body.nn-noscroll {
+  overflow: hidden;
+}
+
+/* --------------------------------------------
+   MESSAGE FLOTTANT APRES UN AJOUT
+   -------------------------------------------- */
+.nn-toast {
+  position: fixed;
+  z-index: 220;
+  left: 50%;
+  bottom: 34px;
+  transform: translate(-50%, 14px);
+  max-width: calc(100vw - 40px);
+  padding: 13px 24px;
+  background: var(--fg);
+  color: var(--bg);
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nn-toast.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.nn-toast.is-warn {
+  background: var(--bg-elevated);
+  color: var(--fg);
+  border: 0.5px solid var(--border-strong);
+}
+
+/* --------------------------------------------
+   RESPONSIVE
+   -------------------------------------------- */
+@media (max-width: 768px) {
+  /* Sans survol, les fleches doivent etre lisibles en permanence. */
+  .product-arrow {
+    opacity: 0.78;
+    width: 30px;
+    height: 30px;
+  }
+
+  .product-ribbon {
+    top: 16px;
+    right: -58px;
+    letter-spacing: 0.24em;
+    font-size: 9px;
+  }
+
+  .nn-lightbox {
+    padding: 14px;
+    gap: 4px;
+  }
+
+  .nn-lightbox-frame {
+    max-width: 100%;
+  }
+
+  .nn-lightbox-img {
+    max-height: 68vh;
+  }
+
+  .nn-lightbox-arrow,
+  .nn-lightbox-close {
+    width: 38px;
+    height: 38px;
+  }
+
+  .nn-lightbox-close {
+    top: 14px;
+    right: 14px;
+  }
+
+  .nn-toast {
+    bottom: 24px;
+    font-size: 9.5px;
+    padding: 12px 18px;
+    letter-spacing: 0.18em;
+  }
+}
+
+/* Les personnes qui limitent les animations gardent l'interface, sans le
+   glissement ni les fondus. */
+@media (prefers-reduced-motion: reduce) {
+  .product-track,
+  .nn-lightbox,
+  .nn-toast {
+    transition: none;
   }
 }
