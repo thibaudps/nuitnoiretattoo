@@ -224,15 +224,41 @@
   var ProductPreview = createClass({
     render: function () {
       var props = this.props;
-      var image = get(props, 'image');
-      var soldOut = get(props, 'available') === false;
+
+      /* Le produit porte desormais une liste "images" (jusqu'a 3). On affiche
+         la premiere dans l'apercu, et on lit encore l'ancien champ "image"
+         pour les fiches creees avant ce changement. */
+      var images = get(props, 'images');
+      if (images && typeof images.toJS === 'function') images = images.toJS();
+      var image = (Array.isArray(images) && images.length) ? images[0] : get(props, 'image');
+      var extra = (Array.isArray(images) ? images.length : 0) - 1;
+
+      /* Meme regle que sur le site : masque a la main, ou stock a zero. */
+      var variants = get(props, 'variants');
+      if (variants && typeof variants.toJS === 'function') variants = variants.toJS();
+      var sized = Array.isArray(variants) ? variants.filter(function (v) { return v && v.size; }) : [];
+      var stock = sized.length
+        ? sized.reduce(function (sum, v) { return sum + (Number(v.stock) || 0); }, 0)
+        : (Number(get(props, 'stock')) || 0);
+      var soldOut = get(props, 'available') === false
+        || (get(props, 'sellable') !== false && stock <= 0);
 
       return wrap(
         h('div', { style: { maxWidth: '300px' } },
           h('article', { className: 'product-card' + (soldOut ? ' is-sold-out' : '') }, [
             h('div', { key: 'im', className: 'product-image' }, [
-              image ? h('img', { key: 'i', src: photoSrc(image), style: photoStyle(image), alt: '' }) : null,
-              soldOut ? h('span', { key: 'b', className: 'product-badge' }, 'Réservé') : null
+              image
+                ? h('div', { key: 't', className: 'product-track' },
+                    h('div', { className: 'product-slide' },
+                      h('img', { src: photoSrc(image), style: photoStyle(image), alt: '' })))
+                : null,
+              extra > 0
+                ? h('div', { key: 'd', className: 'product-dots' },
+                    [0, 1, 2].slice(0, extra + 1).map(function (i) {
+                      return h('span', { key: i, className: 'product-dot' + (i === 0 ? ' is-active' : '') });
+                    }))
+                : null,
+              soldOut ? h('span', { key: 'b', className: 'product-ribbon' }, 'Sold out') : null
             ]),
             h('div', { key: 'inf', className: 'product-info' }, [
               h('p', { key: 'c', className: 'product-category' }, CATS[get(props, 'category')] || ''),
