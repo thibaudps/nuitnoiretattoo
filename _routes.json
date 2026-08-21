@@ -1,6 +1,5 @@
 {
   "version": 1,
-  "description": "Seules les routes /api/* passent par les fonctions Cloudflare. Tout le reste du site est servi en statique, sans invoquer le runtime : c'est plus rapide et ca economise le quota d'invocations.",
   "include": ["/api/*"],
   "exclude": []
 }
