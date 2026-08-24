@@ -3,7 +3,7 @@
   "price": 35,
   "available": true,
   "name": "T-Shirt NN",
-  "sellable": true,
+  "sellable": false,
   "description_en": "Anniversary Tee",
   "variants": [
     {
