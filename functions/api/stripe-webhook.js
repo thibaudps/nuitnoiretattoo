@@ -26,12 +26,16 @@
    Variables d'environnement :
      STRIPE_WEBHOOK_SECRET  whsec_...
      GITHUB_TOKEN / GITHUB_REPO / GITHUB_BRANCH
+     RESEND_API_KEY         email de commande ; absente = pas d'email, le
+                            reste du webhook fonctionne normalement
+     ORDER_EMAIL_TO         destinataire, defaut info@nuitnoiretattoo.com
+     ORDER_EMAIL_FROM       expediteur, domaine verifie chez Resend
    ============================================ */
 
 import {
   ghReadJson, ghCommitFiles, alreadyProcessed,
   productPath, decrementStock, decodeCart,
-  verifyStripeSignature, json
+  verifyStripeSignature, sendOrderEmail, json
 } from '../../lib/nn-commerce.js';
 
 const MAX_ATTEMPTS = 4;
@@ -114,7 +118,19 @@ export async function onRequestPost(context) {
       console.error(`Anomalies de stock sur ${session.id}: ${result.warnings.join(' | ')}`);
     }
 
-    return json({ received: true, updated: result.updated, warnings: result.warnings });
+    // Email a l'equipe. Volontairement APRES la mise a jour du stock et
+    // enferme dans un try : une boite mail indisponible ne doit pas faire
+    // repondre 500 a Stripe, sinon il rejouerait l'evenement et on risquerait
+    // de decrementer le stock une seconde fois.
+    let emailed = false;
+    try {
+      const outcome = await sendOrderEmail(env, session, result.items || [], result.warnings);
+      emailed = !!(outcome && outcome.sent);
+    } catch (err) {
+      console.error(`Email de commande non envoye pour ${session.id}`, err);
+    }
+
+    return json({ received: true, updated: result.updated, warnings: result.warnings, emailed: emailed });
   }
 
   return json({ error: 'exhausted' }, 500);
@@ -126,6 +142,7 @@ export async function onRequestPost(context) {
 async function applyOrder(env, session, lines) {
   const warnings = [];
   const byPath = new Map();   // un seul fichier par produit, meme avec deux tailles
+  const items = [];           // nom et prix lisibles, pour l'email de commande
 
   for (const line of lines) {
     const path = productPath(line.slug);
@@ -133,8 +150,18 @@ async function applyOrder(env, session, lines) {
     let product = byPath.has(path) ? byPath.get(path) : await ghReadJson(env, path);
     if (!product) {
       warnings.push(`produit introuvable: ${line.slug}`);
+      // On garde quand meme la ligne dans l'email : mieux vaut un intitule
+      // technique qu'un article oublie au moment de preparer le colis.
+      items.push({ name: line.slug, size: line.size, qty: line.qty, unitPrice: 0 });
       continue;
     }
+
+    items.push({
+      name: product.name || line.slug,
+      size: line.size,
+      qty: line.qty,
+      unitPrice: Number(product.price) || 0
+    });
 
     const outcome = decrementStock(product, line.size, line.qty);
     if (outcome.missing) {
@@ -148,7 +175,7 @@ async function applyOrder(env, session, lines) {
     byPath.set(path, outcome.product);
   }
 
-  if (!byPath.size) return { conflict: false, updated: 0, warnings: warnings };
+  if (!byPath.size) return { conflict: false, updated: 0, warnings: warnings, items: items };
 
   const files = [...byPath.entries()].map(([path, product]) => ({
     path: path,
@@ -156,9 +183,9 @@ async function applyOrder(env, session, lines) {
   }));
 
   const commit = await ghCommitFiles(env, files, commitMessage(session, lines));
-  if (!commit.ok && commit.conflict) return { conflict: true, updated: 0, warnings: warnings };
+  if (!commit.ok && commit.conflict) return { conflict: true, updated: 0, warnings: warnings, items: items };
 
-  return { conflict: false, updated: files.length, warnings: warnings };
+  return { conflict: false, updated: files.length, warnings: warnings, items: items };
 }
 
 // Le message de commit sert a trois choses : lire l'historique des ventes
