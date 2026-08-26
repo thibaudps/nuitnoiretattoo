@@ -9,20 +9,10 @@
   "stock": 4,
   "images": [
     {
-      "src": "/assets/uploads/img_0010.webp",
-      "focus": {
-        "x": 100,
-        "y": 55,
-        "zoom": 1.03
-      }
+      "src": "/assets/uploads/img_0010.webp"
     },
     {
-      "src": "/assets/uploads/img_0009.webp",
-      "focus": {
-        "x": 0,
-        "y": 50,
-        "zoom": 1.04
-      }
+      "src": "/assets/uploads/img_0009.webp"
     }
   ],
   "description": "Calotte – Sergé 100 % coton naturel | Visière – Coton épais 100 % lavé | 6 panneaux | Tour de tête non structuré | Visière préformée | Oeillets de ventilation | Sangle de serrage avec boucle effet laiton",
