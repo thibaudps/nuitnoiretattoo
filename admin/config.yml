@@ -834,6 +834,33 @@ collections:
     preview_path: shop
 
   # -----------------------------------------------------------
+  # ORDRE DU SHOP
+  # -----------------------------------------------------------
+  # L'ordre des vignettes de la page /shop. Le widget "nn-order"
+  # (admin/nn-order.js) va lire tout seul la liste des produits ;
+  # seule la suite des identifiants est enregistree dans
+  # data/shop-order.json, et c'est build.js qui l'applique.
+  # -----------------------------------------------------------
+  - name: "shop_order"
+    label: "🔀 Ordre du shop"
+    description: "L'ordre d'affichage des produits sur la page Shop, au glisser-deposer."
+    delete: false
+    editor:
+      preview: false
+    files:
+      - name: "shop_order_file"
+        label: "Ordre des produits"
+        file: "data/shop-order.json"
+        fields:
+          - label: "Ordre des produits"
+            name: "products"
+            widget: "nn-order"
+            required: false
+            collection: "products"
+            columns: 4
+            ratio: "3:4"
+
+  # -----------------------------------------------------------
   # LIVRAISON
   # -----------------------------------------------------------
   # La grille des frais de port de la boutique en ligne.
