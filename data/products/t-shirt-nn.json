@@ -5,20 +5,7 @@
   "name": "B-DAY NN",
   "sellable": true,
   "description_en": "Anniversary Tee",
-  "variants": [
-    {
-      "stock": 0,
-      "size": "XS"
-    },
-    {
-      "stock": 0,
-      "size": "S"
-    },
-    {
-      "stock": 0,
-      "size": "M"
-    }
-  ],
+  "variants": [],
   "stock": 0,
   "images": [
     {
