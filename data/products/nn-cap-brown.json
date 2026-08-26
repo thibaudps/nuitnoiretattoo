@@ -1,0 +1,20 @@
+{
+  "artist": "Nuit Noire",
+  "price": 35,
+  "available": true,
+  "name": "NN Cap | Brown",
+  "sellable": true,
+  "description_en": "Crown – 100% natural cotton twill | Visor – 100% heavy washed cotton | 6 panels | Unstructured crown | Pre-curved visor | Ventilation eyelets | Adjustable strap with brass-effect buckle",
+  "variants": [],
+  "stock": 4,
+  "images": [
+    {
+      "src": "/assets/uploads/img_0008.webp"
+    },
+    {
+      "src": "/assets/uploads/img_0012.webp"
+    }
+  ],
+  "description": "Calotte – Sergé 100 % coton naturel | Visière – Coton épais 100 % lavé | 6 panneaux | Tour de tête non structuré |\nVisière préformée | Oeillets de ventilation | Sangle de serrage avec boucle effet laiton",
+  "category": "merch"
+}
