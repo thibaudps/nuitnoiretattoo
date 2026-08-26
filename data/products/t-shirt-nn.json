@@ -22,15 +22,13 @@
   "stock": 0,
   "images": [
     {
-      "src": "/assets/uploads/teedos.webp",
-      "focus": {
-        "x": 50,
-        "y": 50,
-        "zoom": 1.09
-      }
+      "src": "/assets/uploads/nn2.webp"
     },
     {
-      "src": "/assets/uploads/teeface.webp"
+      "src": "/assets/uploads/nn1.webp"
+    },
+    {
+      "src": "/assets/uploads/temp_file_1000026133.webp"
     }
   ],
   "description": "Tee NN anniversaire",
