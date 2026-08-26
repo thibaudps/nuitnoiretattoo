@@ -19,7 +19,29 @@ const path = require('path');
 
 const DATA_DIR = path.join(__dirname, 'data');
 
-function buildIndex(folderName, sortBy = null) {
+/**
+ * Lit un fichier d'ordre écrit par le CMS, par exemple data/shop-order.json :
+ *
+ *   { "products": ["t-shirt-nn", "nn-cap-blue", "logo-tee"] }
+ *
+ * Renvoie la liste des slugs dans l'ordre voulu, ou null si le fichier
+ * n'existe pas / est illisible (on retombe alors sur le tri par défaut).
+ */
+function readOrder(fileName, key) {
+  const filePath = path.join(DATA_DIR, fileName);
+  if (!fs.existsSync(filePath)) return null;
+  try {
+    const json = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+    const list = json[key];
+    if (!Array.isArray(list)) return null;
+    return list.filter(slug => typeof slug === 'string' && slug);
+  } catch (err) {
+    console.warn(`⚠️  ${fileName} illisible (${err.message}) - ordre par défaut`);
+    return null;
+  }
+}
+
+function buildIndex(folderName, sortBy = null, order = null) {
   const folderPath = path.join(DATA_DIR, folderName);
 
   // Git ne versionne pas les dossiers vides : si le dernier élément
@@ -51,12 +73,25 @@ function buildIndex(folderName, sortBy = null) {
     return item;
   });
 
-  // Tri si demandé
-  if (sortBy) {
+  // Tri par défaut (alphabétique, ou numérique pour un champ "order")
+  const byField = (a, b) => {
+    if (!sortBy) return 0;
+    if (typeof a[sortBy] === 'number') return a[sortBy] - b[sortBy];
+    return String(a[sortBy] || '').localeCompare(String(b[sortBy] || ''));
+  };
+
+  if (order && order.length) {
+    // Ordre choisi a la main dans le CMS. Les fiches absentes de la liste
+    // (créées depuis le dernier enregistrement de l'ordre) passent a la fin,
+    // rangées entre elles par le tri par défaut.
+    const rank = new Map(order.map((slug, i) => [slug, i]));
     items.sort((a, b) => {
-      if (typeof a[sortBy] === 'number') return a[sortBy] - b[sortBy];
-      return String(a[sortBy] || '').localeCompare(String(b[sortBy] || ''));
+      const ra = rank.has(a.slug) ? rank.get(a.slug) : Number.MAX_SAFE_INTEGER;
+      const rb = rank.has(b.slug) ? rank.get(b.slug) : Number.MAX_SAFE_INTEGER;
+      return ra !== rb ? ra - rb : byField(a, b);
     });
+  } else if (sortBy) {
+    items.sort(byField);
   }
 
   const indexPath = path.join(folderPath, '_index.json');
@@ -68,6 +103,6 @@ function buildIndex(folderName, sortBy = null) {
 console.log('🔨 Build des index Nuit Noire Tattoo\n');
 
 buildIndex('artists', 'order');
-buildIndex('products', 'name');
+buildIndex('products', 'name', readOrder('shop-order.json', 'products'));
 
 console.log('\n✅ Terminé.\n');
