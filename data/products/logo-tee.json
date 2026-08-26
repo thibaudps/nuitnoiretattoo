@@ -1,0 +1,30 @@
+{
+  "artist": "Nuit Noire",
+  "price": 30,
+  "available": true,
+  "name": "LOGO TEE",
+  "sellable": true,
+  "variants": [],
+  "stock": 0,
+  "images": [
+    {
+      "src": "/assets/uploads/img_4522.webp",
+      "focus": {
+        "x": 50,
+        "y": 50,
+        "zoom": 1.16
+      }
+    },
+    {
+      "src": "/assets/uploads/img_4539_copie.webp"
+    },
+    {
+      "src": "/assets/uploads/img_4524.webp"
+    },
+    {
+      "src": "/assets/uploads/img_4755.webp"
+    }
+  ],
+  "description": "White Nuit Noire t-shirt.\n2 colors water based inks on a Gildan t-shirt.\nScreen printed in Geneva Switzerland.",
+  "category": "merch"
+}
